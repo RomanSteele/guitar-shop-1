@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom';
 import CardsList from '../cards-list/cards-list';
-import { guitars } from '../../mocks/mocks';
+import { useAppSelector } from '../../hooks/hooks-index';
+import { useEffect } from 'react';
+import { store } from '../../store';
+import { fetchGuitarsAction } from '../../store/api-actions';
 
 function MainPageContent(): JSX.Element {
+  const { guitars } = useAppSelector(( State ) => State );
+  console.log(guitars);
+  useEffect(() => {
+    store.dispatch(fetchGuitarsAction());
+  }, []);
 
   return (
     <main className="page-content">
@@ -78,7 +86,7 @@ function MainPageContent(): JSX.Element {
             </div>
           </div>
           <div className="cards catalog__cards">
-            <CardsList cards={guitars} />
+            <CardsList cards={guitars.slice(0, 9)} />
           </div>
           <div className="pagination page-content__pagination">
             <ul className="pagination__list">

@@ -3,3 +3,11 @@ export enum AppRoute {
     Item = '',
     NotFound = '/404',
   }
+
+export enum APIRoute {
+    Guitars = '/guitars',
+  }
+
+export enum ApiType {
+    FetchGuitars = 'data/fetchGuitars',
+  }
