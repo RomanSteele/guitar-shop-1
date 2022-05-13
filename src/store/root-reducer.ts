@@ -4,6 +4,7 @@ import { loadGuitars } from './actions';
 
 const initialState: State = {
   guitars:[],
+  comments:[],
 };
 
 export const rootReducer = createReducer(initialState, (builder) => {
