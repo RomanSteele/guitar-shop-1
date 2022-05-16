@@ -1,7 +1,7 @@
 export enum AppRoute {
     Main = '/main',
     CurrentMainPage = '/main/:id',
-    Guitars = '/guitars/:id',
+    Guitar = '/guitars',
     Item = '',
     NotFound = '/404',
   }

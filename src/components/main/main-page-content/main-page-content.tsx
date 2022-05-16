@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
 import CardsList from '../cards-list/cards-list';
 import { useAppSelector } from '../../../hooks/hooks-index';
-import { useEffect, useState } from 'react';
+import { useEffect , useState } from 'react';
 import { store } from '../../../store';
 import { fetchGuitarsAction } from '../../../store/api-actions';
 import Pagination from '../pagination/pagination';
+import Breadcrumbs from '../../breadcrumbs/breadcrumbs';
 
 function MainPageContent(): JSX.Element {
 
@@ -17,7 +17,8 @@ function MainPageContent(): JSX.Element {
   const firstGuitarIndex = lastGuitarIndex - guitarsPerPage;
   const currentGuitarsOnPage = guitars.slice(firstGuitarIndex,lastGuitarIndex);
 
-  console.log(guitars);
+  console.log(useAppSelector(( State ) => State ));
+  console.log('main page rendered');
 
   const paginate= (pageNumber:number) => {setCurrentPage(pageNumber);};
 
@@ -30,12 +31,7 @@ function MainPageContent(): JSX.Element {
     <main className="page-content">
       <div className="container">
         <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
-        <ul className="breadcrumbs page-content__breadcrumbs">
-          <li className="breadcrumbs__item"><a className="link" href="./main.html">Главная</a>
-          </li>
-          <li className="breadcrumbs__item"><Link className="link" to="#">Каталог</Link>
-          </li>
-        </ul>
+        <Breadcrumbs />
         <div className="catalog">
           <form className="catalog-filter">
             <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>

@@ -22,3 +22,4 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
     }
   },
 );
+

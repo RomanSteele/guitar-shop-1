@@ -29,7 +29,7 @@ function Pagination({paginate, guitarsPerPage, totalGuitars, currentPage}:Pagina
           : ''}
 
         {pageNumbers.map((number) => (
-          <li className={number === currentPage ?  'pagination__page pagination__page--active': 'pagination__page'} key={number}><Link className="link pagination__page-link" to={`${AppRoute.Main  }/${  number}`} onClick={() => paginate(number)}>{number}</Link>
+          <li className={number === currentPage ?  'pagination__page pagination__page--active': 'pagination__page'} key={number}><Link className="link pagination__page-link" to={`${AppRoute.Main}/${number}`} onClick={() => paginate(number)}>{number}</Link>
           </li>
         ))}
 
