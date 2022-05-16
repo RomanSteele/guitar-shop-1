@@ -1,6 +1,6 @@
-import Header from '../header/header';
+import Header from '../../header/header';
 import MainPageContent from '../main-page-content/main-page-content';
-import Footer from '../footer/footer';
+import Footer from '../../footer/footer';
 
 function MainPage(): JSX.Element {
   return (

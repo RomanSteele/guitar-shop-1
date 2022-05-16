@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { GuitarCard } from '../../types/guitar';
+import { GuitarCard } from '../../../types/guitar';
 
 type SingleCatalogueCardProps = {
     card: GuitarCard,

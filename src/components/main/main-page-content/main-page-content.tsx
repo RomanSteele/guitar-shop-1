@@ -1,16 +1,30 @@
 import { Link } from 'react-router-dom';
 import CardsList from '../cards-list/cards-list';
-import { useAppSelector } from '../../hooks/hooks-index';
-import { useEffect } from 'react';
-import { store } from '../../store';
-import { fetchGuitarsAction } from '../../store/api-actions';
+import { useAppSelector } from '../../../hooks/hooks-index';
+import { useEffect, useState } from 'react';
+import { store } from '../../../store';
+import { fetchGuitarsAction } from '../../../store/api-actions';
+import Pagination from '../pagination/pagination';
 
 function MainPageContent(): JSX.Element {
+
   const { guitars } = useAppSelector(( State ) => State );
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [guitarsPerPage] = useState(9);
+
+  const lastGuitarIndex = currentPage * guitarsPerPage;
+  const firstGuitarIndex = lastGuitarIndex - guitarsPerPage;
+  const currentGuitarsOnPage = guitars.slice(firstGuitarIndex,lastGuitarIndex);
+
   console.log(guitars);
+
+  const paginate= (pageNumber:number) => {setCurrentPage(pageNumber);};
+
   useEffect(() => {
     store.dispatch(fetchGuitarsAction());
   }, []);
+
 
   return (
     <main className="page-content">
@@ -86,20 +100,9 @@ function MainPageContent(): JSX.Element {
             </div>
           </div>
           <div className="cards catalog__cards">
-            <CardsList cards={guitars.slice(0, 9)} />
+            <CardsList cards={currentGuitarsOnPage} />
           </div>
-          <div className="pagination page-content__pagination">
-            <ul className="pagination__list">
-              <li className="pagination__page pagination__page--active"><a className="link pagination__page-link" href="1">1</a>
-              </li>
-              <li className="pagination__page"><a className="link pagination__page-link" href="2">2</a>
-              </li>
-              <li className="pagination__page"><a className="link pagination__page-link" href="3">3</a>
-              </li>
-              <li className="pagination__page pagination__page--next" id="next"><a className="link pagination__page-link" href="2">Далее</a>
-              </li>
-            </ul>
-          </div>
+          <Pagination paginate = {paginate} guitarsPerPage={guitarsPerPage} totalGuitars={guitars.length} currentPage={currentPage}/>
         </div>
       </div>
     </main>);

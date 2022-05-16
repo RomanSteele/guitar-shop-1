@@ -1,4 +1,4 @@
-import { GuitarCard } from '../../types/guitar';
+import { GuitarCard } from '../../../types/guitar';
 import SingleCatalogueCard from '../single-catalogue-card/single-catalogue-card';
 
 
