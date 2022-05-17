@@ -11,7 +11,7 @@ function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
   console.log('card rendered');
   return (
     <div className="product-card">
-      <img src={previewImg} srcSet={previewImg} width="75" height="190" alt={name}/>
+      <img src={`../${previewImg}`} srcSet={`../${previewImg}`} width="75" height="190" alt={name}/>
       <div className="product-card__info">
         <div className="rate product-card__rate">
           <svg width="12" height="11" aria-hidden="true">
