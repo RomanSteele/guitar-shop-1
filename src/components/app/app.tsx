@@ -11,6 +11,10 @@ function App(): JSX.Element {
     <BrowserRouter >
       <Routes>
         <Route
+          index
+          element={<MainPage />}
+        />
+        <Route
           path={AppRoute.Main}
           element={<MainPage />}
         />

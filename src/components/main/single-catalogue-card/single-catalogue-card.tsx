@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { GuitarCard } from '../../../types/guitar';
+import { AppRoute } from '../../../const';
 
 type SingleCatalogueCardProps = {
     card: GuitarCard,
@@ -7,7 +8,7 @@ type SingleCatalogueCardProps = {
 
 function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
 
-  const { name, previewImg, rating, price } = card;
+  const { id, name, previewImg, rating, price } = card;
   console.log('card rendered');
   return (
     <div className="product-card">
@@ -36,7 +37,7 @@ function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{price}
         </p>
       </div>
-      <div className="product-card__buttons"><Link className="button button--mini" to="#">Подробнее</Link>
+      <div className="product-card__buttons"><Link className="button button--mini" to={AppRoute.Guitar.replace(':id', id.toString())}>Подробнее</Link>
         <Link className="button button--red-border button--mini button--in-cart" to="#">В Корзине</Link>
       </div>
     </div>

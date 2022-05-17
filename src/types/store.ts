@@ -1,10 +1,10 @@
 import { GuitarCard } from './guitar';
-import { Comment } from './comment';
+import { Review } from './review';
 import { store } from '../store/index';
 
 export type State = {
     guitars: GuitarCard[],
-    comments: Comment[],
+    reviews: Review[],
   };
 
 export type AppDispatch = typeof store.dispatch;
