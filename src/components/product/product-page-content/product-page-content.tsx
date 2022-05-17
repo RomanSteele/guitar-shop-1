@@ -7,6 +7,7 @@ import Reviews from '../reviews-list/reviews-list';
 import { useEffect } from 'react';
 import { store } from '../../../store';
 import { fetchReviewsAction } from '../../../store/api-actions';
+import Tabs from '../tabs/tabs';
 
 
 function ProductPageContent(): JSX.Element {
@@ -27,7 +28,7 @@ function ProductPageContent(): JSX.Element {
     navigate(AppRoute.NotFound);
   }
 
-  const { name, previewImg, vendorCode, price, description, stringCount, type, rating } = card as GuitarCard;
+  const { name, previewImg, price, rating } = card as GuitarCard;
 
   useEffect(() => {
     store.dispatch(fetchReviewsAction(Number(id)));
@@ -68,27 +69,7 @@ function ProductPageContent(): JSX.Element {
               <p className="visually-hidden">Оценка: Хорошо</p>
               <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{rating}</p>
             </div>
-            <div className="tabs">
-              <a className="button button--medium tabs__button" href="#characteristics">Характеристики</a>
-              <a className="button button--black-border button--medium tabs__button" href="#description">Описание</a>
-              <div className="tabs__content" id="characteristics">
-                <table className="tabs__table">
-                  <tr className="tabs__table-row">
-                    <td className="tabs__title">Артикул:</td>
-                    <td className="tabs__value">{vendorCode}</td>
-                  </tr>
-                  <tr className="tabs__table-row">
-                    <td className="tabs__title">Тип:</td>
-                    <td className="tabs__value">{type}</td>
-                  </tr>
-                  <tr className="tabs__table-row">
-                    <td className="tabs__title">Количество струн:</td>
-                    <td className="tabs__value">{stringCount} струнная</td>
-                  </tr>
-                </table>
-                <p className="tabs__product-description hidden">{description}</p>
-              </div>
-            </div>
+            <Tabs guitar={card as GuitarCard}/>
           </div>
           <div className="product-container__price-wrapper">
             <p className="product-container__price-info product-container__price-info--title">Цена:</p>
