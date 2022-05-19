@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../const';
 import { GuitarCard } from '../../../types/guitar';
-import Reviews from '../reviews-list/reviews-list';
+import ReviewsList from '../reviews-list/reviews-list';
 import { useEffect } from 'react';
 import { store } from '../../../store';
 import { fetchReviewsAction } from '../../../store/api-actions';
@@ -77,7 +77,7 @@ function ProductPageContent(): JSX.Element {
             <a className="button button--red button--big product-container__button" href=".">Добавить в корзину</a>
           </div>
         </div>
-        <Reviews reviews={reviews}/>
+        <ReviewsList reviews={reviews} guitarName={name}/>
       </div>
     </main>
   );
