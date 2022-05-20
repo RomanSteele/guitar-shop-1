@@ -1,6 +1,8 @@
 import CSS from 'csstype';
 import ReactDom from 'react-dom';
-import {ChangeEvent, useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect} from 'react';
+
+import  {useInput } from '../../../hooks/useValidation';
 
 type ModalWindowProps = {
   onBackdropClick: () => void,
@@ -18,22 +20,6 @@ const MODAL_STYLES: CSS.Properties = {
 
 
 function ModalWindow({onBackdropClick, isModalVisible, guitarName}:ModalWindowProps): JSX.Element {
-
-
-  const [validation, setValidation] = useState('');
-  const [validationError, setValidationError] = useState(true);
-
-
-  const nameCheckHandler = (e: ChangeEvent<HTMLInputElement>) =>
-  {
-    setValidation(e.target.value);
-    if(e.target.value.length >= 1 ){
-      setValidationError(false);
-    }
-    else{
-      setValidationError(true);
-    }
-  };
 
 
   const escFunction = useCallback((event) => {
@@ -63,6 +49,13 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName}:ModalWindowPr
     };
   }, [isModalVisible]);
 
+  const name = useInput('',{isEmpty: true, minLength: 1});
+  const advantages = useInput('',{isEmpty: true, minLength: 1});
+  const disadvantages = useInput('',{isEmpty: true, minLength: 1});
+  const review = useInput('',{isEmpty: true, minLength: 1});
+  const rating = useInput('',{isEmpty: true, minLength: 1});
+
+
   return ReactDom.createPortal(
     <div style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
       <div className="modal is-active modal--review modal-for-ui-kit">
@@ -75,34 +68,34 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName}:ModalWindowPr
               <div className="form-review__wrapper">
                 <div className="form-review__name-wrapper">
                   <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
-                  <input onChange={(e)=>nameCheckHandler(e)} value={validation} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete='off'/>
-                  {validationError ? <p className="form-review__warning">Заполните поле</p> : ''}
+                  <input onChange={(e) => name.onChange(e)} value={name.value} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete='off'/>
+                  {(name.isEmpty || name.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
                 </div>
                 <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
-                  <div className="rate rate--reverse">
-                    <input className="visually-hidden" id="star-5" name="rate" type="radio" value="5"/>
+                  <div className="rate rate--reverse" >
+                    <input onChange={(e) => rating.onChange(e)} value={5} className="visually-hidden" id="star-5" name="rate" type="radio" />
                     <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
-                    <input className="visually-hidden" id="star-4" name="rate" type="radio" value="4"/>
+                    <input onChange={(e) => rating.onChange(e)} value={4} className="visually-hidden" id="star-4" name="rate" type="radio" />
                     <label className="rate__label" htmlFor="star-4" title="Хорошо"></label>
-                    <input className="visually-hidden" id="star-3" name="rate" type="radio" value="3"/>
+                    <input onChange={(e) => rating.onChange(e)} value={3}className="visually-hidden" id="star-3" name="rate" type="radio" />
                     <label className="rate__label" htmlFor="star-3" title="Нормально"></label>
-                    <input className="visually-hidden" id="star-2" name="rate" type="radio" value="2"/>
+                    <input onChange={(e) => rating.onChange(e)} value={2}className="visually-hidden" id="star-2" name="rate" type="radio" />
                     <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
-                    <input className="visually-hidden" id="star-1" name="rate" type="radio" value="1"/>
+                    <input onChange={(e) => rating.onChange(e)} value={1}className="visually-hidden" id="star-1" name="rate" type="radio" />
                     <label className="rate__label" htmlFor="star-1" title="Ужасно"></label>
-                    <p className="rate__message">Поставьте оценку</p>
+                    {(rating.isEmpty || rating.minLengthError) ?  <p className="rate__message">Поставьте оценку</p> : '' }
                   </div>
                 </div>
               </div>
               <label className="form-review__label form-review__label--required" htmlFor="adv">Достоинства</label>
-              <input className="form-review__input" id="adv" type="text" autoComplete="off"/>
-              <p className="form-review__warning">Заполните поле</p>
+              <input onChange={(e) => advantages.onChange(e)} value = {advantages.value} className="form-review__input" id="adv" type="text" autoComplete="off"/>
+              {(advantages.isEmpty || advantages.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
               <label className="form-review__label form-review__label--required" htmlFor="disadv">Недостатки</label>
-              <input className="form-review__input" id="disadv" type="text" autoComplete="off"/>
-              <p className="form-review__warning">Заполните поле</p>
+              <input onChange={(e) => disadvantages.onChange(e)} value = {disadvantages.value} className="form-review__input" id="disadv" type="text" autoComplete="off"/>
+              {(disadvantages.isEmpty || disadvantages.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
               <label className="form-review__label form-review__label--required" htmlFor="comment">Комментарий</label>
-              <textarea className="form-review__input form-review__input--textarea" id="comment" autoComplete="off"></textarea>
-              <p className="form-review__warning">Заполните поле</p>
+              <textarea onChange={(e) => review.onChange(e)} value = {review.value} className="form-review__input form-review__input--textarea" id="comment" autoComplete="off"></textarea>
+              {(review.isEmpty || review.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
               <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
             </form>
             <button onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">

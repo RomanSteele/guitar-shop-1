@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { store } from '../../../store';
 import { fetchReviewsAction } from '../../../store/api-actions';
 import Tabs from '../tabs/tabs';
+import BreadcrumbsContent from '../../breadcrumbs/breadcrumbs';
 
 
 function ProductPageContent(): JSX.Element {
@@ -38,14 +39,7 @@ function ProductPageContent(): JSX.Element {
     <main className="page-content">
       <div className="container">
         <h1 className="page-content__title title title--bigger">Товар</h1>
-        <ul className="breadcrumbs page-content__breadcrumbs">
-          <li className="breadcrumbs__item"><a className="link" href="./main.html">Главная</a>
-          </li>
-          <li className="breadcrumbs__item"><a className="link" href="./main.html">Каталог</a>
-          </li>
-          <li className="breadcrumbs__item"><a className="link" href="./main.html">Товар</a>
-          </li>
-        </ul>
+        <BreadcrumbsContent />
         <div className="product-container">
           <img className="product-container__img" src={`../${previewImg}`} srcSet={`../${previewImg}`} width="90" height="235" alt={name}/>
           <div className="product-container__info-wrapper">
