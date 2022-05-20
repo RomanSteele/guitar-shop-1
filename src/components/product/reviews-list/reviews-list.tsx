@@ -2,6 +2,8 @@ import { Review } from '../../../types/review';
 import SingleReview from '../single-review/single-review';
 import { useState, useEffect } from 'react';
 import ModalWindowWrapper from '../modal-window/modal-window-wrapper';
+import { changeLoadingStatus } from '../../../store/actions';
+import { store } from '../../../store';
 
 const REVIEWS_PER_STEP = 3;
 
@@ -26,12 +28,11 @@ function ReviewsList({reviews, guitarName, id}:ReviewsProps): JSX.Element {
 
   const toggleModal = () => {
     setIsModalVisible((wasModalVisible) => !wasModalVisible);
+    store.dispatch(changeLoadingStatus(false));
   };
 
   const sortedReviews = reviews.slice().sort((a, b) => (a.createAt > b.createAt) ? -1 : 1);
 
-
-  console.log(reviews);
 
   return(
     <section className="reviews">

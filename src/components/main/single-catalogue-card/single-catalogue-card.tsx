@@ -9,7 +9,7 @@ type SingleCatalogueCardProps = {
 function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
 
   const { id, name, previewImg, rating, price } = card;
-  console.log('card rendered');
+
   return (
     <div className="product-card">
       <img src={`../${previewImg}`} srcSet={`../${previewImg}`} width="75" height="190" alt={name}/>

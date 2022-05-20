@@ -32,7 +32,6 @@ const SHOP_TABS: ShopTab[] = [
 function Tabs({ guitar }: TabsProps): JSX.Element {
 
   const location = useLocation();
-  console.log(location);
 
   const [isActive, setIsActive] = useState<number>(1);
   const handleActiveTabClick = (id: number) => {

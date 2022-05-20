@@ -1,5 +1,6 @@
 import ModalWindow from './modal-window';
 
+
 type ModalWindowWrapperProps = {
     isModalVisible: boolean,
     onBackdropClick: () => void,
@@ -7,9 +8,9 @@ type ModalWindowWrapperProps = {
     id: number,
 }
 
-console.log('modalwindowwrapper');
 
 function ModalWindowWrapper ({onBackdropClick, isModalVisible, guitarName, id}:ModalWindowWrapperProps):  JSX.Element {
+
   if (!isModalVisible){
     return(
       <div>{null}</div>

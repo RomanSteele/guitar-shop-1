@@ -54,6 +54,7 @@ export const postReview = createAsyncThunk<void, ReviewPost, {
       dispatch(changeLoadingStatus(true));
       dispatch(addReview({ guitarId, userName, advantage, disadvantage, comment, rating }));
       //dispatch(redirectToRoute(`/guitars/${guitarId}`));
+      console.log(changeLoadingStatus);
     } catch (error) {
       // eslint-disable-next-line no-alert
       alert (error);

@@ -17,9 +17,6 @@ function MainPageContent(): JSX.Element {
   const firstGuitarIndex = lastGuitarIndex - guitarsPerPage;
   const currentGuitarsOnPage = guitars.slice(firstGuitarIndex,lastGuitarIndex);
 
-  console.log(useAppSelector(( State ) => State ));
-  console.log('main page rendered');
-
   const paginate= (pageNumber:number) => {setCurrentPage(pageNumber);};
 
   useEffect(() => {

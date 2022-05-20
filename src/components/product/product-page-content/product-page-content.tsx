@@ -23,8 +23,6 @@ function ProductPageContent(): JSX.Element {
 
   const card = guitars.find((element) => element.id === Number(id));
 
-  console.log(card);
-
   if (!card) {
     navigate(AppRoute.NotFound);
   }
