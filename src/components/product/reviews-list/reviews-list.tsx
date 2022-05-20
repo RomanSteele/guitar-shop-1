@@ -8,9 +8,10 @@ const REVIEWS_PER_STEP = 3;
 type ReviewsProps = {
   reviews: Review[],
   guitarName: string,
+  id: number,
 }
 
-function ReviewsList({reviews, guitarName}:ReviewsProps): JSX.Element {
+function ReviewsList({reviews, guitarName, id}:ReviewsProps): JSX.Element {
 
   const [step, setStep] = useState(REVIEWS_PER_STEP);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -27,12 +28,17 @@ function ReviewsList({reviews, guitarName}:ReviewsProps): JSX.Element {
     setIsModalVisible((wasModalVisible) => !wasModalVisible);
   };
 
+  const sortedReviews = reviews.slice().sort((a, b) => (a.createAt > b.createAt) ? -1 : 1);
+
+
+  console.log(reviews);
+
   return(
     <section className="reviews">
       <h3 className="reviews__title title title--bigger">Отзывы</h3>
       <button onClick={toggleModal} className="button button--red-border button--big reviews__sumbit-button" >Оставить отзыв</button>
-      <ModalWindowWrapper isModalVisible={isModalVisible} onBackdropClick={toggleModal} guitarName={guitarName}/>
-      {reviews.slice(0, step).map((item) => (
+      <ModalWindowWrapper isModalVisible={isModalVisible} onBackdropClick={toggleModal} guitarName={guitarName} id={id}/>
+      {sortedReviews.slice(0, step).map((item) => (
         <SingleReview review={item} key={item.id}/>
       ))}
       {(reviews.length > step)

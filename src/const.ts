@@ -9,12 +9,13 @@ export enum AppRoute {
 export enum APIRoute {
     Guitars = '/guitars',
     Guitar = '/guitars/',
-    Reviews = '/guitars'
+    Reviews = '/comments',
   }
 
 export enum ApiType {
     FetchGuitars = 'data/fetchGuitars',
     FetchCurrentGuitar = 'data/fetchCurrentGuitar',
     FetchGuitarReviews = 'data/fetchGuitarReviews',
-    PostFeedback = 'action/postFeedback'
+    PostReview = 'action/postReview',
+    ChangeLoadingStatus='action/changeLoadingStatus'
   }

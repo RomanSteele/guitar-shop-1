@@ -71,7 +71,7 @@ function ProductPageContent(): JSX.Element {
             <a className="button button--red button--big product-container__button" href=".">Добавить в корзину</a>
           </div>
         </div>
-        <ReviewsList reviews={reviews} guitarName={name}/>
+        <ReviewsList reviews={reviews} guitarName={name} id={Number(id)}/>
       </div>
     </main>
   );

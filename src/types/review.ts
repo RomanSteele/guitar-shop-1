@@ -8,3 +8,12 @@ export type Review = {
         createAt: string,
         guitarId: number,
         }
+
+export type ReviewPost ={
+        guitarId: number,
+        userName: string,
+        advantage: string,
+        disadvantage: string,
+        comment: string,
+        rating: number,
+        };

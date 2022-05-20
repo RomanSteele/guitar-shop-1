@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { GuitarCard } from '../types/guitar';
-import { Review } from '../types/review';
+import { Review, ReviewPost } from '../types/review';
 import { ApiType } from '../const';
 
 export const loadGuitars = createAction(
@@ -20,3 +20,22 @@ export const loadReviews = createAction(
     },
   }),
 );
+
+export const addReview = createAction(
+  ApiType.PostReview,
+  (review: ReviewPost) => ({
+    payload: {
+      review,
+    },
+  }),
+);
+
+export const changeLoadingStatus = createAction(
+  ApiType.ChangeLoadingStatus,
+  (status: boolean) => ({
+    payload: {
+      status,
+    },
+  }),
+);
+
