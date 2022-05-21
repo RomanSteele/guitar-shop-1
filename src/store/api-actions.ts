@@ -34,6 +34,7 @@ export const fetchReviewsAction = createAsyncThunk<void, number | null, {
     try {
       const { data } = await api.get<Review[]>(`${APIRoute.Reviews}/${id}/comments`);
       dispatch(loadReviews(data));
+      console.log(id);
     } catch (error) {
       // eslint-disable-next-line no-alert
       alert (error);
@@ -53,8 +54,6 @@ export const postReview = createAsyncThunk<void, ReviewPost, {
       await api.post<ReviewPost>(`${APIRoute.Reviews}`, { guitarId, userName, advantage, disadvantage, comment, rating });
       dispatch(changeLoadingStatus(true));
       dispatch(addReview({ guitarId, userName, advantage, disadvantage, comment, rating }));
-      //dispatch(redirectToRoute(`/guitars/${guitarId}`));
-      console.log(changeLoadingStatus);
     } catch (error) {
       // eslint-disable-next-line no-alert
       alert (error);

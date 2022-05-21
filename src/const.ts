@@ -19,3 +19,4 @@ export enum ApiType {
     PostReview = 'action/postReview',
     ChangeLoadingStatus='action/changeLoadingStatus'
   }
+
