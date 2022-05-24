@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {  State, AppDispatch } from '../types/store';
 import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
-import { loadGuitars, loadReviews, addReview, changeLoadingStatus } from './actions';
+import { loadGuitars, loadGuitar, loadReviews, addReview, changeLoadingStatus, loadCurrentGuitars } from './actions';
 
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -17,6 +17,7 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
     try {
       const { data } = await api.get<GuitarCard[]>(APIRoute.Guitars);
       dispatch(loadGuitars(data));
+      console.log(data);
     } catch (error) {
       // eslint-disable-next-line no-alert
       alert(error);
@@ -62,3 +63,41 @@ export const postReview = createAsyncThunk<void, ReviewPost, {
     }
   },
 );
+
+export const fetchCurrentGuitarsAction = createAsyncThunk<void, Array<number>, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchGuitars',
+  async ([firstGuitarIndex, lastGuitarIndex], { dispatch, extra: api }) => {
+    try {
+      const {data} = await api.get<GuitarCard[]>(`${APIRoute.Guitars}?_start=${firstGuitarIndex}&_end=${lastGuitarIndex}`);
+      dispatch(loadCurrentGuitars(data));
+    } catch (error) {
+    // eslint-disable-next-line no-alert
+      alert (error);
+    }
+  },
+);
+
+export const fetchCurrentGuitarAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchGuitar',
+  async (id, { dispatch, extra: api }) => {
+    try {
+      console.log(id);
+      const {data} = await api.get<GuitarCard>(`${APIRoute.Guitars}/${id}`);
+      console.log(data);
+      dispatch(loadGuitar(data));
+    }
+    catch (error) {
+      // eslint-disable-next-line no-alert
+      alert (error);
+    }
+  },
+);
+

@@ -1,7 +1,5 @@
 import { useAppSelector } from '../../../hooks/hooks-index';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../../const';
 import { GuitarCard } from '../../../types/guitar';
 import ReviewsList from '../reviews-list/reviews-list';
 import { useEffect } from 'react';
@@ -9,28 +7,24 @@ import { store } from '../../../store';
 import { fetchReviewsAction } from '../../../store/api-actions';
 import Tabs from '../tabs/tabs';
 import BreadcrumbsContent from '../../breadcrumbs/breadcrumbs';
-
+import { fetchCurrentGuitarAction } from '../../../store/api-actions';
 
 function ProductPageContent(): JSX.Element {
-
-  const navigate = useNavigate();
-
-  const { guitars } = useAppSelector(( State ) => State );
 
   const { reviews } = useAppSelector(( State ) => State );
 
   const { id } = useParams<{id: string}>();
 
-  const card = guitars.find((element) => element.id === Number(id));
+  const currentGuitar = useAppSelector(( State ) => State.activeGuitar);
 
-  if (!card) {
-    navigate(AppRoute.NotFound);
-  }
 
-  const { name, previewImg, price, rating } = card as GuitarCard;
+  const { name, previewImg, price, rating } = currentGuitar as GuitarCard;
 
-  useEffect(() => {
-    store.dispatch(fetchReviewsAction(Number(id)));
+  useEffect (() => {
+    if (id) {
+      store.dispatch(fetchCurrentGuitarAction(id));
+      store.dispatch(fetchReviewsAction(Number(id)));
+    }
   }, [id]);
 
   return(
@@ -61,7 +55,7 @@ function ProductPageContent(): JSX.Element {
               <p className="visually-hidden">Оценка: Хорошо</p>
               <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{rating}</p>
             </div>
-            <Tabs guitar={card as GuitarCard}/>
+            <Tabs guitar={currentGuitar as GuitarCard}/>
           </div>
           <div className="product-container__price-wrapper">
             <p className="product-container__price-info product-container__price-info--title">Цена:</p>

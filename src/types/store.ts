@@ -6,6 +6,8 @@ export type State = {
     guitars: GuitarCard[],
     reviews: Review[],
     status: boolean,
+    guitarsOnPage: GuitarCard[],
+    activeGuitar: GuitarCard,
   };
 
 export type AppDispatch = typeof store.dispatch;

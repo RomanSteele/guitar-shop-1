@@ -1,27 +1,30 @@
 import CardsList from '../cards-list/cards-list';
 import { useAppSelector } from '../../../hooks/hooks-index';
-import { useEffect , useState } from 'react';
+import { useEffect } from 'react';
 import { store } from '../../../store';
-import { fetchGuitarsAction } from '../../../store/api-actions';
+import { fetchGuitarsAction, fetchCurrentGuitarsAction } from '../../../store/api-actions';
 import Pagination from '../pagination/pagination';
 import Breadcrumbs from '../../breadcrumbs/breadcrumbs';
+import { useParams } from 'react-router-dom';
+import { GUITARS_PER_PAGE } from '../../../const';
 
 function MainPageContent(): JSX.Element {
 
-  const { guitars } = useAppSelector(( State ) => State );
+  let { currentPage } = useParams<{currentPage: string}>();
+  const  guitars  = useAppSelector(( State ) => State.guitarsOnPage );
+  const totalGuitarsLength = useAppSelector(( State ) => State.guitars.length);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [guitarsPerPage] = useState(9);
+  const lastGuitarIndex = Number(currentPage) * GUITARS_PER_PAGE;
+  const firstGuitarIndex = lastGuitarIndex - GUITARS_PER_PAGE;
 
-  const lastGuitarIndex = currentPage * guitarsPerPage;
-  const firstGuitarIndex = lastGuitarIndex - guitarsPerPage;
-  const currentGuitarsOnPage = guitars.slice(firstGuitarIndex,lastGuitarIndex);
-
-  const paginate= (pageNumber:number) => {setCurrentPage(pageNumber);};
+  if (!currentPage) {
+    currentPage = '1';
+  }
 
   useEffect(() => {
     store.dispatch(fetchGuitarsAction());
-  }, []);
+    store.dispatch(fetchCurrentGuitarsAction([firstGuitarIndex, lastGuitarIndex]));
+  }, [firstGuitarIndex, lastGuitarIndex]);
 
 
   return (
@@ -93,9 +96,9 @@ function MainPageContent(): JSX.Element {
             </div>
           </div>
           <div className="cards catalog__cards">
-            <CardsList cards={currentGuitarsOnPage} />
+            <CardsList cards={guitars} />
           </div>
-          <Pagination paginate = {paginate} guitarsPerPage={guitarsPerPage} totalGuitars={guitars.length} currentPage={currentPage}/>
+          <Pagination totalGuitars={totalGuitarsLength} currentPage={Number(currentPage)}/>
         </div>
       </div>
     </main>);

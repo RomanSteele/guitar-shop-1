@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import MainPage from '../main/main-page/main-page';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
@@ -12,11 +12,7 @@ function App(): JSX.Element {
       <Routes>
         <Route
           index
-          element={<MainPage />}
-        />
-        <Route
-          path={AppRoute.Main}
-          element={<MainPage />}
+          element={<Navigate to={AppRoute.MainFirstPage}/>}
         />
         <Route
           path={AppRoute.CurrentMainPage}
@@ -24,6 +20,14 @@ function App(): JSX.Element {
         />
         <Route
           path={AppRoute.Guitar}
+          element={<ProductPage />}
+        />
+        <Route
+          path={AppRoute.GuitarChara}
+          element={<ProductPage />}
+        />
+        <Route
+          path={AppRoute.GuitarDesc}
           element={<ProductPage />}
         />
         <Route

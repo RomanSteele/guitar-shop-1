@@ -38,4 +38,25 @@ export const changeLoadingStatus = createAction(
     },
   }),
 );
+/*
+export const loadCurrentGuitars = createAction(
+  ApiType.FetchCurrentGuitars,
+  (guitarsOnPage: GuitarCard[]) => ({
+    payload: {
+      guitarsOnPage,
+    },
+  }),
+);
 
+export const loadGuitar = createAction(
+  ApiType.FetchCurrentGuitar,
+  (activeGuitar: GuitarCard[]) => ({
+    payload: {
+      activeGuitar,
+    },
+  }),
+);
+*/
+export const loadCurrentGuitars = createAction<GuitarCard[]>(ApiType.FetchCurrentGuitars);
+
+export const loadGuitar = createAction<GuitarCard>(ApiType.FetchCurrentGuitar);
