@@ -5,6 +5,7 @@ import {  State, AppDispatch } from '../types/store';
 import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
 import { loadGuitars, loadGuitar, loadReviews, addReview, changeLoadingStatus, loadCurrentGuitars } from './actions';
+import { handleHttpError } from '../services/handle-http-error';
 
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -19,8 +20,7 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
       dispatch(loadGuitars(data));
       console.log(data);
     } catch (error) {
-      // eslint-disable-next-line no-alert
-      alert(error);
+      handleHttpError (error);
     }
   },
 );
@@ -37,8 +37,7 @@ export const fetchReviewsAction = createAsyncThunk<void, number | null, {
       dispatch(loadReviews(data));
       console.log(id);
     } catch (error) {
-      // eslint-disable-next-line no-alert
-      alert (error);
+      handleHttpError (error);
     }
   },
 );
@@ -56,9 +55,7 @@ export const postReview = createAsyncThunk<void, ReviewPost, {
       dispatch(changeLoadingStatus(true));
       dispatch(addReview({ guitarId, userName, advantage, disadvantage, comment, rating }));
     } catch (error) {
-      // eslint-disable-next-line no-alert
-      alert (error);
-      //handleHttpError (error);
+      handleHttpError (error);
       dispatch(changeLoadingStatus(true));
     }
   },
@@ -75,8 +72,7 @@ export const fetchCurrentGuitarsAction = createAsyncThunk<void, Array<number>, {
       const {data} = await api.get<GuitarCard[]>(`${APIRoute.Guitars}?_start=${firstGuitarIndex}&_end=${lastGuitarIndex}`);
       dispatch(loadCurrentGuitars(data));
     } catch (error) {
-    // eslint-disable-next-line no-alert
-      alert (error);
+      handleHttpError (error);
     }
   },
 );
@@ -95,8 +91,7 @@ export const fetchCurrentGuitarAction = createAsyncThunk<void, string, {
       dispatch(loadGuitar(data));
     }
     catch (error) {
-      // eslint-disable-next-line no-alert
-      alert (error);
+      handleHttpError (error);
     }
   },
 );
