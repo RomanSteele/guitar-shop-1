@@ -20,12 +20,12 @@ function BreadcrumbsContent(): JSX.Element {
     {
       id: 1,
       name: 'Главная',
-      route: AppRoute.Main,
+      route: AppRoute.MainFirstPage,
     },
     {
       id: 2,
       name: 'Каталог',
-      route: AppRoute.Main,
+      route: AppRoute.MainFirstPage,
     },
   ];
 

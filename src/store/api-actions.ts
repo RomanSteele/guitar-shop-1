@@ -33,7 +33,7 @@ export const fetchReviewsAction = createAsyncThunk<void, number | null, {
   ApiType.FetchGuitarReviews,
   async (id, { dispatch, extra: api }) => {
     try {
-      const { data } = await api.get<Review[]>(`${APIRoute.Reviews}/${id}/comments`);
+      const { data } = await api.get<Review[]>(`${APIRoute.Guitars}/${id}/comments`);
       dispatch(loadReviews(data));
       console.log(id);
     } catch (error) {

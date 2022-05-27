@@ -23,11 +23,11 @@ function App(): JSX.Element {
           element={<ProductPage />}
         />
         <Route
-          path={AppRoute.GuitarChara}
+          path={AppRoute.GuitarCharacteristics}
           element={<ProductPage />}
         />
         <Route
-          path={AppRoute.GuitarDesc}
+          path={AppRoute.GuitarDescription}
           element={<ProductPage />}
         />
         <Route
