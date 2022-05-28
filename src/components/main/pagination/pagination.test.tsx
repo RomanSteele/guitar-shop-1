@@ -12,7 +12,7 @@ const mockGuitars = makeFakeGuitars(27);
 const customHistory = createMemoryHistory();
 
 describe('Component: Pagination', () => {
-  it('should render buttons [1, 2, 3, Далее] and NOT render [Назад]', () => {
+  it('should render buttons [1, 2, 3, Далее] and not [Назад]', () => {
     const pageNumber = 1;
 
     render(
@@ -32,7 +32,7 @@ describe('Component: Pagination', () => {
     expect(screen.queryByText('Назад')).not.toBeInTheDocument();
   });
 
-  it('should render buttons [Назад, 1, 2, 3] and NOT render [Далее]', () => {
+  it('should render buttons [Назад, 1, 2, 3] and not [Далее]', () => {
     const pageNumber = 3;
 
     render(

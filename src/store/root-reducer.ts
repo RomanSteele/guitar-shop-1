@@ -6,7 +6,7 @@ import { InitialGuitar } from '../const';
 const initialState: State = {
   guitars:[],
   reviews:[],
-  status: false,
+  loadingStatus: false,
   guitarsOnPage: [],
   activeGuitar: InitialGuitar,
 };
@@ -22,8 +22,8 @@ export const rootReducer = createReducer(initialState, (builder) => {
       state.reviews = reviews;
     })
     .addCase(changeLoadingStatus, (state, action)=>{
-      const { status } = action.payload;
-      state.status = status;
+      const { loadingStatus } = action.payload;
+      state.loadingStatus = loadingStatus;
     })
     .addCase(loadCurrentGuitars, (state, action) => {
       state.guitarsOnPage = action.payload;

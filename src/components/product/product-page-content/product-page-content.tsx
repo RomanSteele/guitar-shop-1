@@ -32,7 +32,7 @@ function ProductPageContent(): JSX.Element {
         <h1 className="page-content__title title title--bigger">Товар</h1>
         <BreadcrumbsContent />
         <div className="product-container">
-          <img className="product-container__img" src={`../${previewImg}`} srcSet={`../${previewImg}`} width="90" height="235" alt={name}/>
+          <img className="product-container__img" src={`../${previewImg}`} srcSet={`../${previewImg?.slice(0, -4)}@2x.jpg 2x`} width="90" height="235" alt={name}/>
           <div className="product-container__info-wrapper">
             <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
             <div className="rate product-container__rating">

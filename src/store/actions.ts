@@ -32,9 +32,9 @@ export const addReview = createAction(
 
 export const changeLoadingStatus = createAction(
   ApiType.ChangeLoadingStatus,
-  (status: boolean) => ({
+  (loadingStatus: boolean) => ({
     payload: {
-      status,
+      loadingStatus,
     },
   }),
 );

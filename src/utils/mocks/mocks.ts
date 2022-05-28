@@ -22,9 +22,9 @@ export const makeFakeGuitar = (): GuitarCard => (
   {
     id: Math.floor(Math.random() * 10000),
     name: 'fake',
-    vendorCode: 'fake',
+    vendorCode: 'fakeGuitar',
     type: 'fake',
-    description: 'fake',
+    description: 'fakeDescription',
     previewImg: '/img.jpg',
     stringCount: 4,
     rating: 3,

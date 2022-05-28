@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { makeFakeGuitar } from '../../../utils/mocks/mocks';
 import SingleCatalogueCard from './single-catalogue-card';
 
-describe('Component: Footer', () => {
+describe('Component: Single Catalogue Card', () => {
   it('should render correctly', () => {
     const singleCard = makeFakeGuitar();
 
@@ -13,8 +13,8 @@ describe('Component: Footer', () => {
       </BrowserRouter>,
     );
 
-    const footerElement = screen.getByText('Всего оценок:');
+    const singleCardElement = screen.getByText('Всего оценок:');
 
-    expect(footerElement).toBeInTheDocument();
+    expect(singleCardElement).toBeInTheDocument();
   });
 });

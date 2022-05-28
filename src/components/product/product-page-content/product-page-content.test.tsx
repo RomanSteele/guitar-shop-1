@@ -32,7 +32,7 @@ const mockStore = configureMockStore<
   ThunkDispatch<State, typeof api, Action>
 >(middlewares);
 
-describe('Component: ProductPageContent', () => {
+describe('Component: Product Page Content', () => {
   it('should dispatch fetchReviewsAction when render component', async () => {
 
     mockAPI

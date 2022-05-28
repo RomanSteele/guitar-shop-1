@@ -5,7 +5,7 @@ import { store } from '../store/index';
 export type State = {
     guitars: GuitarCard[],
     reviews: Review[],
-    status: boolean,
+    loadingStatus: boolean,
     guitarsOnPage: GuitarCard[],
     activeGuitar: GuitarCard,
   };

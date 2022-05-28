@@ -27,7 +27,7 @@ const MODAL_STYLES: CSS.Properties = {
 
 function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWindowProps): JSX.Element {
 
-  const { status } = useAppSelector(( State ) => State );
+  const { loadingStatus } = useAppSelector(( State ) => State );
 
   const nameData = useInput('',{isEmpty: true, minLength: 1});
   const advantageData = useInput('',{isEmpty: true, minLength: 1});
@@ -83,9 +83,9 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
   }, [isModalVisible]);
 
   useEffect(() => {
-    store.dispatch(fetchReviewsAction(id));}, [id, status]);
+    store.dispatch(fetchReviewsAction(id));}, [id, loadingStatus]);
 
-  if (status === false) {
+  if (loadingStatus === false) {
     return ReactDom.createPortal(
       <div style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
         <div className="modal is-active modal--review modal-for-ui-kit">

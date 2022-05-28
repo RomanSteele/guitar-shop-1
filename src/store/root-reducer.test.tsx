@@ -12,7 +12,7 @@ const emptyGuitar = fakeEmptyGuitar;
 
 
 describe('Reducer', () => {
-  const state = { guitars: [], reviews: [], status: false, guitarsOnPage: [], activeGuitar: InitialGuitar };
+  const state = { guitars: [], reviews: [], loadingStatus: false, guitarsOnPage: [], activeGuitar: InitialGuitar };
 
   describe('Function: loadGuitars', () => {
     it('without additional parameters should return initial state', () => {
