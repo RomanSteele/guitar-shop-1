@@ -32,3 +32,4 @@ export const rootReducer = createReducer(initialState, (builder) => {
       state.activeGuitar = action.payload;
     });
 });
+

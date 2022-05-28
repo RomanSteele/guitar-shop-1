@@ -10,11 +10,11 @@ type CardsListProps = {
 function CardsList({ cards }: CardsListProps) {
 
   return (
-    <>
+    <div className="cards catalog__cards">
       {cards.map((item) => (
         <SingleCatalogueCard card={item} key={item.id}/>
       ))}
-    </>
+    </div>
   );
 }
 export default CardsList;

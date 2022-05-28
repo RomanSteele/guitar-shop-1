@@ -95,9 +95,7 @@ function MainPageContent(): JSX.Element {
               <button className="catalog-sort__order-button catalog-sort__order-button--down" aria-label="По убыванию"></button>
             </div>
           </div>
-          <div className="cards catalog__cards">
-            <CardsList cards={guitars} />
-          </div>
+          <CardsList cards={guitars} />
           <Pagination totalGuitars={totalGuitarsLength} currentPage={Number(currentPage)}/>
         </div>
       </div>

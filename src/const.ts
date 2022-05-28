@@ -26,6 +26,15 @@ export enum ApiType {
 
 export const GUITARS_PER_PAGE = 9;
 
+export const fakeEmptyReviewPost = {
+  guitarId: 0,
+  userName: '',
+  advantage: '',
+  disadvantage: '',
+  comment: '',
+  rating: 0,
+};
+
 export const InitialGuitar = {
   id: 0,
   name: '',

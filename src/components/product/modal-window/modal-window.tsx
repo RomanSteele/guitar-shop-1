@@ -2,7 +2,7 @@ import CSS from 'csstype';
 import ReactDom from 'react-dom';
 import {FormEvent, useCallback, useEffect} from 'react';
 import { ReviewPost } from '../../../types/review';
-import  {useInput } from '../../../hooks/useValidation';
+import  {useInput } from '../../../hooks/use-validation';
 import { store } from '../../../store';
 import { postReview } from '../../../store/api-actions';
 import { fetchReviewsAction } from '../../../store/api-actions';

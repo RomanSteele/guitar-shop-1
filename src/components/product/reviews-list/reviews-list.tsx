@@ -33,8 +33,6 @@ function ReviewsList({reviews, guitarName, id}:ReviewsProps): JSX.Element {
 
   const sortedReviews = reviews.slice().sort((a, b) => (a.createAt > b.createAt) ? -1 : 1);
 
-  console.log(reviews,guitarName,id);
-
   return(
     <section className="reviews">
       <h3 className="reviews__title title title--bigger">Отзывы</h3>

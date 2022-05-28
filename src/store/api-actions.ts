@@ -18,7 +18,6 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
     try {
       const { data } = await api.get<GuitarCard[]>(APIRoute.Guitars);
       dispatch(loadGuitars(data));
-      console.log(data);
     } catch (error) {
       handleHttpError (error);
     }
@@ -35,7 +34,6 @@ export const fetchReviewsAction = createAsyncThunk<void, number | null, {
     try {
       const { data } = await api.get<Review[]>(`${APIRoute.Guitars}/${id}/comments`);
       dispatch(loadReviews(data));
-      console.log(id);
     } catch (error) {
       handleHttpError (error);
     }
@@ -85,9 +83,7 @@ export const fetchCurrentGuitarAction = createAsyncThunk<void, string, {
   'data/fetchGuitar',
   async (id, { dispatch, extra: api }) => {
     try {
-      console.log(id);
       const {data} = await api.get<GuitarCard>(`${APIRoute.Guitars}/${id}`);
-      console.log(data);
       dispatch(loadGuitar(data));
     }
     catch (error) {

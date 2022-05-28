@@ -9,6 +9,8 @@ export type Review = {
         guitarId: number,
         }
 
+export type Reviews = Review[];
+
 export type ReviewPost ={
         guitarId: number,
         userName: string,
@@ -17,3 +19,5 @@ export type ReviewPost ={
         comment: string,
         rating: number,
         };
+
+export type ReviewsByGuitar = Record<number, Review[]>;

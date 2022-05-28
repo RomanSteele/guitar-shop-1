@@ -17,7 +17,6 @@ function ProductPageContent(): JSX.Element {
 
   const currentGuitar = useAppSelector(( State ) => State.activeGuitar);
 
-
   const { name, previewImg, price, rating } = currentGuitar as GuitarCard;
 
   useEffect (() => {
