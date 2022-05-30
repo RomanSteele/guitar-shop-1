@@ -6,6 +6,7 @@ import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
 import { loadGuitars, loadGuitar, loadReviews, addReview, changeLoadingStatus } from './actions';
 import { handleHttpError } from '../services/handle-http-error';
+import { Dispatch, SetStateAction } from 'react';
 
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -77,3 +78,19 @@ export const fetchCurrentGuitarAction = createAsyncThunk<void, string, {
   },
 );
 
+
+export const fetchReviewsLengthAction = createAsyncThunk<void, ([id: number, onLoad: Dispatch<SetStateAction<number>>]), {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  ApiType.FetchGuitarReviews,
+  async ([id, onLoad], { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<Review[]>(`${APIRoute.Guitars}/${id}/comments`);
+      onLoad(data.length);
+    } catch (error) {
+      handleHttpError (error);
+    }
+  },
+  );

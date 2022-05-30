@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { GuitarCard } from '../../../types/guitar';
 import { AppRoute } from '../../../const';
-import { useAppSelector } from '../../../hooks/hooks-index';
+import { useAppDispatch } from '../../../hooks/hooks-index';
+import { useEffect, useState } from 'react';
+import { fetchReviewsLengthAction } from '../../../store/api-actions';
 
 
 type SingleCatalogueCardProps = {
@@ -12,9 +14,13 @@ function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
 
   const { id, name, previewImg, price } = card;
 
-  const { reviews } = useAppSelector(( State ) => State );
+  const [reviews, setReviews] = useState(0);
 
-  const rating = reviews.length;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchReviewsLengthAction([id, setReviews]));
+  }, [dispatch, id]);
 
   return (
     <div className="product-card">
@@ -37,7 +43,7 @@ function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
             <use xlinkHref="#icon-star"></use>
           </svg>
           <p className="visually-hidden">Рейтинг: Хорошо</p>
-          <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{rating}</p>
+          <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{reviews}</p>
         </div>
         <p className="product-card__title">{name}</p>
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{price}
