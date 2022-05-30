@@ -21,7 +21,7 @@ function ModalWindowSuccess({onBackdropClick}:ModalSuccessProps):JSX.Element {
     <div style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
       <div className="modal is-active modal--success modal-for-ui-kit">
         <div className="modal__wrapper">
-          <div className="modal__overlay" data-close-modal></div>
+          <div onClick={onBackdropClick} className="modal__overlay" data-close-modal></div>
           <div className="modal__content">
             <svg className="modal__icon" width="26" height="20" aria-hidden="true">
               <use xlinkHref="#icon-success"></use>
