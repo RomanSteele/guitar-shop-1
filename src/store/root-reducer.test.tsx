@@ -1,11 +1,10 @@
 import { makeFakeReviews, makeFakeGuitar, fakeEmptyGuitar  } from '../utils/mocks/mocks';
-import { loadGuitars, loadReviews, loadCurrentGuitars, loadGuitar } from './actions';
+import { loadGuitars, loadReviews, loadGuitar } from './actions';
 import { rootReducer } from './root-reducer';
 import { InitialGuitar } from '../const';
 import {makeFakeGuitars } from '../utils/mocks/mocks';
 
 const guitars = makeFakeGuitars(27);
-const fewGuitars = makeFakeGuitars(9);
 const reviews = makeFakeReviews(1);
 const guitar = makeFakeGuitar();
 const emptyGuitar = fakeEmptyGuitar;
@@ -35,18 +34,6 @@ describe('Reducer', () => {
     it('should update reviews by load reviews', () => {
       expect(rootReducer(state, loadReviews(reviews)))
         .toEqual( { ...state, reviews});
-    });
-  });
-
-  describe('Function: loadCurrentGuitars', () => {
-    it('without additional parameters should return initial state', () => {
-      expect(rootReducer(void 0, { type: 'UNKNOWN_ACTION' }))
-        .toEqual({ ...state, guitars: []});
-    });
-
-    it('should update active guitars by load active guitars', () => {
-      expect(rootReducer(state, loadCurrentGuitars(fewGuitars)))
-        .toEqual( { ...state, guitarsOnPage: fewGuitars});
     });
   });
 

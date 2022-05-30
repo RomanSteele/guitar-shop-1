@@ -39,6 +39,5 @@ export const changeLoadingStatus = createAction(
   }),
 );
 
-export const loadCurrentGuitars = createAction<GuitarCard[]>(ApiType.FetchCurrentGuitars);
 
 export const loadGuitar = createAction<GuitarCard>(ApiType.FetchCurrentGuitar);

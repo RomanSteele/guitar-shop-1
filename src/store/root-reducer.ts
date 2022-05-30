@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { State } from '../types/store';
-import { loadGuitars, loadGuitar, loadReviews, changeLoadingStatus, loadCurrentGuitars } from './actions';
+import { loadGuitars, loadGuitar, loadReviews, changeLoadingStatus } from './actions';
 import { InitialGuitar } from '../const';
 
 const initialState: State = {
@@ -24,9 +24,6 @@ export const rootReducer = createReducer(initialState, (builder) => {
     .addCase(changeLoadingStatus, (state, action)=>{
       const { loadingStatus } = action.payload;
       state.loadingStatus = loadingStatus;
-    })
-    .addCase(loadCurrentGuitars, (state, action) => {
-      state.guitarsOnPage = action.payload;
     })
     .addCase(loadGuitar, (state, action) => {
       state.activeGuitar = action.payload;

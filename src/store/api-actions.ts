@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {  State, AppDispatch } from '../types/store';
 import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
-import { loadGuitars, loadGuitar, loadReviews, addReview, changeLoadingStatus, loadCurrentGuitars } from './actions';
+import { loadGuitars, loadGuitar, loadReviews, addReview, changeLoadingStatus } from './actions';
 import { handleHttpError } from '../services/handle-http-error';
 
 
@@ -59,21 +59,6 @@ export const postReview = createAsyncThunk<void, ReviewPost, {
   },
 );
 
-export const fetchCurrentGuitarsAction = createAsyncThunk<void, Array<number>, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'data/fetchGuitars',
-  async ([firstGuitarIndex, lastGuitarIndex], { dispatch, extra: api }) => {
-    try {
-      const {data} = await api.get<GuitarCard[]>(`${APIRoute.Guitars}?_start=${firstGuitarIndex}&_end=${lastGuitarIndex}`);
-      dispatch(loadCurrentGuitars(data));
-    } catch (error) {
-      handleHttpError (error);
-    }
-  },
-);
 
 export const fetchCurrentGuitarAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch,

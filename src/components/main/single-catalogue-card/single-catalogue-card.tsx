@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { GuitarCard } from '../../../types/guitar';
 import { AppRoute } from '../../../const';
+import { useAppSelector } from '../../../hooks/hooks-index';
+
 
 type SingleCatalogueCardProps = {
     card: GuitarCard,
@@ -8,7 +10,11 @@ type SingleCatalogueCardProps = {
 
 function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
 
-  const { id, name, previewImg, rating, price } = card;
+  const { id, name, previewImg, price } = card;
+
+  const { reviews } = useAppSelector(( State ) => State );
+
+  const rating = reviews.length;
 
   return (
     <div className="product-card">
@@ -45,3 +51,5 @@ function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
 }
 
 export default SingleCatalogueCard;
+
+

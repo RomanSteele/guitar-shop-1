@@ -2,7 +2,7 @@ import CardsList from '../cards-list/cards-list';
 import { useAppSelector } from '../../../hooks/hooks-index';
 import { useEffect } from 'react';
 import { store } from '../../../store';
-import { fetchGuitarsAction, fetchCurrentGuitarsAction } from '../../../store/api-actions';
+import { fetchGuitarsAction } from '../../../store/api-actions';
 import Pagination from '../pagination/pagination';
 import Breadcrumbs from '../../breadcrumbs/breadcrumbs';
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { GUITARS_PER_PAGE } from '../../../const';
 function MainPageContent(): JSX.Element {
 
   let { currentPage } = useParams<{currentPage: string}>();
-  const  guitars  = useAppSelector(( State ) => State.guitarsOnPage );
+  const  guitars  = useAppSelector(( State ) => State.guitars );
   const totalGuitarsLength = useAppSelector(( State ) => State.guitars.length);
 
   const lastGuitarIndex = Number(currentPage) * GUITARS_PER_PAGE;
@@ -21,11 +21,14 @@ function MainPageContent(): JSX.Element {
     currentPage = '1';
   }
 
+  const cardsToRender = guitars.slice(firstGuitarIndex, lastGuitarIndex);
+
   useEffect(() => {
     store.dispatch(fetchGuitarsAction());
-    store.dispatch(fetchCurrentGuitarsAction([firstGuitarIndex, lastGuitarIndex]));
-  }, [firstGuitarIndex, lastGuitarIndex]);
+  }, []);
 
+
+  console.log(guitars);
 
   return (
     <main className="page-content">
@@ -95,7 +98,7 @@ function MainPageContent(): JSX.Element {
               <button className="catalog-sort__order-button catalog-sort__order-button--down" aria-label="По убыванию"></button>
             </div>
           </div>
-          <CardsList cards={guitars} />
+          <CardsList cards={cardsToRender} />
           <Pagination totalGuitars={totalGuitarsLength} currentPage={Number(currentPage)}/>
         </div>
       </div>

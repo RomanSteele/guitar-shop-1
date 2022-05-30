@@ -7,10 +7,9 @@ import {
   fetchGuitarsAction,
   fetchReviewsAction,
   fetchCurrentGuitarAction,
-  fetchCurrentGuitarsAction,
   postReview } from './api-actions';
 
-import { loadGuitars, loadReviews, loadGuitar, loadCurrentGuitars, addReview } from './actions';
+import { loadGuitars, loadReviews, loadGuitar, addReview } from './actions';
 import { createApi } from '../services/api';
 import { State } from '../types/store';
 import { APIRoute } from '../const';
@@ -21,8 +20,6 @@ describe('Async actions', () => {
   const mockAPI = new MockAdapter(api);
   const middlewares = [thunk.withExtraArgument(api)];
   const id = 1;
-  const startId = 0;
-  const lastId = 9;
 
   const mockStore = configureMockStore<
       State,
@@ -72,19 +69,6 @@ describe('Async actions', () => {
     expect(actions).toContain(loadGuitar.toString());
   });
 
-  it(`should dispatch Load Current Guitars when GET /guitars?_start=${startId}&_end=${lastId}`, async () => {
-    const mockGuitars = makeFakeGuitars(9);
-
-    mockAPI
-      .onGet(`${APIRoute.Guitars}?_start=${startId}&_end=${lastId}`)
-      .reply(200, mockGuitars);
-
-    const store = mockStore();
-    await store.dispatch(fetchCurrentGuitarsAction([0,9]));
-    const actions = store.getActions().map(({type}) => type);
-
-    expect(actions).toContain(loadCurrentGuitars.toString());
-  });
 
   it('should dispatch Review  when POST /comments', async () => {
     const mockGuitars = fakeReviewPost;
