@@ -10,12 +10,12 @@ type Breadcrumbs = {
 
 function BreadcrumbsContent(): JSX.Element {
 
-  const { guitars } = useAppSelector(( State ) => State );
+  const currentGuitar = useAppSelector(( State ) => State.activeGuitar);
 
   const { id } = useParams<{id: string}>();
 
-  const CrumbsName = guitars.find((element) => element.id === Number(id))?.name;
-
+  const CrumbsName = currentGuitar.name;
+  console.log(CrumbsName);
   const BREADCRUMBS: Breadcrumbs[] = [
     {
       id: 1,
@@ -29,7 +29,7 @@ function BreadcrumbsContent(): JSX.Element {
     },
   ];
 
-  if(CrumbsName) {
+  if(id) {
     BREADCRUMBS.push(
       {
         id: 3,
