@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { GuitarCard } from '../../../types/guitar';
 import CharacteristicsTab from './characteristics-tab';
 import DescriptionTab from './description-tab';
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../../const';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 
 
 type TabsProps = {
@@ -31,18 +29,18 @@ const SHOP_TABS: ShopTab[] = [
 
 function Tabs({ guitar }: TabsProps): JSX.Element {
 
-  const [isActive, setIsActive] = useState<number>(1);
-  const handleActiveTabClick = (id: number) => {
-    setIsActive(id);
-  };
+  const location = useLocation();
 
   return (
     <div className="tabs">
       {SHOP_TABS.map((item)=>(
-        <Link key={item.title} className={`button ${item.id === isActive ? '' : 'button--black-border'} button--medium tabs__button" href="#characteristics"`} onClick={() => {handleActiveTabClick(item.id);}} to={`${AppRoute.Guitar.replace(':id', guitar.id.toString())}/${  item.address}`} >{item.title}</Link>
+        <Link key={item.title} className={`button ${location.pathname.includes(item.address) ? '' : 'button--black-border'} button--medium tabs__button" `} to={`${item.address}`}>{item.title}</Link>
       ))}
-      {isActive === SHOP_TABS[0].id && <CharacteristicsTab guitar={guitar}/>}
-      {isActive === SHOP_TABS[1].id && <DescriptionTab guitar={guitar} />}
+      <Routes>
+        <Route path="characteristics" element={<CharacteristicsTab guitar={guitar}/>}/>
+        <Route path="description" element={<DescriptionTab guitar={guitar}/>}/>
+      </Routes>
+
     </div>
   );
 }

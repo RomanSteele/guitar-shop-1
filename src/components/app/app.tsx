@@ -23,14 +23,6 @@ function App(): JSX.Element {
           element={<ProductPage />}
         />
         <Route
-          path={AppRoute.GuitarCharacteristics}
-          element={<ProductPage />}
-        />
-        <Route
-          path={AppRoute.GuitarDescription}
-          element={<ProductPage />}
-        />
-        <Route
           path="*"
           element={<NotFoundScreen />}
         />

@@ -37,7 +37,7 @@ function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{price}
         </p>
       </div>
-      <div className="product-card__buttons"><Link className="button button--mini" to={AppRoute.Guitar.replace(':id', id.toString())}>Подробнее</Link>
+      <div className="product-card__buttons"><Link className="button button--mini" to={`${AppRoute.GuitarCharacteristics.replace(':id', id.toString())}`}>Подробнее</Link>
         <Link className="button button--red-border button--mini button--in-cart" to="#">В Корзине</Link>
       </div>
     </div>
