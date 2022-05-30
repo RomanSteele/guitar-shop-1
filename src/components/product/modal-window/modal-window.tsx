@@ -7,7 +7,7 @@ import { store } from '../../../store';
 import { postReview } from '../../../store/api-actions';
 import { fetchReviewsAction } from '../../../store/api-actions';
 import { useAppSelector } from '../../../hooks/hooks-index';
-import ModalSuccess from './modal-window-success';
+import ModalWindowSuccess from './modal-window-success';
 
 type ModalWindowProps = {
   onBackdropClick: () => void,
@@ -138,11 +138,12 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
       </div>
       ,
     document.getElementById('modal-root')as HTMLElement);
-  } else {
-    return(
-      <ModalSuccess onBackdropClick={onBackdropClick} />
-    );
   }
+
+  return(
+    <ModalWindowSuccess onBackdropClick={onBackdropClick} />
+  );
 }
+
 
 export default ModalWindow;

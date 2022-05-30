@@ -15,7 +15,7 @@ const MODAL_STYLES: CSS.Properties = {
 };
 
 
-function ModalSuccess({onBackdropClick}:ModalSuccessProps):JSX.Element {
+function ModalWindowSuccess({onBackdropClick}:ModalSuccessProps):JSX.Element {
 
   return ReactDom.createPortal(
     <div style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
@@ -39,4 +39,4 @@ function ModalSuccess({onBackdropClick}:ModalSuccessProps):JSX.Element {
     ,document.getElementById('modal-root')as HTMLElement);
 }
 
-export default ModalSuccess;
+export default ModalWindowSuccess;
