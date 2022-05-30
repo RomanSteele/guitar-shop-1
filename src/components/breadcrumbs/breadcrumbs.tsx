@@ -14,7 +14,7 @@ function BreadcrumbsContent(): JSX.Element {
 
   const { id } = useParams<{id: string}>();
 
-  const CrumbsName = currentGuitar.name;
+  //const CrumbsName = currentGuitar.name;
 
   const BREADCRUMBS: Breadcrumbs[] = [
     {
@@ -30,6 +30,7 @@ function BreadcrumbsContent(): JSX.Element {
   ];
 
   if(id) {
+    const CrumbsName = currentGuitar.name;
     BREADCRUMBS.push(
       {
         id: 3,

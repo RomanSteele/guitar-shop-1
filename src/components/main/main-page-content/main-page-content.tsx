@@ -28,8 +28,6 @@ function MainPageContent(): JSX.Element {
   }, []);
 
 
-  console.log(guitars);
-
   return (
     <main className="page-content">
       <div className="container">
