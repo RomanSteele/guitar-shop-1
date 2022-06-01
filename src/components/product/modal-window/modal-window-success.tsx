@@ -1,4 +1,5 @@
 import CSS from 'csstype';
+import React, { useEffect, useCallback } from 'react';
 import ReactDom from 'react-dom';
 
 
@@ -17,8 +18,42 @@ const MODAL_STYLES: CSS.Properties = {
 
 function ModalWindowSuccess({onBackdropClick}:ModalSuccessProps):JSX.Element {
 
+  const refOuter = React.useRef<HTMLDivElement | null>(null);
+  const refFirstFocusable = React.useRef<HTMLElement | null>(null);
+  const refLastFocusable = React.useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const focusableElements = Array.from<HTMLElement>(
+      refOuter.current?.querySelectorAll('[tabindex]') ?? [],
+    );
+
+    refFirstFocusable.current = focusableElements[0];
+    refLastFocusable.current = focusableElements[focusableElements.length - 1];
+
+    refFirstFocusable.current.focus();
+  }, []);
+
+  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (
+      document.activeElement === refLastFocusable.current &&
+      e.key === 'Tab' &&
+      !e.shiftKey
+    ) {
+      e.preventDefault();
+      refFirstFocusable.current?.focus();
+    }
+    if (
+      document.activeElement === refFirstFocusable.current &&
+      e.key === 'Tab' &&
+      e.shiftKey
+    ) {
+      e.preventDefault();
+      refLastFocusable.current?.focus();
+    }
+  }, []);
+
   return ReactDom.createPortal(
-    <div style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
+    <div ref={refOuter} onKeyDown={onKeyDown} style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
       <div className="modal is-active modal--success modal-for-ui-kit">
         <div className="modal__wrapper">
           <div onClick={onBackdropClick} className="modal__overlay" data-close-modal></div>
@@ -28,9 +63,9 @@ function ModalWindowSuccess({onBackdropClick}:ModalSuccessProps):JSX.Element {
             </svg>
             <p className="modal__message">Спасибо за ваш отзыв!</p>
             <div className="modal__button-container modal__button-container--review">
-              <button onClick={onBackdropClick} className="button button--small modal__button modal__button--review">К покупкам!</button>
+              <button tabIndex={0} onClick={onBackdropClick} className="button button--small modal__button modal__button--review">К покупкам!</button>
             </div>
-            <button onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть"><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
+            <button tabIndex={0} onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть"><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
             </button>
           </div>
         </div>
