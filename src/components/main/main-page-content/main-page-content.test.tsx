@@ -35,7 +35,7 @@ describe('Component: Main Page Content', () => {
   it('should dispatch fetchGuitarsAction when render component', async () => {
 
     mockAPI
-      .onGet(APIRoute.Guitars)
+      .onGet(APIRoute.GuitarsAndComments)
       .reply(200, mockGuitars);
 
     const store = mockStore();

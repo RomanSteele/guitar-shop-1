@@ -1,8 +1,8 @@
-import { GuitarCard } from '../../../types/guitar';
+import { GuitarCards } from '../../../types/guitar';
 import SingleCatalogueCard from '../single-catalogue-card/single-catalogue-card';
 
 type CardsListProps = {
-  cards: GuitarCard[];
+  cards: GuitarCards[];
 };
 
 function CardsList({ cards }: CardsListProps) {

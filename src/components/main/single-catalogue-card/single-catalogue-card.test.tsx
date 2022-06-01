@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { makeFakeGuitar } from '../../../utils/mocks/mocks';
+import { makeFakeGuitars } from '../../../utils/mocks/mocks';
 import SingleCatalogueCard from './single-catalogue-card';
 import { Action } from 'redux';
 import { State } from '../../../types/store';
@@ -11,7 +11,7 @@ import { api } from '../../../store';
 
 describe('Component: Single Catalogue Card', () => {
   it('should render correctly', () => {
-    const singleCard = makeFakeGuitar();
+    const singleCard = makeFakeGuitars(3)[0];
     const middlewares = [thunk.withExtraArgument(api)];
     const mockStore = configureMockStore<
   State,

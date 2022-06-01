@@ -1,11 +1,11 @@
 import { createAction } from '@reduxjs/toolkit';
-import { GuitarCard } from '../types/guitar';
+import { GuitarCard, GuitarCards } from '../types/guitar';
 import { Review, ReviewPost } from '../types/review';
 import { ApiType } from '../const';
 
 export const loadGuitars = createAction(
   ApiType.FetchGuitars,
-  (guitars: GuitarCard[]) => ({
+  (guitars: GuitarCards[]) => ({
     payload: {
       guitars,
     },

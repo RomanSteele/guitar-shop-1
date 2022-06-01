@@ -1,9 +1,9 @@
-import { GuitarCard } from './guitar';
+import { GuitarCard, GuitarCards } from './guitar';
 import { Review } from './review';
 import { store } from '../store/index';
 
 export type State = {
-    guitars: GuitarCard[],
+    guitars: GuitarCards[],
     reviews: Review[],
     loadingStatus: boolean,
     guitarsOnPage: GuitarCard[],

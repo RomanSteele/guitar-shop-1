@@ -11,6 +11,7 @@ export enum AppRoute {
 
 export enum APIRoute {
     Guitars = '/guitars',
+    GuitarsAndComments = '/guitars?_embed=comments',
     Guitar = '/guitars/:id',
     Reviews = '/comments',
   }

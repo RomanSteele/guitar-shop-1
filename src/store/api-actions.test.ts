@@ -31,7 +31,7 @@ describe('Async actions', () => {
     const mockGuitars = makeFakeGuitars(27);
 
     mockAPI
-      .onGet(APIRoute.Guitars)
+      .onGet(APIRoute.GuitarsAndComments)
       .reply(200, mockGuitars);
 
     const store = mockStore();

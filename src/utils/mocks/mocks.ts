@@ -1,8 +1,8 @@
-import { GuitarCard } from '../../types/guitar';
+import { GuitarCard, GuitarCards } from '../../types/guitar';
 import {  Reviews, ReviewsByGuitar } from '../../types/review';
 
 
-export const makeFakeGuitars = (quantity: number): GuitarCard[] => (
+export const makeFakeGuitars = (quantity: number): GuitarCards[] => (
   new Array(quantity).fill(null).map(() => (
     {
       id: Math.floor(Math.random() * 10000),
@@ -14,6 +14,7 @@ export const makeFakeGuitars = (quantity: number): GuitarCard[] => (
       stringCount: 1,
       rating: 1,
       price: 12,
+      comments: makeFakeReviews(3),
     }
   ))
 );
