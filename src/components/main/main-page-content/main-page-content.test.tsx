@@ -10,15 +10,13 @@ import MockAdapter from 'axios-mock-adapter';
 import { createApi } from '../../../services/api';
 import { fetchGuitarsAction } from '../../../store/api-actions';
 import { loadGuitars } from '../../../store/actions';
-import { makeFakeGuitar, makeFakeGuitars, makeFakeReviews } from '../../../utils/mocks/mocks';
+import { makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks/mocks';
 import { APIRoute } from '../../../const';
 import { State } from '../../../types/store';
 import MainPageContent from './main-page-content';
 
 
-const id = 1;
 const mockGuitars = makeFakeGuitars(27);
-const mockReviewsByGuitar = makeFakeReviews(id);
 const mockGuitarsPerPage = makeFakeGuitars(9);
 const api = createApi();
 const mockAPI = new MockAdapter(api);
@@ -51,7 +49,6 @@ describe('Component: Main Page Content', () => {
         <Provider store={mockStore({
           guitars: mockGuitars,
           activeGuitar: makeFakeGuitar(),
-          reviews: mockReviewsByGuitar,
           guitarsOnPage: mockGuitarsPerPage,
         },
         )}

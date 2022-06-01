@@ -5,7 +5,7 @@ import { ReviewPost } from '../../../types/review';
 import  {useInput } from '../../../hooks/use-validation';
 import { store } from '../../../store';
 import { postReview } from '../../../store/api-actions';
-import { fetchReviewsAction } from '../../../store/api-actions';
+import { fetchCurrentGuitarAction } from '../../../store/api-actions';
 import { useAppSelector } from '../../../hooks/hooks-index';
 import ModalWindowSuccess from './modal-window-success';
 import React from 'react';
@@ -84,7 +84,7 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
   }, [isModalVisible]);
 
   useEffect(() => {
-    store.dispatch(fetchReviewsAction(id));}, [id, loadingStatus]);
+    store.dispatch(fetchCurrentGuitarAction(id.toString()));}, [id, loadingStatus]);
 
   const refOuter = React.useRef<HTMLDivElement | null>(null);
   const refFirstFocusable = React.useRef<HTMLElement | null>(null);

@@ -1,10 +1,10 @@
-import { GuitarCard, GuitarCards } from '../types/guitar';
-import { Review, ReviewPost } from '../types/review';
+import { GuitarCards } from '../types/guitar';
+import { ReviewPost } from '../types/review';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {  State, AppDispatch } from '../types/store';
 import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
-import { loadGuitars, loadGuitar, loadReviews, addReview, changeLoadingStatus } from './actions';
+import { loadGuitars, loadGuitar, addReview, changeLoadingStatus } from './actions';
 import { handleHttpError } from '../services/handle-http-error';
 
 
@@ -24,22 +24,6 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const fetchReviewsAction = createAsyncThunk<void, number | null, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  ApiType.FetchGuitarReviews,
-  async (id, { dispatch, extra: api }) => {
-    try {
-      const { data } = await api.get<Review[]>(`${APIRoute.Guitars}/${id}/comments`);
-      dispatch(loadReviews(data));
-    } catch (error) {
-      handleHttpError (error);
-    }
-  },
-);
-
 export const postReview = createAsyncThunk<void, ReviewPost, {
   dispatch: AppDispatch,
   state: State,
@@ -49,7 +33,7 @@ export const postReview = createAsyncThunk<void, ReviewPost, {
   async ({ guitarId, userName, advantage, disadvantage, comment, rating }, { dispatch, extra: api }) => {
     try {
       dispatch(changeLoadingStatus(false));
-      await api.post<ReviewPost>(`${APIRoute.Reviews}`, { guitarId, userName, advantage, disadvantage, comment, rating });
+      await api.post<ReviewPost>(`${APIRoute.Reviews}`, { guitarId, userName, advantage, disadvantage, comment, rating }).then((res)=> res);
       dispatch(changeLoadingStatus(true));
       dispatch(addReview({ guitarId, userName, advantage, disadvantage, comment, rating }));
     } catch (error) {
@@ -68,7 +52,7 @@ export const fetchCurrentGuitarAction = createAsyncThunk<void, string, {
   'data/fetchGuitar',
   async (id, { dispatch, extra: api }) => {
     try {
-      const {data} = await api.get<GuitarCard>(`${APIRoute.Guitars}/${id}`);
+      const {data} = await api.get<GuitarCards>(`${APIRoute.GuitarAndComments.replace(':id',id)}`);
       dispatch(loadGuitar(data));
     }
     catch (error) {

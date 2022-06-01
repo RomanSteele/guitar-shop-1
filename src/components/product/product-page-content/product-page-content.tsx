@@ -1,28 +1,24 @@
 import { useAppSelector } from '../../../hooks/hooks-index';
 import { useParams } from 'react-router-dom';
-import { GuitarCard } from '../../../types/guitar';
+import { GuitarCard, GuitarCards } from '../../../types/guitar';
 import ReviewsList from '../reviews-list/reviews-list';
 import { useEffect } from 'react';
 import { store } from '../../../store';
-import { fetchReviewsAction } from '../../../store/api-actions';
+import { fetchCurrentGuitarAction } from '../../../store/api-actions';
 import Tabs from '../tabs/tabs';
 import BreadcrumbsContent from '../../breadcrumbs/breadcrumbs';
-import { fetchCurrentGuitarAction } from '../../../store/api-actions';
 
 function ProductPageContent(): JSX.Element {
-
-  const { reviews } = useAppSelector(( State ) => State );
 
   const { id } = useParams<{id: string}>();
 
   const currentGuitar = useAppSelector(( State ) => State.activeGuitar);
 
-  const { name, previewImg, price, rating } = currentGuitar as GuitarCard;
-
+  const { name, previewImg, price, rating, comments } = currentGuitar as GuitarCards;
+  console.log(comments);
   useEffect (() => {
     if (id) {
       store.dispatch(fetchCurrentGuitarAction(id));
-      store.dispatch(fetchReviewsAction(Number(id)));
     }
   }, [id]);
 
@@ -62,7 +58,7 @@ function ProductPageContent(): JSX.Element {
             <a className="button button--red button--big product-container__button" href=".">Добавить в корзину</a>
           </div>
         </div>
-        <ReviewsList reviews={reviews} guitarName={name} id={Number(id)}/>
+        <ReviewsList reviews={comments} guitarName={name} id={Number(id)}/>
       </div>
     </main>
   );

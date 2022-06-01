@@ -12,6 +12,7 @@ export enum AppRoute {
 export enum APIRoute {
     Guitars = '/guitars',
     GuitarsAndComments = '/guitars?_embed=comments',
+    GuitarAndComments = '/guitars/:id?_embed=comments',
     Guitar = '/guitars/:id',
     Reviews = '/comments',
   }
@@ -46,6 +47,7 @@ export const InitialGuitar = {
   stringCount: 0,
   rating: 0,
   price: 0,
+  comments: [],
 };
 
 export enum HttpCode {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { makeFakeGuitar, makeFakeGuitars, makeFakeReviews } from '../../../utils/mocks/mocks';
+import { makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks/mocks';
 import MainPage from './main-page';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../../../types/store';
@@ -9,8 +9,6 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createApi } from '../../../services/api';
 import { Provider } from 'react-redux';
 
-const id = 1;
-const mockReviewsByGuitar = makeFakeReviews(id);
 const mockGuitarsPerPage = makeFakeGuitars(9);
 const mockGuitars = makeFakeGuitars(27);
 const api = createApi();
@@ -32,7 +30,6 @@ describe('Component: Main Page', () => {
         <Provider store={mockStore({
           guitars: mockGuitars,
           activeGuitar: makeFakeGuitar(),
-          reviews: mockReviewsByGuitar,
           guitarsOnPage: mockGuitarsPerPage,
         },
         )}

@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { GuitarCard, GuitarCards } from '../types/guitar';
-import { Review, ReviewPost } from '../types/review';
+import { GuitarCards } from '../types/guitar';
+import { ReviewPost } from '../types/review';
 import { ApiType } from '../const';
 
 export const loadGuitars = createAction(
@@ -8,15 +8,6 @@ export const loadGuitars = createAction(
   (guitars: GuitarCards[]) => ({
     payload: {
       guitars,
-    },
-  }),
-);
-
-export const loadReviews = createAction(
-  ApiType.FetchGuitarReviews,
-  (reviews: Review[]) => ({
-    payload: {
-      reviews,
     },
   }),
 );
@@ -40,4 +31,4 @@ export const changeLoadingStatus = createAction(
 );
 
 
-export const loadGuitar = createAction<GuitarCard>(ApiType.FetchCurrentGuitar);
+export const loadGuitar = createAction<GuitarCards>(ApiType.FetchCurrentGuitar);

@@ -1,5 +1,5 @@
-import { GuitarCard, GuitarCards } from '../../types/guitar';
-import {  Reviews, ReviewsByGuitar } from '../../types/review';
+import { GuitarCards } from '../../types/guitar';
+import {  Reviews } from '../../types/review';
 
 
 export const makeFakeGuitars = (quantity: number): GuitarCards[] => (
@@ -19,7 +19,7 @@ export const makeFakeGuitars = (quantity: number): GuitarCards[] => (
   ))
 );
 
-export const makeFakeGuitar = (): GuitarCard => (
+export const makeFakeGuitar = (): GuitarCards => (
   {
     id: Math.floor(Math.random() * 10000),
     name: 'fake',
@@ -30,6 +30,7 @@ export const makeFakeGuitar = (): GuitarCard => (
     stringCount: 4,
     rating: 3,
     price: 12,
+    comments: makeFakeReviews(5),
   }
 );
 
@@ -48,22 +49,6 @@ export const makeFakeReviews = (guitarId: number): Reviews => (
   ))
 );
 
-export const makeFakeReviewsByGuitar = (guitarId: number): ReviewsByGuitar => (
-  {
-    [guitarId]: makeFakeReviews(guitarId),
-  }
-);
-
-export const fakeReviewGet = {
-  id: 1,
-  userName: 'fake',
-  advantage: 'fake',
-  disadvantage: 'fake',
-  comment: 'fake',
-  rating: 5,
-  createAt: '',
-  guitarId: 0,
-};
 
 export const fakeReviewPost ={
   guitarId: 1,
@@ -74,14 +59,4 @@ export const fakeReviewPost ={
   rating: 5,
 };
 
-export const fakeEmptyGuitar ={
-  id: 0,
-  name: '',
-  vendorCode: '',
-  type: '',
-  description: '',
-  previewImg: '',
-  stringCount: 0,
-  rating: 0,
-  price: 0,
-};
+

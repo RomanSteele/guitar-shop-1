@@ -8,8 +8,8 @@ import { createMemoryHistory } from 'react-router-dom/node_modules/history';
 import MockAdapter from 'axios-mock-adapter';
 
 import { createApi } from '../../../services/api';
-import { fetchReviewsAction } from '../../../store/api-actions';
-import { loadReviews } from '../../../store/actions';
+import { fetchCurrentGuitarAction } from '../../../store/api-actions';
+import { loadGuitar } from '../../../store/actions';
 import { makeFakeGuitar, makeFakeGuitars, makeFakeReviews } from '../../../utils/mocks/mocks';
 import { APIRoute } from '../../../const';
 import { State } from '../../../types/store';
@@ -18,7 +18,6 @@ import ProductPageContent from './product-page-content';
 
 const id = 1;
 const mockReviews = makeFakeReviews(id);
-const mockReviewsByGuitar = makeFakeReviews(id);
 const guitarsPerPage = makeFakeGuitars(9);
 const guitars = makeFakeGuitars(27);
 const api = createApi();
@@ -36,14 +35,14 @@ describe('Component: Product Page Content', () => {
   it('should dispatch fetchReviewsAction when render component', async () => {
 
     mockAPI
-      .onGet(`${APIRoute.Guitars}/${id}/comments`)
+      .onGet(`${APIRoute.GuitarAndComments.replace(':id', id.toString())}`)
       .reply(200, mockReviews);
 
     const store = mockStore();
-    await store.dispatch(fetchReviewsAction(id));
+    await store.dispatch(fetchCurrentGuitarAction(id.toString()));
     const actions = store.getActions().map(({type}) => type);
 
-    expect(actions).toContain(loadReviews.toString());
+    expect(actions).toContain(loadGuitar.toString());
   });
 
   it('should render correctly', () => {
@@ -52,7 +51,6 @@ describe('Component: Product Page Content', () => {
         <Provider store={mockStore({
           guitars: guitars,
           activeGuitar: makeFakeGuitar(),
-          reviews: mockReviewsByGuitar,
           guitarsOnPage: guitarsPerPage,
         },
         )}

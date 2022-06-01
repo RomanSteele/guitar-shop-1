@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { makeFakeGuitar, makeFakeGuitars, makeFakeReviews } from '../../../utils/mocks/mocks';
+import { makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks/mocks';
 import ProductPage from './product-page';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../../../types/store';
@@ -11,8 +11,6 @@ import { Provider } from 'react-redux';
 
 const api = createApi();
 const middlewares = [thunk.withExtraArgument(api)];
-const id = 1;
-const mockReviewsByGuitar = makeFakeReviews(id);
 const guitarsPerPage = makeFakeGuitars(9);
 const guitars = makeFakeGuitars(27);
 const mockStore = configureMockStore<
@@ -29,7 +27,6 @@ describe('Component: Product Page', () => {
         <Provider store={mockStore({
           guitars: guitars,
           activeGuitar: makeFakeGuitar(),
-          reviews: mockReviewsByGuitar,
           guitarsOnPage: guitarsPerPage,
         },
         )}

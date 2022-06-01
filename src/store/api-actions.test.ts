@@ -5,15 +5,14 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 
 import {
   fetchGuitarsAction,
-  fetchReviewsAction,
   fetchCurrentGuitarAction,
   postReview } from './api-actions';
 
-import { loadGuitars, loadReviews, loadGuitar, addReview } from './actions';
+import { loadGuitars, loadGuitar, addReview } from './actions';
 import { createApi } from '../services/api';
 import { State } from '../types/store';
 import { APIRoute } from '../const';
-import { makeFakeGuitars, makeFakeReviewsByGuitar, makeFakeGuitar, fakeReviewPost } from '../utils/mocks/mocks';
+import { makeFakeGuitars, makeFakeGuitar, fakeReviewPost } from '../utils/mocks/mocks';
 
 describe('Async actions', () => {
   const api = createApi();
@@ -41,25 +40,12 @@ describe('Async actions', () => {
     expect(actions).toContain(loadGuitars.toString());
   });
 
-  it(`should dispatch Load Reviews when GET /guitars/${id}/comments`, async () => {
-    const mockReviews = makeFakeReviewsByGuitar(1);
 
-    mockAPI
-      .onGet(`${APIRoute.Guitars}/${id}/comments`)
-      .reply(200, mockReviews);
-
-    const store = mockStore();
-    await store.dispatch(fetchReviewsAction(id));
-    const actions = store.getActions().map(({type}) => type);
-
-    expect(actions).toContain(loadReviews.toString());
-  });
-
-  it(`should dispatch Load Guitar when GET /guitars/${id}`, async () => {
+  it(`should dispatch Load Guitar when GET /guitars/${id}?_embed=comments`, async () => {
     const mockGuitar = makeFakeGuitar();
 
     mockAPI
-      .onGet(`${APIRoute.Guitars}/${id}`)
+      .onGet(`${APIRoute.GuitarAndComments.replace(':id', id.toString())}`)
       .reply(200, mockGuitar);
 
     const store = mockStore();
