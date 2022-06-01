@@ -1,7 +1,7 @@
 import { GuitarCard } from '../../../types/guitar';
 import CharacteristicsTab from './characteristics-tab';
 import DescriptionTab from './description-tab';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 
 type TabsProps = {
@@ -38,6 +38,7 @@ function Tabs({ guitar }: TabsProps): JSX.Element {
       ))}
       <Routes>
         <Route path="characteristics" element={<CharacteristicsTab guitar={guitar}/>}/>
+        <Route path ="" element={ <Navigate to="characteristics" />}/>
         <Route path="description" element={<DescriptionTab guitar={guitar}/>}/>
       </Routes>
 
