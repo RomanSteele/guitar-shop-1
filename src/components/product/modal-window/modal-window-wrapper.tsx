@@ -17,7 +17,7 @@ function ModalWindowWrapper ({onBackdropClick, isModalVisible, guitarName, id}:M
     );
   }
   return(
-    <ModalWindow onBackdropClick={onBackdropClick} isModalVisible={isModalVisible} guitarName={guitarName} id={id}/>
+    <ModalWindow onBackdropClick={onBackdropClick} isModalVisible={isModalVisible} guitarName={guitarName} currentId={id}/>
   );
 }
 

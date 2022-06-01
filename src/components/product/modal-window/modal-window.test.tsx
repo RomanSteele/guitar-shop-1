@@ -35,7 +35,7 @@ describe('Component: Modal Window', () => {
     render(
       <BrowserRouter>
         <Provider store={mockStore({loadingStatus: false})}>
-          <ModalWindow onBackdropClick={mockFunction} isModalVisible={mockVisible} guitarName={mockGuitarName} id={mockId} />
+          <ModalWindow onBackdropClick={mockFunction} isModalVisible={mockVisible} guitarName={mockGuitarName} currentId={mockId} />
         </Provider>
       </BrowserRouter>,
     );

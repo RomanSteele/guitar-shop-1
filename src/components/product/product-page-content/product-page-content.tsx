@@ -15,7 +15,7 @@ function ProductPageContent(): JSX.Element {
   const currentGuitar = useAppSelector(( State ) => State.activeGuitar);
 
   const { name, previewImg, price, rating, comments } = currentGuitar as GuitarCards;
-  console.log(comments);
+
   useEffect (() => {
     if (id) {
       store.dispatch(fetchCurrentGuitarAction(id));

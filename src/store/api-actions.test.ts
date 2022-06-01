@@ -8,7 +8,7 @@ import {
   fetchCurrentGuitarAction,
   postReview } from './api-actions';
 
-import { loadGuitars, loadGuitar, addReview } from './actions';
+import { loadGuitars, loadGuitar, addComment } from './actions';
 import { createApi } from '../services/api';
 import { State } from '../types/store';
 import { APIRoute } from '../const';
@@ -57,16 +57,16 @@ describe('Async actions', () => {
 
 
   it('should dispatch Review  when POST /comments', async () => {
-    const mockGuitars = fakeReviewPost;
+    const mockReview = fakeReviewPost;
 
     mockAPI
       .onPost(APIRoute.Reviews)
-      .reply(200, mockGuitars);
+      .reply(200, mockReview);
 
     const store = mockStore();
-    await store.dispatch(postReview(mockGuitars));
+    await store.dispatch(postReview(mockReview));
     const actions = store.getActions().map(({type}) => type);
 
-    expect(actions).toContain(addReview.toString());
+    expect(actions).toContain(addComment.toString());
   });
 });

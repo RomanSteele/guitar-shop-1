@@ -1,11 +1,10 @@
 import CSS from 'csstype';
 import ReactDom from 'react-dom';
 import {FormEvent, useCallback, useEffect} from 'react';
-import { ReviewPost } from '../../../types/review';
+import { NewReviewPost } from '../../../types/review';
 import  {useInput } from '../../../hooks/use-validation';
 import { store } from '../../../store';
 import { postReview } from '../../../store/api-actions';
-import { fetchCurrentGuitarAction } from '../../../store/api-actions';
 import { useAppSelector } from '../../../hooks/hooks-index';
 import ModalWindowSuccess from './modal-window-success';
 import React from 'react';
@@ -14,7 +13,7 @@ type ModalWindowProps = {
   onBackdropClick: () => void,
   guitarName: string,
   isModalVisible: boolean,
-  id: number,
+  currentId: number,
 }
 
 const MODAL_STYLES: CSS.Properties = {
@@ -26,7 +25,7 @@ const MODAL_STYLES: CSS.Properties = {
 };
 
 
-function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWindowProps): JSX.Element {
+function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:ModalWindowProps): JSX.Element {
 
   const { loadingStatus } = useAppSelector(( State ) => State );
 
@@ -36,31 +35,59 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
   const reviewData = useInput('',{isEmpty: true, minLength: 1});
   const ratingData = useInput('',{isEmpty: true, minLength: 1});
 
+  const refOuter = React.useRef<HTMLDivElement | null>(null);
+  const refFirstFocusable = React.useRef<HTMLElement | null>(null);
+  const refLastFocusable = React.useRef<HTMLElement | null>(null);
+
+
   const escFunction = useCallback((event) => {
     if (event.key === 'Escape') {
       onBackdropClick();
     }
   }, [onBackdropClick]);
 
-  const sendOnSubmit = ({ guitarId, userName, advantage, disadvantage, comment, rating }: ReviewPost) => {
-    store.dispatch(postReview({ guitarId, userName, advantage, disadvantage, comment, rating }));
+
+  const sendOnSubmit = ({ guitarId, userName, advantage, disadvantage, comment, rating, createAt, id }: NewReviewPost) => {
+    store.dispatch(postReview({ guitarId, userName, advantage, disadvantage, comment, rating, createAt, id }));
 
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
 
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     sendOnSubmit(
       {
-        guitarId: id,
+        guitarId: currentId,
         userName: nameData.value,
         advantage: advantageData.value,
         disadvantage: disadvantageData.value,
         comment: reviewData.value,
         rating: Number(ratingData.value),
+        createAt: Date(),
+        id: (Math.floor(Math.random() * 10000)).toString(),
       });
   };
+
+
+  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (
+      document.activeElement === refLastFocusable.current &&
+      e.key === 'Tab' &&
+      !e.shiftKey
+    ) {
+      e.preventDefault();
+      refFirstFocusable.current?.focus();
+    }
+    if (
+      document.activeElement === refFirstFocusable.current &&
+      e.key === 'Tab' &&
+      e.shiftKey
+    ) {
+      e.preventDefault();
+      refLastFocusable.current?.focus();
+    }
+  }, []);
 
 
   useEffect(() => {
@@ -83,12 +110,6 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
     };
   }, [isModalVisible]);
 
-  useEffect(() => {
-    store.dispatch(fetchCurrentGuitarAction(id.toString()));}, [id, loadingStatus]);
-
-  const refOuter = React.useRef<HTMLDivElement | null>(null);
-  const refFirstFocusable = React.useRef<HTMLElement | null>(null);
-  const refLastFocusable = React.useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const focusableElements = Array.from<HTMLElement>(
@@ -101,24 +122,6 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
     refFirstFocusable.current.focus();
   }, []);
 
-  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (
-      document.activeElement === refLastFocusable.current &&
-      e.key === 'Tab' &&
-      !e.shiftKey
-    ) {
-      e.preventDefault();
-      refFirstFocusable.current?.focus();
-    }
-    if (
-      document.activeElement === refFirstFocusable.current &&
-      e.key === 'Tab' &&
-      e.shiftKey
-    ) {
-      e.preventDefault();
-      refLastFocusable.current?.focus();
-    }
-  }, []);
 
   if (loadingStatus === false) {
     return ReactDom.createPortal(

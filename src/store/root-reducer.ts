@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { State } from '../types/store';
-import { loadGuitars, loadGuitar, changeLoadingStatus } from './actions';
+import { loadGuitars, loadGuitar, changeLoadingStatus, addComment } from './actions';
 import { InitialGuitar } from '../const';
 
 const initialState: State = {
@@ -22,6 +22,10 @@ export const rootReducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadGuitar, (state, action) => {
       state.activeGuitar = action.payload;
+    })
+    .addCase(addComment, (state, action) => {
+      const { review } = action.payload;
+      state.activeGuitar.comments.push(review);
     });
 });
 

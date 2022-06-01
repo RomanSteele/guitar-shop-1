@@ -21,3 +21,14 @@ export type ReviewPost ={
         };
 
 export type ReviewsByGuitar = Record<number, Review[]>;
+
+export type NewReviewPost ={
+        guitarId: number,
+        userName: string,
+        advantage: string,
+        disadvantage: string,
+        comment: string,
+        rating: number,
+        createAt: string,
+        id: string,
+        };
