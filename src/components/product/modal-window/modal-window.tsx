@@ -8,6 +8,7 @@ import { postReview } from '../../../store/api-actions';
 import { fetchReviewsAction } from '../../../store/api-actions';
 import { useAppSelector } from '../../../hooks/hooks-index';
 import ModalWindowSuccess from './modal-window-success';
+import React from 'react';
 
 type ModalWindowProps = {
   onBackdropClick: () => void,
@@ -85,9 +86,43 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
   useEffect(() => {
     store.dispatch(fetchReviewsAction(id));}, [id, loadingStatus]);
 
+  const refOuter = React.useRef<HTMLDivElement | null>(null);
+  const refFirstFocusable = React.useRef<HTMLElement | null>(null);
+  const refLastFocusable = React.useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const focusableElements = Array.from<HTMLElement>(
+      refOuter.current?.querySelectorAll('[tabindex]') ?? [],
+    );
+
+    refFirstFocusable.current = focusableElements[0];
+    refLastFocusable.current = focusableElements[focusableElements.length - 1];
+
+    refFirstFocusable.current.focus();
+  }, []);
+
+  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (
+      document.activeElement === refLastFocusable.current &&
+      e.key === 'Tab' &&
+      !e.shiftKey
+    ) {
+      e.preventDefault();
+      refFirstFocusable.current?.focus();
+    }
+    if (
+      document.activeElement === refFirstFocusable.current &&
+      e.key === 'Tab' &&
+      e.shiftKey
+    ) {
+      e.preventDefault();
+      refLastFocusable.current?.focus();
+    }
+  }, []);
+
   if (loadingStatus === false) {
     return ReactDom.createPortal(
-      <div style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
+      <div ref={refOuter} onKeyDown={onKeyDown} style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
         <div className="modal is-active modal--review modal-for-ui-kit">
           <div className="modal__wrapper">
             <div onClick={onBackdropClick} className="modal__overlay" data-close-modal></div>
@@ -98,12 +133,12 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
                 <div className="form-review__wrapper">
                   <div className="form-review__name-wrapper">
                     <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
-                    <input onChange={(e) => nameData.onChange(e)} value={nameData.value} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete='off'/>
+                    <input tabIndex={0} onChange={(e) => nameData.onChange(e)} value={nameData.value} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete='off'/>
                     {(nameData.isEmpty || nameData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
                   </div>
                   <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
                     <div className="rate rate--reverse" >
-                      <input onChange={(e) => ratingData.onChange(e)} value={5} className="visually-hidden" id="star-5" name="rate" type="radio" />
+                      <input tabIndex={0} onChange={(e) => ratingData.onChange(e)} value={5} className="visually-hidden" id="star-5" name="rate" type="radio" />
                       <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
                       <input onChange={(e) => ratingData.onChange(e)} value={4} className="visually-hidden" id="star-4" name="rate" type="radio" />
                       <label className="rate__label" htmlFor="star-4" title="Хорошо"></label>
@@ -118,15 +153,15 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, id}:ModalWind
                   </div>
                 </div>
                 <label className="form-review__label form-review__label--required" htmlFor="adv">Достоинства</label>
-                <input onChange={(e) => advantageData.onChange(e)} value = {advantageData.value} className="form-review__input" id="adv" type="text" autoComplete="off"/>
+                <input tabIndex={0} onChange={(e) => advantageData.onChange(e)} value = {advantageData.value} className="form-review__input" id="adv" type="text" autoComplete="off"/>
                 {(advantageData.isEmpty || advantageData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
                 <label className="form-review__label form-review__label--required" htmlFor="disadv">Недостатки</label>
-                <input onChange={(e) => disadvantageData.onChange(e)} value = {disadvantageData.value} className="form-review__input" id="disadv" type="text" autoComplete="off"/>
+                <input tabIndex={0} onChange={(e) => disadvantageData.onChange(e)} value = {disadvantageData.value} className="form-review__input" id="disadv" type="text" autoComplete="off"/>
                 {(disadvantageData.isEmpty || disadvantageData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
                 <label className="form-review__label form-review__label--required" htmlFor="comment">Комментарий</label>
-                <textarea onChange={(e) => reviewData.onChange(e)} value = {reviewData.value} className="form-review__input form-review__input--textarea" id="comment" autoComplete="off"></textarea>
+                <textarea tabIndex={0} onChange={(e) => reviewData.onChange(e)} value = {reviewData.value} className="form-review__input form-review__input--textarea" id="comment" autoComplete="off"></textarea>
                 {(reviewData.isEmpty || reviewData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
-                <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
+                <button tabIndex={0} className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
               </form>
               <button onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
                 <span className="button-cross__icon"></span>
