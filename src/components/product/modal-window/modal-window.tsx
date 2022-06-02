@@ -102,11 +102,9 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
   useEffect(() => {
     if (isModalVisible) {
       document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = '15px';
     }
     return () => {
       document.body.style.overflow = 'unset';
-      document.body.style.paddingRight = '0px';
     };
   }, [isModalVisible]);
 
@@ -164,9 +162,9 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
                 <label className="form-review__label form-review__label--required" htmlFor="comment">Комментарий</label>
                 <textarea tabIndex={0} onChange={(e) => reviewData.onChange(e)} value = {reviewData.value} className="form-review__input form-review__input--textarea" id="comment" autoComplete="off"></textarea>
                 {(reviewData.isEmpty || reviewData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
-                <button tabIndex={0} className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
+                <button tabIndex={0} className="button button--medium-20 form-review__button" type="submit" disabled={nameData.isEmpty || ratingData.isEmpty || advantageData.isEmpty || disadvantageData.isEmpty || reviewData.isEmpty}>Отправить отзыв</button>
               </form>
-              <button onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
+              <button tabIndex={0} onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
                 <span className="button-cross__icon"></span>
                 <span className="modal__close-btn-interactive-area"></span>
               </button>
