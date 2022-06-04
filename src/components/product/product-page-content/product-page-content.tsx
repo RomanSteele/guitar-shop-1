@@ -14,7 +14,7 @@ function ProductPageContent(): JSX.Element {
 
   const currentGuitar = useAppSelector(( State ) => State.activeGuitar);
 
-  const { name, previewImg, price, rating, comments } = currentGuitar as GuitarCards;
+  const { name, previewImg, price, comments } = currentGuitar as GuitarCards;
 
   useEffect (() => {
     if (id) {
@@ -48,7 +48,7 @@ function ProductPageContent(): JSX.Element {
                 <use xlinkHref="#icon-star"></use>
               </svg>
               <p className="visually-hidden">Оценка: Хорошо</p>
-              <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{rating}</p>
+              <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{comments.length}</p>
             </div>
             <Tabs guitar={currentGuitar as GuitarCard}/>
           </div>
