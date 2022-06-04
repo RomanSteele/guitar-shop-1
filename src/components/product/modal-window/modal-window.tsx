@@ -1,6 +1,6 @@
 import CSS from 'csstype';
 import ReactDom from 'react-dom';
-import {FormEvent, useCallback, useEffect} from 'react';
+import {FormEvent, useCallback, useEffect, useState} from 'react';
 import { NewReviewPost } from '../../../types/review';
 import  {useInput } from '../../../hooks/use-validation';
 import { store } from '../../../store';
@@ -24,6 +24,12 @@ const MODAL_STYLES: CSS.Properties = {
   overflow: 'hidden',
 };
 
+const EMPTY_P_STYLES: CSS.Properties = {
+  height: '15px',
+  marginTop: '0px',
+  marginBottom:'0px',
+};
+
 
 function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:ModalWindowProps): JSX.Element {
 
@@ -39,6 +45,26 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
   const refFirstFocusable = React.useRef<HTMLElement | null>(null);
   const refLastFocusable = React.useRef<HTMLElement | null>(null);
 
+  const [isValid, setIsValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const validate = () => {
+    if(!nameData.isEmpty && !ratingData.isEmpty && !advantageData.isEmpty && !disadvantageData.isEmpty && !reviewData.isEmpty &&
+      !nameData.minLengthError && !ratingData.minLengthError && !advantageData.minLengthError && !disadvantageData.minLengthError && !reviewData.minLengthError){
+      setIsValid(true);}
+    else {
+      setIsValid(false);
+    }
+  };
+
+  const checker = (a:boolean, e:unknown) => {
+    if(a){
+      return e;
+    }
+    else{
+      return <p style={EMPTY_P_STYLES}> </p>;
+    }
+  };
 
   const escFunction = useCallback((event) => {
     if (event.key === 'Escape') {
@@ -121,6 +147,11 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
   }, []);
 
 
+  useEffect(()=>{
+    validate();
+  });
+
+
   if (loadingStatus === false) {
     return ReactDom.createPortal(
       <div ref={refOuter} onKeyDown={onKeyDown} style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
@@ -135,7 +166,7 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
                   <div className="form-review__name-wrapper">
                     <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
                     <input tabIndex={0} onChange={(e) => nameData.onChange(e)} value={nameData.value} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete='off'/>
-                    {(nameData.isEmpty || nameData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
+                    {checker(isFormValid, (nameData.isEmpty || nameData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : <p style={EMPTY_P_STYLES}></p>) }
                   </div>
                   <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
                     <div className="rate rate--reverse" >
@@ -149,20 +180,20 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
                       <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
                       <input onChange={(e) => ratingData.onChange(e)} value={1}className="visually-hidden" id="star-1" name="rate" type="radio" />
                       <label className="rate__label" htmlFor="star-1" title="Ужасно"></label>
-                      {(ratingData.isEmpty || ratingData.minLengthError) ?  <p className="rate__message">Поставьте оценку</p> : '' }
+                      {checker(isFormValid, (ratingData.isEmpty || ratingData.minLengthError) ?  <p className="rate__message">Поставьте оценку</p> : <p style={EMPTY_P_STYLES}></p>)}
                     </div>
                   </div>
                 </div>
                 <label className="form-review__label form-review__label--required" htmlFor="adv">Достоинства</label>
                 <input tabIndex={0} onChange={(e) => advantageData.onChange(e)} value = {advantageData.value} className="form-review__input" id="adv" type="text" autoComplete="off"/>
-                {(advantageData.isEmpty || advantageData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
+                {checker(isFormValid, (advantageData.isEmpty || advantageData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : <p style={EMPTY_P_STYLES}></p> )}
                 <label className="form-review__label form-review__label--required" htmlFor="disadv">Недостатки</label>
                 <input tabIndex={0} onChange={(e) => disadvantageData.onChange(e)} value = {disadvantageData.value} className="form-review__input" id="disadv" type="text" autoComplete="off"/>
-                {(disadvantageData.isEmpty || disadvantageData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
+                {checker(isFormValid, (disadvantageData.isEmpty || disadvantageData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : <p style={EMPTY_P_STYLES}></p> )}
                 <label className="form-review__label form-review__label--required" htmlFor="comment">Комментарий</label>
                 <textarea tabIndex={0} onChange={(e) => reviewData.onChange(e)} value = {reviewData.value} className="form-review__input form-review__input--textarea" id="comment" autoComplete="off"></textarea>
-                {(reviewData.isEmpty || reviewData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : '' }
-                <button tabIndex={0} className="button button--medium-20 form-review__button" type="submit" disabled={nameData.isEmpty || ratingData.isEmpty || advantageData.isEmpty || disadvantageData.isEmpty || reviewData.isEmpty}>Отправить отзыв</button>
+                {checker(isFormValid, (reviewData.isEmpty || reviewData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : <p style={EMPTY_P_STYLES}></p> )}
+                <button onClick={()=>setIsFormValid(true)} tabIndex={0} className="button button--medium-20 form-review__button" type={isValid ? 'submit' : 'button'}>Отправить отзыв</button>
               </form>
               <button tabIndex={0} onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
                 <span className="button-cross__icon"></span>
