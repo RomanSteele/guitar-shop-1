@@ -34,7 +34,7 @@ function Tabs({ guitar }: TabsProps): JSX.Element {
   return (
     <div className="tabs">
       {SHOP_TABS.map((item)=>(
-        <Link key={item.title} className={`button ${location.pathname.includes(item.address) ? '' : 'button--black-border'} button--medium tabs__button" `} to={`${item.address}`}>{item.title}</Link>
+        <Link key={item.title} className={`button ${location.pathname.includes(item.address) ? '' : 'button--black-border'} button--medium tabs__button `} to={`${item.address}`}>{item.title}</Link>
       ))}
       <Routes>
         <Route path="characteristics" element={<CharacteristicsTab guitar={guitar}/>}/>
