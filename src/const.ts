@@ -55,3 +55,8 @@ export enum HttpCode {
   Unauthorized = 401,
   NotFound = 404,
 }
+
+export enum SortType {
+  Price= 'price',
+  Rating= 'rating',
+}

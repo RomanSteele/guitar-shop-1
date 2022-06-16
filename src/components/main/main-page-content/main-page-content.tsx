@@ -1,12 +1,13 @@
 import CardsList from '../cards-list/cards-list';
 import { useAppSelector } from '../../../hooks/hooks-index';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { store } from '../../../store';
 import { fetchGuitarsAction } from '../../../store/api-actions';
 import Pagination from '../pagination/pagination';
 import Breadcrumbs from '../../breadcrumbs/breadcrumbs';
 import { useParams } from 'react-router-dom';
-import { GUITARS_PER_PAGE } from '../../../const';
+import { GUITARS_PER_PAGE, SortType } from '../../../const';
+import { GuitarCards } from '../../../types/guitar';
 
 function MainPageContent(): JSX.Element {
 
@@ -17,16 +18,49 @@ function MainPageContent(): JSX.Element {
   const lastGuitarIndex = Number(currentPage) * GUITARS_PER_PAGE;
   const firstGuitarIndex = lastGuitarIndex - GUITARS_PER_PAGE;
 
+  const [order, setOrder] = useState('');
+  const [type, setType] = useState('');
+
+  const handleOrderClick = (orderType: string) =>{
+    if(type === '') {
+      setType('price');
+    }
+    setOrder(`${orderType}`);
+  };
+
+  const handleSortTypeClick = (sortType: string) =>{
+    if(order === '') {
+      setOrder('asc');
+    }
+    setType(`${sortType}`);
+  };
+
+  const getSortedGuitars = (): GuitarCards[] => {
+    switch (type) {
+      case SortType.Price:
+        if (order === 'dsc') {
+          return guitars.slice().sort((a, b) => (a.price < b.price) ? 1 : -1);
+        }
+        return guitars.slice().sort((a, b) => (a.price > b.price) ? 1 : -1);
+      case SortType.Rating:
+        if (order === 'dsc') {
+          return guitars.slice().sort((a, b) => (a.comments.length < b.comments.length) ? 1 : -1);
+        }
+        return guitars.slice().sort((a, b) => (a.comments.length > b.comments.length) ? 1 : -1);
+      default:
+        return guitars.slice();
+    }
+  };
+
+  const cardsToRender = getSortedGuitars().slice(firstGuitarIndex, lastGuitarIndex);
+
   if (!currentPage) {
     currentPage = '1';
   }
 
-  const cardsToRender = guitars.slice(firstGuitarIndex, lastGuitarIndex);
-
   useEffect(() => {
     store.dispatch(fetchGuitarsAction());
   }, []);
-
 
   return (
     <main className="page-content">
@@ -88,12 +122,12 @@ function MainPageContent(): JSX.Element {
           <div className="catalog-sort">
             <h2 className="catalog-sort__title">Сортировать:</h2>
             <div className="catalog-sort__type">
-              <button className="catalog-sort__type-button" aria-label="по цене">по цене</button>
-              <button className="catalog-sort__type-button" aria-label="по популярности">по популярности</button>
+              <button onClick={()=> handleSortTypeClick('price')} className={`catalog-sort__type-button ${type === 'price' ? 'catalog-sort__type-button--active' : ''}`} aria-label="по цене">по цене</button>
+              <button onClick={()=> handleSortTypeClick('rating')} className={`catalog-sort__type-button ${type === 'rating' ? 'catalog-sort__type-button--active' : ''}`} aria-label="по популярности">по популярности</button>
             </div>
             <div className="catalog-sort__order">
-              <button className="catalog-sort__order-button catalog-sort__order-button--up" aria-label="По возрастанию"></button>
-              <button className="catalog-sort__order-button catalog-sort__order-button--down" aria-label="По убыванию"></button>
+              <button onClick={()=> handleOrderClick('asc')} className={`catalog-sort__order-button catalog-sort__order-button--up ${order === 'asc' ? 'catalog-sort__order-button--active': ''}`} aria-label="По возрастанию"></button>
+              <button onClick={()=> handleOrderClick('dsc')} className={`catalog-sort__order-button catalog-sort__order-button--down ${order === 'dsc' ? 'catalog-sort__order-button--active': ''}`} aria-label="По убыванию"></button>
             </div>
           </div>
           <CardsList cards={cardsToRender} />
