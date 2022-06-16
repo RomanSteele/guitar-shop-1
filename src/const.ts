@@ -60,3 +60,8 @@ export enum SortType {
   Price= 'price',
   Rating= 'rating',
 }
+
+export enum OrderType {
+  Ascending = 'ascending ',
+  Descending = 'descending ',
+}

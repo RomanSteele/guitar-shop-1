@@ -6,7 +6,7 @@ import { fetchGuitarsAction } from '../../../store/api-actions';
 import Pagination from '../pagination/pagination';
 import Breadcrumbs from '../../breadcrumbs/breadcrumbs';
 import { useParams } from 'react-router-dom';
-import { GUITARS_PER_PAGE, SortType } from '../../../const';
+import { GUITARS_PER_PAGE, SortType, OrderType } from '../../../const';
 import { GuitarCards } from '../../../types/guitar';
 import MainSort from '../main-sort/main-sort';
 
@@ -24,14 +24,14 @@ function MainPageContent(): JSX.Element {
 
   const handleOrderClick = (orderType: string) =>{
     if(type === '') {
-      setType('price');
+      setType(SortType.Price);
     }
     setOrder(`${orderType}`);
   };
 
   const handleSortTypeClick = (sortType: string) =>{
     if(order === '') {
-      setOrder('asc');
+      setOrder(OrderType.Ascending);
     }
     setType(`${sortType}`);
   };
@@ -39,12 +39,12 @@ function MainPageContent(): JSX.Element {
   const getSortedGuitars = (): GuitarCards[] => {
     switch (type) {
       case SortType.Price:
-        if (order === 'dsc') {
+        if (order === OrderType.Descending) {
           return guitars.slice().sort((a, b) => (a.price < b.price) ? 1 : -1);
         }
         return guitars.slice().sort((a, b) => (a.price > b.price) ? 1 : -1);
       case SortType.Rating:
-        if (order === 'dsc') {
+        if (order === OrderType.Descending) {
           return guitars.slice().sort((a, b) => (a.comments.length < b.comments.length) ? 1 : -1);
         }
         return guitars.slice().sort((a, b) => (a.comments.length > b.comments.length) ? 1 : -1);
@@ -120,9 +120,13 @@ function MainPageContent(): JSX.Element {
             </fieldset>
             <button className="catalog-filter__reset-btn button button--black-border button--medium" type="reset">Очистить</button>
           </form>
+
           <MainSort handleSortTypeClick={handleSortTypeClick} handleOrderClick={handleOrderClick} type={type} order={order}/>
+
           <CardsList cards={cardsToRender} />
+
           <Pagination totalGuitars={totalGuitarsLength} currentPage={Number(currentPage)}/>
+
         </div>
       </div>
     </main>);
