@@ -24,6 +24,7 @@ export enum ApiType {
     PostReview = 'action/postReview',
     ChangeLoadingStatus='action/changeLoadingStatus',
     FetchCurrentGuitars = 'data/fetchCurrentGuitars',
+    FetchSortedGuitars = 'data/fetchSortedGuitars'
   }
 
 export const GUITARS_PER_PAGE = 9;
@@ -62,6 +63,6 @@ export enum SortType {
 }
 
 export enum OrderType {
-  Ascending = 'ascending ',
-  Descending = 'descending ',
+  Ascending = 'asc',
+  Descending = 'desc',
 }

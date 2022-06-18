@@ -2,31 +2,38 @@ import CardsList from '../cards-list/cards-list';
 import { useAppSelector } from '../../../hooks/hooks-index';
 import { useEffect, useState } from 'react';
 import { store } from '../../../store';
-import { fetchGuitarsAction } from '../../../store/api-actions';
+import { fetchGuitarsAction, fetchSortedGuitarsAction } from '../../../store/api-actions';
 import Pagination from '../pagination/pagination';
 import Breadcrumbs from '../../breadcrumbs/breadcrumbs';
-import { useParams } from 'react-router-dom';
-import { GUITARS_PER_PAGE, SortType, OrderType } from '../../../const';
-import { GuitarCards } from '../../../types/guitar';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { GUITARS_PER_PAGE, SortType, OrderType, AppRoute } from '../../../const';
 import MainSort from '../main-sort/main-sort';
+
 
 function MainPageContent(): JSX.Element {
 
+  const navigate = useNavigate();
   let { currentPage } = useParams<{currentPage: string}>();
   const  guitars  = useAppSelector(( State ) => State.guitars );
   const totalGuitarsLength = useAppSelector(( State ) => State.guitars.length);
-
+  const { search } = useLocation();
   const lastGuitarIndex = Number(currentPage) * GUITARS_PER_PAGE;
   const firstGuitarIndex = lastGuitarIndex - GUITARS_PER_PAGE;
 
-  const [order, setOrder] = useState('');
-  const [type, setType] = useState('');
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const pageSortOrder = urlParams.get('_order');
+  const pageSortType = urlParams.get('_sort');
+
+  const [order, setOrder] = useState(pageSortOrder || '');
+  const [type, setType] = useState(pageSortType || '');
 
   const handleOrderClick = (orderType: string) =>{
     if(type === '') {
       setType(SortType.Price);
     }
     setOrder(`${orderType}`);
+    navigate(`${AppRoute.MainFirstPage}?_sort=${type}&_order=${orderType}`);
   };
 
   const handleSortTypeClick = (sortType: string) =>{
@@ -34,34 +41,25 @@ function MainPageContent(): JSX.Element {
       setOrder(OrderType.Ascending);
     }
     setType(`${sortType}`);
+    navigate(`${AppRoute.MainFirstPage}?_sort=${sortType}&_order=${order}`);
   };
 
-  const getSortedGuitars = (): GuitarCards[] => {
-    switch (type) {
-      case SortType.Price:
-        if (order === OrderType.Descending) {
-          return guitars.slice().sort((a, b) => (a.price < b.price) ? 1 : -1);
-        }
-        return guitars.slice().sort((a, b) => (a.price > b.price) ? 1 : -1);
-      case SortType.Rating:
-        if (order === OrderType.Descending) {
-          return guitars.slice().sort((a, b) => (a.comments.length < b.comments.length) ? 1 : -1);
-        }
-        return guitars.slice().sort((a, b) => (a.comments.length > b.comments.length) ? 1 : -1);
-      default:
-        return guitars.slice();
-    }
-  };
 
-  const cardsToRender = getSortedGuitars().slice(firstGuitarIndex, lastGuitarIndex);
+  const cardsToRender = guitars.slice(firstGuitarIndex, lastGuitarIndex);
 
   if (!currentPage) {
     currentPage = '1';
   }
 
+
   useEffect(() => {
-    store.dispatch(fetchGuitarsAction());
-  }, []);
+    if (!search) {
+      store.dispatch(fetchGuitarsAction());
+    } else {
+      store.dispatch(fetchSortedGuitarsAction(search));
+    }
+  }, [type, order, search]);
+
 
   return (
     <main className="page-content">

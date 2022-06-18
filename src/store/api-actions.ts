@@ -17,6 +17,7 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   async (_arg, { dispatch, extra: api }) => {
     try {
       const { data } = await api.get<GuitarCards[]>(APIRoute.GuitarsAndComments);
+      console.log(data);
       dispatch(loadGuitars(data));
     } catch (error) {
       handleHttpError (error);
@@ -59,5 +60,17 @@ export const postReview = createAsyncThunk<void, NewReviewPost, {
       handleHttpError (error);
       dispatch(changeLoadingStatus(true));
     }
+  },
+);
+
+export const fetchSortedGuitarsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  ApiType.FetchSortedGuitars,
+  async (search, {dispatch, extra: api}) => {
+    const {data} = await api.get<GuitarCards[]>(`${APIRoute.Guitars}/${search}&_embed=comments`);
+    dispatch(loadGuitars(data));
   },
 );

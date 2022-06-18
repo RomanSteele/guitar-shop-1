@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../const';
 import { useAppSelector } from '../../../hooks/hooks-index';
 
@@ -9,7 +9,7 @@ function SearchForm(): JSX.Element {
   const [value,setValue]= useState('');
   const  guitars  = useAppSelector(( State ) => State.guitars );
   const filteredGuitars = guitars.filter((guitar) => guitar.name.toLowerCase().includes(value.toLowerCase()));
-  const currentLocation = useLocation();
+  const currentLocation = window.location;
 
   useEffect(() => {
     setValue('');
@@ -18,7 +18,6 @@ function SearchForm(): JSX.Element {
 
   window.onpopstate  = function() {
     setValue('');
-    console.log('y');
   };
 
   return (

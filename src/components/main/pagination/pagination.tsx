@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { AppRoute, GUITARS_PER_PAGE } from '../../../const';
+import { Link, useLocation } from 'react-router-dom';
+import {  AppRoute, GUITARS_PER_PAGE } from '../../../const';
 
 type PaginationProps = {
     currentPage: number,
@@ -9,6 +9,8 @@ type PaginationProps = {
 function Pagination({totalGuitars, currentPage}:PaginationProps): JSX.Element {
 
   const pageNumbers = [];
+
+  const { search } = useLocation();
 
   for (let i=1; i<= Math.ceil(totalGuitars/GUITARS_PER_PAGE); i++) {
     pageNumbers.push(i);
@@ -20,7 +22,7 @@ function Pagination({totalGuitars, currentPage}:PaginationProps): JSX.Element {
 
         {currentPage > 1 ?
           <li className="pagination__page pagination__page--next" id="next">
-            <Link className="link pagination__page-link" to={AppRoute.CurrentMainPage.replace(':currentPage', (currentPage - 1).toString())}>
+            <Link className="link pagination__page-link" to={`${AppRoute.CurrentMainPage.replace(':currentPage', (currentPage - 1).toString())}${search}`}>
               Назад
             </Link>
           </li>
@@ -28,13 +30,13 @@ function Pagination({totalGuitars, currentPage}:PaginationProps): JSX.Element {
 
         {pageNumbers.map((_item, index) => (
           <li className={currentPage === index + 1 ?  'pagination__page pagination__page--active': 'pagination__page'} key={`${index + 1}`}>
-            <Link className="link pagination__page-link" to={AppRoute.CurrentMainPage.replace(':currentPage', (index + 1).toString())}>{index+1}</Link>
+            <Link className="link pagination__page-link" to={`${AppRoute.CurrentMainPage.replace(':currentPage', (index + 1).toString())}${search}`}>{index+1}</Link>
           </li>
         ))}
 
         {currentPage < pageNumbers.length  ?
           <li className="pagination__page pagination__page--next" id="next">
-            <Link className="link pagination__page-link" to={AppRoute.CurrentMainPage.replace(':currentPage', (currentPage + 1).toString())}>
+            <Link className="link pagination__page-link" to={`${AppRoute.CurrentMainPage.replace(':currentPage', (currentPage + 1).toString())}${search}`}>
               Далее
             </Link>
           </li>
