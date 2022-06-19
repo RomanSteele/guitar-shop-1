@@ -31,3 +31,12 @@ export const addComment = createAction(
 );
 
 export const loadGuitar = createAction<GuitarCards>(ApiType.FetchCurrentGuitar);
+
+export const loadSearchGuitars = createAction(
+  ApiType.FetchSearchGuitars,
+  (guitarsOfSearch: GuitarCards[]) => ({
+    payload: {
+      guitarsOfSearch,
+    },
+  }),
+);

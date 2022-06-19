@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../const';
 import { useAppSelector } from '../../../hooks/hooks-index';
+import { store } from '../../../store';
+import { fetchGuitarsSearchAction } from '../../../store/api-actions';
 
 function SearchForm(): JSX.Element {
 
   const navigate = useNavigate();
   const [value,setValue]= useState('');
-  const  guitars  = useAppSelector(( State ) => State.guitars );
-  const filteredGuitars = guitars.filter((guitar) => guitar.name.toLowerCase().includes(value.toLowerCase()));
+  const  guitars  =  useAppSelector(( State ) => State.guitarsOfSearch );
   const currentLocation = window.location;
 
   useEffect(() => {
@@ -19,6 +20,12 @@ function SearchForm(): JSX.Element {
   window.onpopstate  = function() {
     setValue('');
   };
+
+  useEffect(() => {
+    if(value){
+      store.dispatch(fetchGuitarsSearchAction(value));
+    }
+  }, [value]);
 
   return (
     <div className="form-search">
@@ -34,13 +41,16 @@ function SearchForm(): JSX.Element {
       {value === ''
         ?
         <ul className="form-search__select-list hidden">
-          <li className="form-search__select-item" tabIndex={0} >Ничего не нашлось</li>
+          <li className="form-search__select-item " tabIndex={0}  >Ничего не нашлось</li>
         </ul>
         :
         <ul className="list-opened form-search__select-list">
-          {filteredGuitars.map((guitar) => (
-            <li key = {guitar.id} onClick={() => navigate(AppRoute.GuitarCharacteristics.replace(':id', guitar.id.toString()))} className="form-search__select-item" tabIndex={0} >{guitar.name}</li>
-          ))}
+          {guitars.length === 0 ?
+            <li className="form-search__select-item" tabIndex={0} >Ничего не нашлось</li>
+            :
+            guitars.map((guitar) => (
+              <li key = {guitar.id} onClick={() => navigate(AppRoute.GuitarCharacteristics.replace(':id', guitar.id.toString()))} className="form-search__select-item" tabIndex={0} >{guitar.name}</li>
+            ))}
         </ul>}
       <button onClick={()=>{setValue('');}}className="form-search__reset" type="reset" form="form-search">
         <svg className="form-search__icon" width="14" height="15" aria-hidden="true">

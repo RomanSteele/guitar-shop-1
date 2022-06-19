@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {  State, AppDispatch } from '../types/store';
 import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
-import { loadGuitars, loadGuitar, changeLoadingStatus, addComment } from './actions';
+import { loadGuitars, loadGuitar, changeLoadingStatus, addComment, loadSearchGuitars } from './actions';
 import { handleHttpError } from '../services/handle-http-error';
 
 
@@ -72,5 +72,17 @@ export const fetchSortedGuitarsAction = createAsyncThunk<void, string, {
   async (search, {dispatch, extra: api}) => {
     const {data} = await api.get<GuitarCards[]>(`${APIRoute.Guitars}/${search}&_embed=comments`);
     dispatch(loadGuitars(data));
+  },
+);
+
+export const fetchGuitarsSearchAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  ApiType.FetchSearchGuitars,
+  async (item, {dispatch, extra: api}) => {
+    const {data} = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?name_like=${item}`);
+    dispatch(loadSearchGuitars(data));
   },
 );

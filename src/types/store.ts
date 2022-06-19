@@ -6,6 +6,7 @@ export type State = {
     loadingStatus: boolean,
     guitarsOnPage: GuitarCard[],
     activeGuitar: GuitarCards,
+    guitarsOfSearch:GuitarCards[],
   };
 
 export type AppDispatch = typeof store.dispatch;

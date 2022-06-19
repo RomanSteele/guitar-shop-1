@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { State } from '../types/store';
-import { loadGuitars, loadGuitar, changeLoadingStatus, addComment } from './actions';
+import { loadGuitars, loadGuitar, changeLoadingStatus, addComment, loadSearchGuitars } from './actions';
 import { InitialGuitar } from '../const';
 
 const initialState: State = {
@@ -8,6 +8,7 @@ const initialState: State = {
   loadingStatus: false,
   guitarsOnPage: [],
   activeGuitar: InitialGuitar,
+  guitarsOfSearch: [],
 };
 
 export const rootReducer = createReducer(initialState, (builder) => {
@@ -26,6 +27,10 @@ export const rootReducer = createReducer(initialState, (builder) => {
     .addCase(addComment, (state, action) => {
       const { review } = action.payload;
       state.activeGuitar.comments.push(review);
+    })
+    .addCase(loadSearchGuitars, (state, action) => {
+      const { guitarsOfSearch } = action.payload;
+      state.guitarsOfSearch = guitarsOfSearch;
     });
 });
 

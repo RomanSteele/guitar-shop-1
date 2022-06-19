@@ -24,7 +24,8 @@ export enum ApiType {
     PostReview = 'action/postReview',
     ChangeLoadingStatus='action/changeLoadingStatus',
     FetchCurrentGuitars = 'data/fetchCurrentGuitars',
-    FetchSortedGuitars = 'data/fetchSortedGuitars'
+    FetchSortedGuitars = 'data/fetchSortedGuitars',
+    FetchSearchGuitars = 'data/FetchSearchGuitars'
   }
 
 export const GUITARS_PER_PAGE = 9;

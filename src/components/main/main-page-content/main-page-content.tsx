@@ -55,6 +55,8 @@ function MainPageContent(): JSX.Element {
   useEffect(() => {
     if (!search) {
       store.dispatch(fetchGuitarsAction());
+      setOrder('');
+      setType('');
     } else {
       store.dispatch(fetchSortedGuitarsAction(search));
     }
