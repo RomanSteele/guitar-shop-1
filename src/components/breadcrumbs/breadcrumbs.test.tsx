@@ -14,7 +14,9 @@ describe('Component: Breadcrumbs', () => {
     render(
       <BrowserRouter>
         <Provider store={mockStore({
-          guitars: guitars,
+          DATA: {
+            guitars: guitars,
+          },
         })}
         >
           <Breadcrumbs />

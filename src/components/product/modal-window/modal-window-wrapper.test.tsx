@@ -5,7 +5,7 @@ import ModalWindowWrapper from './modal-window-wrapper';
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { State } from '../../../types/store';
+import { State } from '../../../types/state';
 import { Provider } from 'react-redux';
 import { createApi } from '../../../services/api';
 
@@ -34,7 +34,7 @@ describe('Component: Modal Window Wrapper', () => {
 
     render(
       <BrowserRouter>
-        <Provider store={mockStore({loadingStatus: false})}>
+        <Provider store={mockStore({DATA:{loadingStatus: false}})}>
           <ModalWindowWrapper onBackdropClick={mockFunction} isModalVisible={mockVisible} guitarName={mockGuitarName} id={mockId} />
         </Provider>
       </BrowserRouter>,

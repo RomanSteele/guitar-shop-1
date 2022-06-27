@@ -1,25 +1,42 @@
+import { useDispatch } from 'react-redux';
 import {SortType, OrderType} from '../../../const';
-
-type MainSortProps ={
-    handleSortTypeClick: (a: string) => void;
-    handleOrderClick:(a: string) => void;
-    type: string;
-    order: string;
-}
+import { useAppSelector } from '../../../hooks/hooks-index';
+import { setGuitarsOrder, setGuitarsType } from '../../../store/slices/filter-slice';
 
 
-function MainSort({handleSortTypeClick,handleOrderClick, type, order}: MainSortProps): JSX.Element {
+function MainSort(): JSX.Element {
+
+  const dispatch = useDispatch();
+
+  const currentSortType = useAppSelector(({ FILTER }) => FILTER.sortType);
+  const currentOrderType = useAppSelector(({ FILTER }) => FILTER.sortOrder);
+
+
+  const handleOrderClick = (orderType: string) =>{
+    if(currentSortType === '') {
+      dispatch(setGuitarsType(SortType.Price));
+    }
+    dispatch(setGuitarsOrder(orderType));
+  };
+
+
+  const handleSortTypeClick = (sortType: string) =>{
+    if(currentOrderType === '') {
+      dispatch(setGuitarsOrder(OrderType.Ascending));
+    }
+    dispatch(setGuitarsType(sortType));
+  };
 
   return(
     <div className="catalog-sort">
       <h2 className="catalog-sort__title">Сортировать:</h2>
       <div className="catalog-sort__type">
-        <button onClick={()=> handleSortTypeClick(SortType.Price)} className={`catalog-sort__type-button ${type === SortType.Price ? 'catalog-sort__type-button--active' : ''}`} aria-label="по цене">по цене</button>
-        <button onClick={()=> handleSortTypeClick(SortType.Rating)} className={`catalog-sort__type-button ${type === SortType.Rating ? 'catalog-sort__type-button--active' : ''}`} aria-label="по популярности">по популярности</button>
+        <button onClick={()=> handleSortTypeClick(SortType.Price)} className={`catalog-sort__type-button ${currentSortType === SortType.Price ? 'catalog-sort__type-button--active' : ''}`} aria-label="по цене">по цене</button>
+        <button onClick={()=> handleSortTypeClick(SortType.Rating)} className={`catalog-sort__type-button ${currentSortType === SortType.Rating ? 'catalog-sort__type-button--active' : ''}`} aria-label="по популярности">по популярности</button>
       </div>
       <div className="catalog-sort__order">
-        <button onClick={()=> handleOrderClick(OrderType.Ascending)} className={`catalog-sort__order-button catalog-sort__order-button--up ${order === OrderType.Ascending ? 'catalog-sort__order-button--active': ''}`} aria-label="По возрастанию"></button>
-        <button onClick={()=> handleOrderClick(OrderType.Descending)} className={`catalog-sort__order-button catalog-sort__order-button--down ${order === OrderType.Descending ? 'catalog-sort__order-button--active': ''}`} aria-label="По убыванию"></button>
+        <button onClick={()=> handleOrderClick(OrderType.Ascending)} className={`catalog-sort__order-button catalog-sort__order-button--up ${currentOrderType === OrderType.Ascending ? 'catalog-sort__order-button--active': ''}`} aria-label="По возрастанию"></button>
+        <button onClick={()=> handleOrderClick(OrderType.Descending)} className={`catalog-sort__order-button catalog-sort__order-button--down ${currentOrderType === OrderType.Descending ? 'catalog-sort__order-button--active': ''}`} aria-label="По убыванию"></button>
       </div>
     </div>
   );

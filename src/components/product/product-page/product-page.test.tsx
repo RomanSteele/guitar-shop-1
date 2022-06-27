@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks/mocks';
 import ProductPage from './product-page';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { State } from '../../../types/store';
+import { State } from '../../../types/state';
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createApi } from '../../../services/api';
@@ -25,11 +25,12 @@ describe('Component: Product Page', () => {
     render(
       <BrowserRouter>
         <Provider store={mockStore({
-          guitars: guitars,
-          activeGuitar: makeFakeGuitar(),
-          guitarsOnPage: guitarsPerPage,
-        },
-        )}
+          DATA:{
+            guitars: guitars,
+            activeGuitar: makeFakeGuitar(),
+            guitarsOnPage: guitarsPerPage,
+          },
+        })}
         >
           <ProductPage />
         </Provider>

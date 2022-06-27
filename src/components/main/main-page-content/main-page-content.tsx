@@ -1,67 +1,94 @@
 import CardsList from '../cards-list/cards-list';
 import { useAppSelector } from '../../../hooks/hooks-index';
-import { useEffect, useState } from 'react';
-import { store } from '../../../store';
+import { useEffect } from 'react';
 import { fetchGuitarsAction, fetchSortedGuitarsAction } from '../../../store/api-actions';
 import Pagination from '../pagination/pagination';
 import Breadcrumbs from '../../breadcrumbs/breadcrumbs';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { GUITARS_PER_PAGE, SortType, OrderType, AppRoute } from '../../../const';
+import { useNavigate, useParams } from 'react-router-dom';
+import { GUITARS_PER_PAGE } from '../../../const';
 import MainSort from '../main-sort/main-sort';
+import { useDispatch } from 'react-redux';
+import { setFilters } from '../../../store/slices/filter-slice';
+import qs from 'qs';
+import MainFilter from '../main-filter/main-filter';
+import { filterNonNull } from '../../../utils/utils';
 
 
 function MainPageContent(): JSX.Element {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let { currentPage } = useParams<{currentPage: string}>();
-  const  guitars  = useAppSelector(( State ) => State.guitars );
-  const totalGuitarsLength = useAppSelector(( State ) => State.guitars.length);
-  const { search } = useLocation();
+
+
+  const  guitars  = useAppSelector(({ DATA }) => DATA.guitars );
+  const totalGuitarsLength = useAppSelector(({ DATA }) => DATA.guitars.length);
+
   const lastGuitarIndex = Number(currentPage) * GUITARS_PER_PAGE;
   const firstGuitarIndex = lastGuitarIndex - GUITARS_PER_PAGE;
 
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const pageSortOrder = urlParams.get('_order');
-  const pageSortType = urlParams.get('_sort');
-
-  const [order, setOrder] = useState(pageSortOrder || '');
-  const [type, setType] = useState(pageSortType || '');
-
-  const handleOrderClick = (orderType: string) =>{
-    if(type === '') {
-      setType(SortType.Price);
-    }
-    setOrder(`${orderType}`);
-    navigate(`${AppRoute.MainFirstPage}?_sort=${type}&_order=${orderType}`);
-  };
-
-  const handleSortTypeClick = (sortType: string) =>{
-    if(order === '') {
-      setOrder(OrderType.Ascending);
-    }
-    setType(`${sortType}`);
-    navigate(`${AppRoute.MainFirstPage}?_sort=${sortType}&_order=${order}`);
-  };
+  const currentSortType = useAppSelector(({ FILTER }) => FILTER.sortType);
+  const currentOrderType = useAppSelector(({ FILTER }) => FILTER.sortOrder);
+  const currentFilterType = useAppSelector(({ FILTER }) => FILTER.filterType);
+  const currentFilterPriceLow = useAppSelector(({ FILTER }) => FILTER.filterPriceLow);
+  const currentFilterPriceTop = useAppSelector(({ FILTER }) => FILTER.filterPriceTop);
+  const currentFilterString = useAppSelector(({ FILTER }) => FILTER.filterString);
 
 
   const cardsToRender = guitars.slice(firstGuitarIndex, lastGuitarIndex);
+
 
   if (!currentPage) {
     currentPage = '1';
   }
 
 
-  useEffect(() => {
-    if (!search) {
-      store.dispatch(fetchGuitarsAction());
-      setOrder('');
-      setType('');
-    } else {
-      store.dispatch(fetchSortedGuitarsAction(search));
+  useEffect(()=> {
+    if (window.location.search)
+    {
+      const params = qs.parse(window.location.search.substring(1));
+      dispatch(
+        setFilters(params),
+      );
     }
-  }, [type, order, search]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
+
+  useEffect(() => {
+    if(!currentOrderType &&
+      !currentSortType &&
+      !currentFilterType &&
+      !currentFilterPriceLow &&
+      !currentFilterPriceTop &&
+      !currentFilterString){
+      dispatch(fetchGuitarsAction());
+    }else {
+      dispatch(fetchSortedGuitarsAction(`?${currentSortType ? `_sort=${currentSortType}` : ''}
+${currentOrderType ? `&_order=${currentOrderType}` : ''}
+${currentFilterType ? `&type=${currentFilterType}` : ''}
+${currentFilterPriceLow ? `&price_gte=${currentFilterPriceLow}` : ''}
+${currentFilterPriceTop ? `&price_lte=${currentFilterPriceTop}` : ''}
+${currentFilterString ? `&stringCount=${currentFilterString}` : ''}`));
+    }},
+  [currentFilterPriceLow, currentFilterPriceTop, currentFilterType, currentOrderType, currentSortType, currentFilterString, dispatch]);
+
+  useEffect(() =>{
+
+    const queryString = qs.stringify(filterNonNull({
+      currentOrderType : currentOrderType !== 'currentOrderType='? currentOrderType : '',
+      currentSortType : currentSortType !== 'currentSortType=' ? currentSortType : '',
+      currentFilterType : currentFilterType === '' ?  '' : currentFilterType,
+      currentFilterPriceLow : currentFilterPriceLow !== 'currentFilterPriceLow=' ? currentFilterPriceLow : '',
+      currentFilterPriceTop : currentFilterPriceTop  !== 'currentFilterPriceTop=' ? currentFilterPriceTop : '',
+      currentFilterString : currentFilterString !== 'currentFilterString=' ? currentFilterString : '',
+    }),{ addQueryPrefix: true },
+    );
+    navigate(`${queryString}`);
+
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[currentOrderType, currentSortType, currentFilterType,currentFilterPriceLow,currentFilterPriceTop, currentFilterString]);
 
   return (
     <main className="page-content">
@@ -69,61 +96,12 @@ function MainPageContent(): JSX.Element {
         <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
         <Breadcrumbs />
         <div className="catalog">
-          <form className="catalog-filter">
-            <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
-            <fieldset className="catalog-filter__block">
-              <legend className="catalog-filter__block-title">Цена, ₽</legend>
-              <div className="catalog-filter__price-range">
-                <div className="form-input">
-                  <label className="visually-hidden">Минимальная цена</label>
-                  <input type="number" placeholder="1 000" id="priceMin" name="от"/>
-                </div>
-                <div className="form-input">
-                  <label className="visually-hidden">Максимальная цена</label>
-                  <input type="number" placeholder="30 000" id="priceMax" name="до"/>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset className="catalog-filter__block">
-              <legend className="catalog-filter__block-title">Тип гитар</legend>
-              <div className="form-checkbox catalog-filter__block-item">
-                <input className="visually-hidden" type="checkbox" id="acoustic" name="acoustic"/>
-                <label htmlFor="acoustic">Акустические гитары</label>
-              </div>
-              <div className="form-checkbox catalog-filter__block-item">
-                <input className="visually-hidden" type="checkbox" id="electric" name="electric" />
-                <label htmlFor="electric">Электрогитары</label>
-              </div>
-              <div className="form-checkbox catalog-filter__block-item">
-                <input className="visually-hidden" type="checkbox" id="ukulele" name="ukulele" />
-                <label htmlFor="ukulele">Укулеле</label>
-              </div>
-            </fieldset>
-            <fieldset className="catalog-filter__block">
-              <legend className="catalog-filter__block-title">Количество струн</legend>
-              <div className="form-checkbox catalog-filter__block-item">
-                <input className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" />
-                <label htmlFor="4-strings">4</label>
-              </div>
-              <div className="form-checkbox catalog-filter__block-item">
-                <input className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" />
-                <label htmlFor="6-strings">6</label>
-              </div>
-              <div className="form-checkbox catalog-filter__block-item">
-                <input className="visually-hidden" type="checkbox" id="7-strings" name="7-strings"/>
-                <label htmlFor="7-strings">7</label>
-              </div>
-              <div className="form-checkbox catalog-filter__block-item">
-                <input className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" disabled/>
-                <label htmlFor="12-strings">12</label>
-              </div>
-            </fieldset>
-            <button className="catalog-filter__reset-btn button button--black-border button--medium" type="reset">Очистить</button>
-          </form>
+          <MainFilter />
 
-          <MainSort handleSortTypeClick={handleSortTypeClick} handleOrderClick={handleOrderClick} type={type} order={order}/>
+          <MainSort />
 
           <CardsList cards={cardsToRender} />
+
 
           <Pagination totalGuitars={totalGuitarsLength} currentPage={Number(currentPage)}/>
 

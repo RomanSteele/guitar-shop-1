@@ -2,7 +2,7 @@ import { Review } from '../../../types/review';
 import SingleReview from '../single-review/single-review';
 import { useState, useEffect } from 'react';
 import ModalWindowWrapper from '../modal-window/modal-window-wrapper';
-import { changeLoadingStatus } from '../../../store/actions';
+import { changeLoadingStatus } from '../../../store/slices/data-slice';
 import { store } from '../../../store';
 
 const REVIEWS_PER_STEP = 3;

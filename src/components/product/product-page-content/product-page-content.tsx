@@ -12,7 +12,7 @@ function ProductPageContent(): JSX.Element {
 
   const { id } = useParams<{id: string}>();
 
-  const currentGuitar = useAppSelector(( State ) => State.activeGuitar);
+  const currentGuitar = useAppSelector(({ DATA }) => DATA.activeGuitar);
 
   const { name, previewImg, price, comments } = currentGuitar as GuitarCards;
 

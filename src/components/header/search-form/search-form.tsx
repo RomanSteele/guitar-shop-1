@@ -9,7 +9,7 @@ function SearchForm(): JSX.Element {
 
   const navigate = useNavigate();
   const [value,setValue]= useState('');
-  const  guitars  =  useAppSelector(( State ) => State.guitarsOfSearch );
+  const  guitars  =  useAppSelector(({ DATA }) => DATA.guitarsOfSearch );
   const currentLocation = window.location;
 
   useEffect(() => {

@@ -1,6 +1,9 @@
+import qs from 'qs';
+import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks/hooks-index';
+import { setFilters } from '../../store/slices/filter-slice';
 
 type Breadcrumbs = {
   id: number,
@@ -10,11 +13,11 @@ type Breadcrumbs = {
 
 function BreadcrumbsContent(): JSX.Element {
 
-  const currentGuitar = useAppSelector(( State ) => State.activeGuitar);
+  const dispatch = useDispatch();
+
+  const currentGuitar = useAppSelector(({ DATA }) => DATA.activeGuitar);
 
   const { id } = useParams<{id: string}>();
-
-  //const CrumbsName = currentGuitar.name;
 
   const BREADCRUMBS: Breadcrumbs[] = [
     {
@@ -40,11 +43,18 @@ function BreadcrumbsContent(): JSX.Element {
     );
   }
 
+  const handleFilterTypeClick = (item:string) =>{
+    if(item === AppRoute.MainFirstPage){
+      const params = qs.parse('');
+      dispatch(setFilters(params));
+    }
+  };
+
   return (
     <ul className="breadcrumbs page-content__breadcrumbs">
       {
         BREADCRUMBS.map((crumb) => (
-          <li className="breadcrumbs__item" key={crumb.id}><Link className="link" to={crumb.route} >{crumb.name}</Link>
+          <li className="breadcrumbs__item" key={crumb.id}><Link onClick={()=>handleFilterTypeClick(crumb.route)} className="link" to={crumb.route} >{crumb.name}</Link>
           </li>
         ))
       }

@@ -62,3 +62,6 @@ export const fakeReviewPost ={
 };
 
 
+export const fakeSortString = 'acoustic';
+
+export const fakeStringCount = '7';

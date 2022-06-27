@@ -3,9 +3,8 @@ import ReactDom from 'react-dom';
 import {FormEvent, useCallback, useEffect, useState} from 'react';
 import { NewReviewPost } from '../../../types/review';
 import  {useInput } from '../../../hooks/use-validation';
-import { store } from '../../../store';
 import { postReview } from '../../../store/api-actions';
-import { useAppSelector } from '../../../hooks/hooks-index';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hooks-index';
 import ModalWindowSuccess from './modal-window-success';
 import React from 'react';
 
@@ -33,7 +32,9 @@ const EMPTY_P_STYLES: CSS.Properties = {
 
 function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:ModalWindowProps): JSX.Element {
 
-  const { loadingStatus } = useAppSelector(( State ) => State );
+  const dispatch = useAppDispatch();
+
+  const  loadingStatus  = useAppSelector(({ DATA }) => DATA.loadingStatus );
 
   const nameData = useInput('',{isEmpty: true, minLength: 1});
   const advantageData = useInput('',{isEmpty: true, minLength: 1});
@@ -74,7 +75,7 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
 
 
   const sendOnSubmit = ({ guitarId, userName, advantage, disadvantage, comment, rating, createAt, id }: NewReviewPost) => {
-    store.dispatch(postReview({ guitarId, userName, advantage, disadvantage, comment, rating, createAt, id }));
+    dispatch(postReview({ guitarId, userName, advantage, disadvantage, comment, rating, createAt, id }));
 
   };
 

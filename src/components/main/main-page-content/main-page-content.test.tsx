@@ -9,10 +9,10 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { createApi } from '../../../services/api';
 import { fetchGuitarsAction } from '../../../store/api-actions';
-import { loadGuitars } from '../../../store/actions';
-import { makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks/mocks';
+import { loadGuitars } from '../../../store/slices/data-slice';
+import { fakeSortString, makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks/mocks';
 import { APIRoute } from '../../../const';
-import { State } from '../../../types/store';
+import { State } from '../../../types/state';
 import MainPageContent from './main-page-content';
 
 
@@ -46,10 +46,11 @@ describe('Component: Main Page Content', () => {
   it('should render correctly', () => {
     render(
       <HistoryRouter history={customHistory}>
-        <Provider store={mockStore({
+        <Provider store={mockStore({DATA:{
           guitars: mockGuitars,
           activeGuitar: makeFakeGuitar(),
           guitarsOnPage: mockGuitarsPerPage,
+        },FILTER:{sortType:fakeSortString},
         },
         )}
         >

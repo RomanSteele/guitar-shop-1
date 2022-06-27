@@ -1,10 +1,10 @@
 import { GuitarCards } from '../types/guitar';
 import { NewReviewPost, ReviewPost } from '../types/review';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {  State, AppDispatch } from '../types/store';
+import {  State, AppDispatch } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
-import { loadGuitars, loadGuitar, changeLoadingStatus, addComment, loadSearchGuitars } from './actions';
+import { loadGuitars, loadGuitar, changeLoadingStatus, addComment, loadSearchGuitars,setIsLoading } from './slices/data-slice';
 import { handleHttpError } from '../services/handle-http-error';
 
 
@@ -16,8 +16,9 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   ApiType.FetchGuitars,
   async (_arg, { dispatch, extra: api }) => {
     try {
+      dispatch(setIsLoading(true));
       const { data } = await api.get<GuitarCards[]>(APIRoute.GuitarsAndComments);
-      console.log(data);
+      dispatch(setIsLoading(false));
       dispatch(loadGuitars(data));
     } catch (error) {
       handleHttpError (error);
@@ -70,8 +71,14 @@ export const fetchSortedGuitarsAction = createAsyncThunk<void, string, {
 }>(
   ApiType.FetchSortedGuitars,
   async (search, {dispatch, extra: api}) => {
-    const {data} = await api.get<GuitarCards[]>(`${APIRoute.Guitars}/${search}&_embed=comments`);
-    dispatch(loadGuitars(data));
+    try {
+      dispatch(setIsLoading(true));
+      const {data} = await api.get<GuitarCards[]>(`${APIRoute.Guitars}${search}&_embed=comments`);
+      dispatch(setIsLoading(false));
+      dispatch(loadGuitars(data));
+    } catch (error) {
+      handleHttpError (error);
+    }
   },
 );
 
@@ -82,7 +89,11 @@ export const fetchGuitarsSearchAction = createAsyncThunk<void, string, {
 }>(
   ApiType.FetchSearchGuitars,
   async (item, {dispatch, extra: api}) => {
-    const {data} = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?name_like=${item}`);
-    dispatch(loadSearchGuitars(data));
+    try {
+      const {data} = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?name_like=${item}`);
+      dispatch(loadSearchGuitars(data));
+    } catch (error) {
+      handleHttpError (error);
+    }
   },
 );

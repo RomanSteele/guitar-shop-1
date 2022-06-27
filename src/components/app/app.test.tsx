@@ -4,17 +4,20 @@ import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import { AppRoute} from '../../const';
 import App from './app';
-import { makeFakeGuitars } from '../../utils/mocks/mocks';
-import { State } from '../../types/store';
+import { fakeSortString, makeFakeGuitars } from '../../utils/mocks/mocks';
+import { State } from '../../types/state';
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createApi } from '../../services/api';
+import HistoryRouter from '../history-route/history-route';
 
 const mockHistory = createMemoryHistory();
 const api = createApi();
 const middlewares = [thunk.withExtraArgument(api)];
 const mockGuitars = makeFakeGuitars(27);
 const mockGuitarsPerPage = makeFakeGuitars(9);
+const history = createMemoryHistory();
+
 
 const mockStore = configureMockStore<
 State,
@@ -23,8 +26,10 @@ ThunkDispatch<State, typeof api, Action>
 >(middlewares);
 
 const fakeApp = (
-  <Provider store={mockStore({guitars: mockGuitars, guitarsOnPage: mockGuitarsPerPage})}>
-    <App />
+  <Provider store={mockStore({DATA:{guitars: mockGuitars, guitarsOnPage: mockGuitarsPerPage},FILTER:{sortType:fakeSortString}})}>
+    <HistoryRouter history={history}>
+      <App />
+    </HistoryRouter>
   </Provider>
 );
 

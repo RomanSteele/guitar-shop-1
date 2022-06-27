@@ -6,19 +6,22 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import {
   fetchGuitarsAction,
   fetchCurrentGuitarAction,
-  postReview } from './api-actions';
+  postReview,
+  fetchGuitarsSearchAction} from './api-actions';
 
-import { loadGuitars, loadGuitar, addComment } from './actions';
+import { loadGuitars, loadGuitar, addComment, loadSearchGuitars } from './slices/data-slice';
 import { createApi } from '../services/api';
-import { State } from '../types/store';
+import { State } from '../types/state';
 import { APIRoute } from '../const';
-import { makeFakeGuitars, makeFakeGuitar, fakeReviewPost } from '../utils/mocks/mocks';
+import { makeFakeGuitars, makeFakeGuitar, fakeReviewPost, fakeSortString } from '../utils/mocks/mocks';
 
 describe('Async actions', () => {
   const api = createApi();
   const mockAPI = new MockAdapter(api);
   const middlewares = [thunk.withExtraArgument(api)];
   const id = 1;
+  const item = '00';
+  const search = fakeSortString;
 
   const mockStore = configureMockStore<
       State,
@@ -69,4 +72,34 @@ describe('Async actions', () => {
 
     expect(actions).toContain(addComment.toString());
   });
+
+  it(`should dispatch Load Search Guitars when GET /guitars?name_like=${item}`, async () => {
+    const mockGuitars = makeFakeGuitars(27);
+
+    mockAPI
+      .onGet(`${APIRoute.Guitars}?name_like=${item}`)
+      .reply(200, mockGuitars);
+
+    const store = mockStore();
+    await store.dispatch(fetchGuitarsSearchAction(item));
+    const actions = store.getActions().map(({type}) => type);
+
+    expect(actions).toContain(loadSearchGuitars.toString());
+  });
+
+  it(`should dispatch Load Sorted Guitars when GET /guitars?filter=${search}&_embed=comments`, async () => {
+    const mockGuitars = makeFakeGuitars(27);
+
+    mockAPI
+      .onGet(`${APIRoute.Guitars}?filter=${search}&_embed=comments`)
+      .reply(200, mockGuitars);
+
+    const store = mockStore();
+    await store.dispatch(fetchGuitarsAction());
+    const actions = store.getActions().map(({type}) => type);
+
+    expect(actions).toContain(loadGuitars.toString());
+  });
+
 });
+

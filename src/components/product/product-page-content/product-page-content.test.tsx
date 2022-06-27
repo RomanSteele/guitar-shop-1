@@ -9,10 +9,10 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { createApi } from '../../../services/api';
 import { fetchCurrentGuitarAction } from '../../../store/api-actions';
-import { loadGuitar } from '../../../store/actions';
+import { loadGuitar } from '../../../store/slices/data-slice';
 import { makeFakeGuitar, makeFakeGuitars, makeFakeReviews } from '../../../utils/mocks/mocks';
 import { APIRoute } from '../../../const';
-import { State } from '../../../types/store';
+import {  State } from '../../../types/state';
 import ProductPageContent from './product-page-content';
 
 
@@ -48,10 +48,11 @@ describe('Component: Product Page Content', () => {
   it('should render correctly', () => {
     render(
       <HistoryRouter history={customHistory}>
-        <Provider store={mockStore({
+        <Provider store={mockStore({DATA:{
           guitars: guitars,
           activeGuitar: makeFakeGuitar(),
           guitarsOnPage: guitarsPerPage,
+        },
         },
         )}
         >

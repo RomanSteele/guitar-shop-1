@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { makeFakeGuitars } from '../../../utils/mocks/mocks';
 import SingleCatalogueCard from './single-catalogue-card';
 import { Action } from 'redux';
-import { State } from '../../../types/store';
+import { State } from '../../../types/state';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { api } from '../../../store';
