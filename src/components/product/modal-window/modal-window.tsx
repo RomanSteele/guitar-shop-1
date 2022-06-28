@@ -62,9 +62,9 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
     if(a){
       return e;
     }
-    else{
-      return <p style={EMPTY_P_STYLES}> </p>;
-    }
+
+    return <p style={EMPTY_P_STYLES}> </p>;
+
   };
 
   const escFunction = useCallback((event) => {

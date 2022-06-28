@@ -87,3 +87,7 @@ export enum FilterString {
   Twelve = '12',
   Default = '',
 }
+
+export const RATING_STARS=[
+  1,2,3,4,5,
+];

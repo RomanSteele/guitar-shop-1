@@ -1,18 +1,16 @@
 import { Review } from '../../../types/review';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
+import { RATING_STARS } from '../../../const';
 
 type SingleReviewProps = {
   review: Review,
 }
 
-const RATING_STARS=[
-  1,2,3,4,5,
-];
-
 function SingleReview({review}:SingleReviewProps): JSX.Element {
 
   const {userName, advantage, disadvantage, comment, rating, createAt} = review;
+  console.log(rating);
 
   return(
     <div className="review">

@@ -7,6 +7,7 @@ import { store } from '../../../store';
 import { fetchCurrentGuitarAction } from '../../../store/api-actions';
 import Tabs from '../tabs/tabs';
 import BreadcrumbsContent from '../../breadcrumbs/breadcrumbs';
+import { getRatingStars } from '../../../utils/utils';
 
 function ProductPageContent(): JSX.Element {
 
@@ -14,7 +15,7 @@ function ProductPageContent(): JSX.Element {
 
   const currentGuitar = useAppSelector(({ DATA }) => DATA.activeGuitar);
 
-  const { name, previewImg, price, comments } = currentGuitar as GuitarCards;
+  const { name, previewImg, price, comments, rating } = currentGuitar as GuitarCards;
 
   useEffect (() => {
     if (id) {
@@ -32,21 +33,7 @@ function ProductPageContent(): JSX.Element {
           <div className="product-container__info-wrapper">
             <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
             <div className="rate product-container__rating">
-              <svg width="14" height="14" aria-hidden="true">
-                <use xlinkHref="#icon-full-star"></use>
-              </svg>
-              <svg width="14" height="14" aria-hidden="true">
-                <use xlinkHref="#icon-full-star"></use>
-              </svg>
-              <svg width="14" height="14" aria-hidden="true">
-                <use xlinkHref="#icon-full-star"></use>
-              </svg>
-              <svg width="14" height="14" aria-hidden="true">
-                <use xlinkHref="#icon-full-star"></use>
-              </svg>
-              <svg width="14" height="14" aria-hidden="true">
-                <use xlinkHref="#icon-star"></use>
-              </svg>
+              {getRatingStars(rating)}
               <p className="visually-hidden">Оценка: Хорошо</p>
               <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{comments.length}</p>
             </div>
