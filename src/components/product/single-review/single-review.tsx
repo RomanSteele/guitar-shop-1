@@ -10,7 +10,6 @@ type SingleReviewProps = {
 function SingleReview({review}:SingleReviewProps): JSX.Element {
 
   const {userName, advantage, disadvantage, comment, rating, createAt} = review;
-  console.log(rating);
 
   return(
     <div className="review">

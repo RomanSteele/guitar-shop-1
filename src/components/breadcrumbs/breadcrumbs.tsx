@@ -1,4 +1,4 @@
-import qs from 'qs';
+
 import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
@@ -45,8 +45,20 @@ function BreadcrumbsContent(): JSX.Element {
 
   const handleFilterTypeClick = (item:string) =>{
     if(item === AppRoute.MainFirstPage){
-      const params = qs.parse('');
-      dispatch(setFilters(params));
+      dispatch(setFilters(
+        {
+          sortType: '',
+          sortOrder: '',
+          currentAcousticType: '',
+          currentElectricType:'',
+          currentUkuleleType:'',
+          filterPriceLow: '',
+          filterPriceTop: '',
+          currentFilterFourString:'',
+          currentFilterSixString:'',
+          currentFilterSevenString:'',
+          currentFilterTwelveString:'',
+        }));
     }
   };
 

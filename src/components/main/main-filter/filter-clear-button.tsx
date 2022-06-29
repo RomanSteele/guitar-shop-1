@@ -1,4 +1,4 @@
-import qs from 'qs';
+
 import { useDispatch } from 'react-redux';
 import { setFilters } from '../../../store/slices/filter-slice';
 
@@ -7,9 +7,20 @@ function FilterClearButton(): JSX.Element {
   const dispatch = useDispatch();
 
   const handleFilterTypeClick = () =>{
-    const params = qs.parse('');
-
-    dispatch(setFilters(params));
+    dispatch(setFilters(
+      {
+        sortType: '',
+        sortOrder: '',
+        currentAcousticType: '',
+        currentElectricType:'',
+        currentUkuleleType:'',
+        filterPriceLow: '',
+        filterPriceTop: '',
+        currentFilterFourString:'',
+        currentFilterSixString:'',
+        currentFilterSevenString:'',
+        currentFilterTwelveString:'',
+      }));
   };
 
 

@@ -29,10 +29,15 @@ function MainPageContent(): JSX.Element {
 
   const currentSortType = useAppSelector(({ FILTER }) => FILTER.sortType);
   const currentOrderType = useAppSelector(({ FILTER }) => FILTER.sortOrder);
-  const currentFilterType = useAppSelector(({ FILTER }) => FILTER.filterType);
+  const currentAcousticFilterType = useAppSelector(({ FILTER }) => FILTER.filterAcousticType);
+  const currentElectricFilterType = useAppSelector(({ FILTER }) => FILTER.filterElectricType);
+  const currentUkuleleFilterType = useAppSelector(({ FILTER }) => FILTER.filterUkuleleType);
   const currentFilterPriceLow = useAppSelector(({ FILTER }) => FILTER.filterPriceLow);
   const currentFilterPriceTop = useAppSelector(({ FILTER }) => FILTER.filterPriceTop);
-  const currentFilterString = useAppSelector(({ FILTER }) => FILTER.filterString);
+  const currentFilterFourString = useAppSelector(({ FILTER }) => FILTER.filterFourString);
+  const currentFilterSixString = useAppSelector(({ FILTER }) => FILTER.filteSixString);
+  const currentFilterSevenString = useAppSelector(({ FILTER }) => FILTER.filterSevenString);
+  const currentFilterTwelveString = useAppSelector(({ FILTER }) => FILTER.filterTwelveString);
 
 
   const cardsToRender = guitars.slice(firstGuitarIndex, lastGuitarIndex);
@@ -58,37 +63,73 @@ function MainPageContent(): JSX.Element {
   useEffect(() => {
     if(!currentOrderType &&
       !currentSortType &&
-      !currentFilterType &&
+      !currentAcousticFilterType &&
+      !currentElectricFilterType &&
+      !currentUkuleleFilterType &&
       !currentFilterPriceLow &&
       !currentFilterPriceTop &&
-      !currentFilterString){
+      !currentFilterFourString &&
+      !currentFilterSixString &&
+      !currentFilterSevenString &&
+      !currentFilterTwelveString){
       dispatch(fetchGuitarsAction());
     }else {
       dispatch(fetchSortedGuitarsAction(`?${currentSortType ? `_sort=${currentSortType}` : ''}
 ${currentOrderType ? `&_order=${currentOrderType}` : ''}
-${currentFilterType ? `&type=${currentFilterType}` : ''}
+${currentAcousticFilterType ? `&type=${currentAcousticFilterType}` : ''}
+${currentElectricFilterType ? `&type=${currentElectricFilterType}` : ''}
+${currentUkuleleFilterType ? `&type=${currentUkuleleFilterType}` : ''}
 ${currentFilterPriceLow ? `&price_gte=${currentFilterPriceLow}` : ''}
 ${currentFilterPriceTop ? `&price_lte=${currentFilterPriceTop}` : ''}
-${currentFilterString ? `&stringCount=${currentFilterString}` : ''}`));
+${currentFilterFourString ? `&stringCount=${currentFilterFourString}` : ''}
+${currentFilterSixString ? `&stringCount=${currentFilterSixString}` : ''}
+${currentFilterSevenString ? `&stringCount=${currentFilterSevenString}` : ''}
+${currentFilterTwelveString ? `&stringCount=${currentFilterTwelveString}` : ''}`));
     }},
-  [currentFilterPriceLow, currentFilterPriceTop, currentFilterType, currentOrderType, currentSortType, currentFilterString, dispatch]);
+  [currentFilterPriceLow,
+    currentFilterPriceTop,
+    currentAcousticFilterType,
+    currentElectricFilterType,
+    currentUkuleleFilterType,
+    currentOrderType,
+    currentSortType,
+    currentFilterFourString,
+    currentFilterSixString,
+    currentFilterSevenString,
+    currentFilterTwelveString,
+    dispatch]);
 
   useEffect(() =>{
 
     const queryString = qs.stringify(filterNonNull({
       currentOrderType : currentOrderType !== 'currentOrderType='? currentOrderType : '',
       currentSortType : currentSortType !== 'currentSortType=' ? currentSortType : '',
-      currentFilterType : currentFilterType === '' ?  '' : currentFilterType,
       currentFilterPriceLow : currentFilterPriceLow !== 'currentFilterPriceLow=' ? currentFilterPriceLow : '',
       currentFilterPriceTop : currentFilterPriceTop  !== 'currentFilterPriceTop=' ? currentFilterPriceTop : '',
-      currentFilterString : currentFilterString !== 'currentFilterString=' ? currentFilterString : '',
+      currentAcousticFilterType : currentAcousticFilterType === '' ?  '' : currentAcousticFilterType,
+      currentElectricFilterType : currentElectricFilterType === '' ?  '' : currentElectricFilterType,
+      currentUkuleleFilterType : currentUkuleleFilterType === '' ?  '' : currentUkuleleFilterType,
+      currentFilterFourString : currentFilterFourString === '' ?  '' : currentFilterFourString,
+      currentFilterSixString : currentFilterSixString === '' ?  '' : currentFilterSixString,
+      currentFilterSevenString : currentFilterSevenString === '' ?  '' : currentFilterSevenString,
+      currentFilterTwelveString : currentFilterTwelveString === '' ?  '' : currentFilterTwelveString,
     }),{ addQueryPrefix: true },
     );
     navigate(`${queryString}`);
 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[currentOrderType, currentSortType, currentFilterType,currentFilterPriceLow,currentFilterPriceTop, currentFilterString]);
+  },[currentOrderType,
+    currentSortType,
+    currentAcousticFilterType,
+    currentElectricFilterType,
+    currentUkuleleFilterType,
+    currentFilterPriceLow,
+    currentFilterPriceTop,
+    currentFilterFourString,
+    currentFilterSixString,
+    currentFilterSevenString,
+    currentFilterTwelveString]);
 
   return (
     <main className="page-content">

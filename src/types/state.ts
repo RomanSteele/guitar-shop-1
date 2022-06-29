@@ -17,8 +17,13 @@ export type DataSliceTypes = {
 export type FilterSliceTypes = {
         sortType: string,
         sortOrder: string,
-        filterType: string,
+        filterAcousticType: string,
+        filterElectricType:string,
+        filterUkuleleType:string,
         filterPriceLow: string,
         filterPriceTop: string,
-        filterString: string
+        filterFourString: string,
+        filteSixString:string,
+        filterSevenString:string,
+        filterTwelveString:string,
   };

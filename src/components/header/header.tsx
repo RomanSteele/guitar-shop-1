@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
@@ -10,9 +9,20 @@ function Header(): JSX.Element {
   const dispatch = useDispatch();
 
   const handleFilterTypeClick = () =>{
-    const params = qs.parse('');
-
-    dispatch(setFilters(params));
+    dispatch(setFilters(
+      {
+        sortType: '',
+        sortOrder: '',
+        currentAcousticType: '',
+        currentElectricType:'',
+        currentUkuleleType:'',
+        filterPriceLow: '',
+        filterPriceTop: '',
+        currentFilterFourString:'',
+        currentFilterSixString:'',
+        currentFilterSevenString:'',
+        currentFilterTwelveString:'',
+      }));
   };
 
   return (

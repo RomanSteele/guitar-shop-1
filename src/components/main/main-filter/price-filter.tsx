@@ -18,18 +18,19 @@ function PriceFilter(): JSX.Element {
   const [minPlaceholderPrice, setMinPlaceholderPrice] = useState(0);
   const [maxPlaceholderPrice, setMaxPlaceholderPrice] = useState(0);
 
+  const handleFilterPriceClick = (lowPrice: string, highPrice: string) =>{
+    dispatch(setFilterPrice({lowPrice, highPrice}));
+  };
+
 
   useEffect(()=>{
     if(guitars.length > 0){
       setMinPlaceholderPrice(guitars.slice().sort((a, b) => a.price - b.price)[0].price);
       setMaxPlaceholderPrice(guitars.slice().sort((a, b) => b.price - a.price)[0].price);
     }
-  },[guitars]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
-
-  const handleFilterPriceClick = (lowPrice: string, highPrice: string) =>{
-    dispatch(setFilterPrice({lowPrice, highPrice}));
-  };
 
   const handleFilterLowPriceBlur = (evt:EventPropsType): void => {
     if (evt.target.value && Number(evt.target.value) < minPlaceholderPrice) {
@@ -37,6 +38,7 @@ function PriceFilter(): JSX.Element {
       handleFilterPriceClick(evt.target.value,currentFilterPriceTop);
     }
   };
+
 
   const handleFilterHighPriceBlur = (evt:EventPropsType): void => {
     if (evt.target.value && Number(evt.target.value) > maxPlaceholderPrice) {
@@ -48,6 +50,7 @@ function PriceFilter(): JSX.Element {
       handleFilterPriceClick(currentFilterPriceLow, evt.target.value);
     }
   };
+
 
   return(
     <fieldset className="catalog-filter__block">

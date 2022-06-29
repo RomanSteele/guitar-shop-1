@@ -6,10 +6,15 @@ import { FilterSliceTypes } from '../../types/state';
 const initialState: FilterSliceTypes = {
   sortType: '',
   sortOrder: '',
-  filterType: '',
+  filterAcousticType: '',
+  filterElectricType:'',
+  filterUkuleleType:'',
   filterPriceLow: '',
   filterPriceTop: '',
-  filterString: '',
+  filterFourString: '',
+  filteSixString:'',
+  filterSevenString:'',
+  filterTwelveString:'',
 };
 
 export const filterSlice = createSlice ({
@@ -25,23 +30,55 @@ export const filterSlice = createSlice ({
     setFilters(state,action){
       state.sortType = action.payload.currentSortType;
       state.sortOrder = action.payload.currentOrderType;
-      state.filterType = action.payload.currentFilterType;
+      state.filterAcousticType = action.payload.currentAcousticType;
+      state.filterElectricType = action.payload.currentElectricType;
+      state.filterUkuleleType = action.payload.currentUkuleleType;
       state.filterPriceLow = action.payload.currentFilterPriceLow;
       state.filterPriceTop = action.payload.currentFilterPriceTop;
-      state.filterString = action.payload.currentFilterString;
+      state.filterFourString = action.payload.currentFilterFourString;
+      state.filteSixString = action.payload.currentFilterSixString;
+      state.filterSevenString = action.payload.currentFilterSevenString;
+      state.filterTwelveString = action.payload.currentFilterTwelveString;
     },
-    setFilterType(state,action){
-      state.filterType = action.payload;
+    setAcousticFilterType(state,action){
+      state.filterAcousticType = action.payload;
+    },
+    setElectricFilterType(state,action){
+      state.filterElectricType = action.payload;
+    },
+    setUkuleleFilterType(state,action){
+      state.filterUkuleleType = action.payload;
     },
     setFilterPrice(state,action){
       state.filterPriceLow = action.payload.lowPrice;
       state.filterPriceTop = action.payload.highPrice;
     },
-    setFilterString(state,action){
-      state.filterString = action.payload;
+    setFilterFourString(state,action){
+      state.filterFourString = action.payload;
+    },
+    setFilterSixString(state,action){
+      state.filteSixString = action.payload;
+    },
+    setFilterSevenString(state,action){
+      state.filterSevenString = action.payload;
+    },
+    setFilterTwelveString(state,action){
+      state.filterTwelveString = action.payload;
     },
   },
 });
 
-export const { setGuitarsType,setGuitarsOrder,setFilters,setFilterType, setFilterPrice, setFilterString } = filterSlice.actions;
+export const {
+  setGuitarsType,
+  setGuitarsOrder,
+  setFilters,
+  setAcousticFilterType,
+  setElectricFilterType,
+  setUkuleleFilterType,
+  setFilterPrice,
+  setFilterFourString,
+  setFilterSixString,
+  setFilterSevenString,
+  setFilterTwelveString,
+} = filterSlice.actions;
 
