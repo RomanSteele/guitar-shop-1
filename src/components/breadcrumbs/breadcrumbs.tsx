@@ -14,9 +14,7 @@ type Breadcrumbs = {
 function BreadcrumbsContent(): JSX.Element {
 
   const dispatch = useDispatch();
-
   const currentGuitar = useAppSelector(({ DATA }) => DATA.activeGuitar);
-
   const { id } = useParams<{id: string}>();
 
   const BREADCRUMBS: Breadcrumbs[] = [
@@ -32,6 +30,7 @@ function BreadcrumbsContent(): JSX.Element {
     },
   ];
 
+
   if(id) {
     const CrumbsName = currentGuitar.name;
     BREADCRUMBS.push(
@@ -42,6 +41,7 @@ function BreadcrumbsContent(): JSX.Element {
       },
     );
   }
+
 
   const handleFilterTypeClick = (item:string) =>{
     if(item === AppRoute.MainFirstPage){
@@ -61,6 +61,7 @@ function BreadcrumbsContent(): JSX.Element {
         }));
     }
   };
+
 
   return (
     <ul className="breadcrumbs page-content__breadcrumbs">

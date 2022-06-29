@@ -12,6 +12,7 @@ function SearchForm(): JSX.Element {
   const  guitars  =  useAppSelector(({ DATA }) => DATA.guitarsOfSearch );
   const currentLocation = window.location;
 
+
   useEffect(() => {
     setValue('');
   }, [currentLocation]);
@@ -21,11 +22,13 @@ function SearchForm(): JSX.Element {
     setValue('');
   };
 
+
   useEffect(() => {
     if(value){
       store.dispatch(fetchGuitarsSearchAction(value));
     }
   }, [value]);
+
 
   return (
     <div className="form-search">

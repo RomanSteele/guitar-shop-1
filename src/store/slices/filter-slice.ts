@@ -4,15 +4,17 @@ import { FilterSliceTypes } from '../../types/state';
 
 
 const initialState: FilterSliceTypes = {
+  minPrice: 0,
+  maxPrice: 0,
   sortType: '',
   sortOrder: '',
+  filterPriceLow: '',
+  filterPriceTop: '',
   filterAcousticType: '',
   filterElectricType:'',
   filterUkuleleType:'',
-  filterPriceLow: '',
-  filterPriceTop: '',
   filterFourString: '',
-  filteSixString:'',
+  filterSixString:'',
   filterSevenString:'',
   filterTwelveString:'',
 };
@@ -30,13 +32,13 @@ export const filterSlice = createSlice ({
     setFilters(state,action){
       state.sortType = action.payload.currentSortType;
       state.sortOrder = action.payload.currentOrderType;
-      state.filterAcousticType = action.payload.currentAcousticType;
-      state.filterElectricType = action.payload.currentElectricType;
-      state.filterUkuleleType = action.payload.currentUkuleleType;
+      state.filterAcousticType = action.payload.currentAcousticFilterType;
+      state.filterElectricType = action.payload.currentElectricFilterType;
+      state.filterUkuleleType = action.payload.currentUkuleleFilterType;
       state.filterPriceLow = action.payload.currentFilterPriceLow;
       state.filterPriceTop = action.payload.currentFilterPriceTop;
       state.filterFourString = action.payload.currentFilterFourString;
-      state.filteSixString = action.payload.currentFilterSixString;
+      state.filterSixString = action.payload.currentFilterSixString;
       state.filterSevenString = action.payload.currentFilterSevenString;
       state.filterTwelveString = action.payload.currentFilterTwelveString;
     },
@@ -57,13 +59,19 @@ export const filterSlice = createSlice ({
       state.filterFourString = action.payload;
     },
     setFilterSixString(state,action){
-      state.filteSixString = action.payload;
+      state.filterSixString = action.payload;
     },
     setFilterSevenString(state,action){
       state.filterSevenString = action.payload;
     },
     setFilterTwelveString(state,action){
       state.filterTwelveString = action.payload;
+    },
+    setTotalMinPrice(state,action){
+      state.minPrice = action.payload;
+    },
+    setTotalMaxPrice(state,action){
+      state.maxPrice = action.payload;
     },
   },
 });
@@ -80,5 +88,7 @@ export const {
   setFilterSixString,
   setFilterSevenString,
   setFilterTwelveString,
+  setTotalMinPrice,
+  setTotalMaxPrice,
 } = filterSlice.actions;
 

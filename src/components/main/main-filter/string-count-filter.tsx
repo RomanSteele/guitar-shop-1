@@ -1,4 +1,5 @@
 import qs from 'qs';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FilterString } from '../../../const';
 import { useAppSelector } from '../../../hooks/hooks-index';
@@ -9,13 +10,18 @@ import { filterNonNull } from '../../../utils/utils';
 function StringCountFilter(): JSX.Element {
 
   const currentFilterFourString = useAppSelector(({ FILTER }) => FILTER.filterFourString);
-  const currentFilterSixString = useAppSelector(({ FILTER }) => FILTER.filteSixString);
+  const currentFilterSixString = useAppSelector(({ FILTER }) => FILTER.filterSixString);
   const currentFilterSevenString = useAppSelector(({ FILTER }) => FILTER.filterSevenString);
   const currentFilterTwelveString = useAppSelector(({ FILTER }) => FILTER.filterTwelveString);
 
   const currentAcousticFilterType = useAppSelector(({ FILTER }) => FILTER.filterAcousticType);
   const currentElectricFilterType = useAppSelector(({ FILTER }) => FILTER.filterElectricType);
   const currentUkuleleFilterType = useAppSelector(({ FILTER }) => FILTER.filterUkuleleType);
+
+  const fourStringRef = useRef<HTMLInputElement | null>(null);
+  const sixStringRef = useRef<HTMLInputElement | null>(null);
+  const sevenStringRef = useRef<HTMLInputElement | null>(null);
+  const twelveStringRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch();
 
@@ -50,6 +56,10 @@ function StringCountFilter(): JSX.Element {
     currentAcousticFilterType : currentAcousticFilterType === '' ?  '' : currentAcousticFilterType,
     currentElectricFilterType : currentElectricFilterType === '' ?  '' : currentElectricFilterType,
     currentUkuleleFilterType : currentUkuleleFilterType === '' ?  '' : currentUkuleleFilterType,
+    currentFilterFourString : currentFilterFourString === '' ?  '' : currentFilterFourString,
+    currentFilterSixString : currentFilterSixString === '' ?  '' : currentFilterSixString,
+    currentFilterSevenString : currentFilterSevenString === '' ?  '' : currentFilterSevenString,
+    currentFilterTwelveString : currentFilterTwelveString === '' ?  '' : currentFilterTwelveString,
   }));
 
   const disabledChecker=(item:string)=> {
@@ -72,23 +82,34 @@ function StringCountFilter(): JSX.Element {
 
   };
 
+
+  useEffect(()=>{
+    if (fourStringRef.current && sixStringRef.current && sevenStringRef.current && twelveStringRef.current){
+      fourStringRef.current.checked = queryString.includes(FilterString.Four);
+      sixStringRef.current.checked = queryString.includes(FilterString.Six);
+      sevenStringRef.current.checked = queryString.includes(FilterString.Seven);
+      twelveStringRef.current.checked = queryString.includes(FilterString.Twelve);
+    }
+  },[queryString]);
+
+
   return(
     <fieldset className="catalog-filter__block">
       <legend className="catalog-filter__block-title">Количество струн</legend>
       <div className="form-checkbox catalog-filter__block-item">
-        <input onChange={()=>handleFilterStringClick(FilterString.Four)}  className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" defaultChecked={currentFilterFourString?.toString() !== ''} disabled={disabledChecker(FilterString.Four)} />
+        <input onChange={()=>handleFilterStringClick(FilterString.Four)}  className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" ref={fourStringRef} disabled={disabledChecker(FilterString.Four)} />
         <label htmlFor="4-strings">4</label>
       </div>
       <div className="form-checkbox catalog-filter__block-item">
-        <input onChange={()=>handleFilterStringClick(FilterString.Six)}  className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" defaultChecked={currentFilterSixString?.toString() !== ''} disabled={disabledChecker(FilterString.Six)} />
+        <input onChange={()=>handleFilterStringClick(FilterString.Six)}  className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" ref={sixStringRef} disabled={disabledChecker(FilterString.Six)} />
         <label htmlFor="6-strings">6</label>
       </div>
       <div className="form-checkbox catalog-filter__block-item">
-        <input onChange={()=>handleFilterStringClick(FilterString.Seven)}  className="visually-hidden" type="checkbox" id="7-strings" name="7-strings" defaultChecked={currentFilterSevenString?.toString() !== ''} disabled={disabledChecker(FilterString.Seven)}  />
+        <input onChange={()=>handleFilterStringClick(FilterString.Seven)}  className="visually-hidden" type="checkbox" id="7-strings" name="7-strings" ref={sevenStringRef} disabled={disabledChecker(FilterString.Seven)}  />
         <label htmlFor="7-strings">7</label>
       </div>
       <div className="form-checkbox catalog-filter__block-item">
-        <input onChange={()=>handleFilterStringClick(FilterString.Twelve)}  className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" defaultChecked={currentFilterTwelveString?.toString() !== ''} disabled={disabledChecker(FilterString.Twelve)} />
+        <input onChange={()=>handleFilterStringClick(FilterString.Twelve)}  className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" ref={twelveStringRef} disabled={disabledChecker(FilterString.Twelve)} />
         <label htmlFor="12-strings">12</label>
       </div>
     </fieldset>

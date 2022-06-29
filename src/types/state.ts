@@ -15,6 +15,8 @@ export type DataSliceTypes = {
   };
 
 export type FilterSliceTypes = {
+        minPrice: number,
+        maxPrice: number,
         sortType: string,
         sortOrder: string,
         filterAcousticType: string,
@@ -23,7 +25,7 @@ export type FilterSliceTypes = {
         filterPriceLow: string,
         filterPriceTop: string,
         filterFourString: string,
-        filteSixString:string,
+        filterSixString:string,
         filterSevenString:string,
         filterTwelveString:string,
   };

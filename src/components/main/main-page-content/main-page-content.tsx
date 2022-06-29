@@ -20,7 +20,6 @@ function MainPageContent(): JSX.Element {
   const dispatch = useDispatch();
   let { currentPage } = useParams<{currentPage: string}>();
 
-
   const  guitars  = useAppSelector(({ DATA }) => DATA.guitars );
   const totalGuitarsLength = useAppSelector(({ DATA }) => DATA.guitars.length);
 
@@ -35,13 +34,11 @@ function MainPageContent(): JSX.Element {
   const currentFilterPriceLow = useAppSelector(({ FILTER }) => FILTER.filterPriceLow);
   const currentFilterPriceTop = useAppSelector(({ FILTER }) => FILTER.filterPriceTop);
   const currentFilterFourString = useAppSelector(({ FILTER }) => FILTER.filterFourString);
-  const currentFilterSixString = useAppSelector(({ FILTER }) => FILTER.filteSixString);
+  const currentFilterSixString = useAppSelector(({ FILTER }) => FILTER.filterSixString);
   const currentFilterSevenString = useAppSelector(({ FILTER }) => FILTER.filterSevenString);
   const currentFilterTwelveString = useAppSelector(({ FILTER }) => FILTER.filterTwelveString);
 
-
   const cardsToRender = guitars.slice(firstGuitarIndex, lastGuitarIndex);
-
 
   if (!currentPage) {
     currentPage = '1';
@@ -99,24 +96,23 @@ ${currentFilterTwelveString ? `&stringCount=${currentFilterTwelveString}` : ''}`
     currentFilterTwelveString,
     dispatch]);
 
-  useEffect(() =>{
 
+  useEffect(() =>{
     const queryString = qs.stringify(filterNonNull({
       currentOrderType : currentOrderType !== 'currentOrderType='? currentOrderType : '',
       currentSortType : currentSortType !== 'currentSortType=' ? currentSortType : '',
       currentFilterPriceLow : currentFilterPriceLow !== 'currentFilterPriceLow=' ? currentFilterPriceLow : '',
       currentFilterPriceTop : currentFilterPriceTop  !== 'currentFilterPriceTop=' ? currentFilterPriceTop : '',
-      currentAcousticFilterType : currentAcousticFilterType === '' ?  '' : currentAcousticFilterType,
-      currentElectricFilterType : currentElectricFilterType === '' ?  '' : currentElectricFilterType,
-      currentUkuleleFilterType : currentUkuleleFilterType === '' ?  '' : currentUkuleleFilterType,
-      currentFilterFourString : currentFilterFourString === '' ?  '' : currentFilterFourString,
-      currentFilterSixString : currentFilterSixString === '' ?  '' : currentFilterSixString,
-      currentFilterSevenString : currentFilterSevenString === '' ?  '' : currentFilterSevenString,
-      currentFilterTwelveString : currentFilterTwelveString === '' ?  '' : currentFilterTwelveString,
+      currentAcousticFilterType : currentAcousticFilterType === 'currentAcousticFilterType=' ?  '' : currentAcousticFilterType,
+      currentElectricFilterType : currentElectricFilterType === 'currentElectricFilterType=' ?  '' : currentElectricFilterType,
+      currentUkuleleFilterType : currentUkuleleFilterType === 'currentUkuleleFilterType=' ?  '' : currentUkuleleFilterType,
+      currentFilterFourString : currentFilterFourString === 'currentFilterFourString=' ?  '' : currentFilterFourString,
+      currentFilterSixString : currentFilterSixString === 'currentFilterSixString=' ?  '' : currentFilterSixString,
+      currentFilterSevenString : currentFilterSevenString === 'currentFilterSevenString=' ?  '' : currentFilterSevenString,
+      currentFilterTwelveString : currentFilterTwelveString === 'currentFilterTwelveString=' ?  '' : currentFilterTwelveString,
     }),{ addQueryPrefix: true },
     );
     navigate(`${queryString}`);
-
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[currentOrderType,
@@ -130,6 +126,7 @@ ${currentFilterTwelveString ? `&stringCount=${currentFilterTwelveString}` : ''}`
     currentFilterSixString,
     currentFilterSevenString,
     currentFilterTwelveString]);
+
 
   return (
     <main className="page-content">

@@ -6,6 +6,7 @@ import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
 import { loadGuitars, loadGuitar, changeLoadingStatus, addComment, loadSearchGuitars,setIsLoading } from './slices/data-slice';
 import { handleHttpError } from '../services/handle-http-error';
+import { setTotalMaxPrice, setTotalMinPrice } from './slices/filter-slice';
 
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -64,6 +65,7 @@ export const postReview = createAsyncThunk<void, NewReviewPost, {
   },
 );
 
+
 export const fetchSortedGuitarsAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch,
   state: State,
@@ -82,6 +84,7 @@ export const fetchSortedGuitarsAction = createAsyncThunk<void, string, {
   },
 );
 
+
 export const fetchGuitarsSearchAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch,
   state: State,
@@ -92,6 +95,42 @@ export const fetchGuitarsSearchAction = createAsyncThunk<void, string, {
     try {
       const {data} = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?name_like=${item}`);
       dispatch(loadSearchGuitars(data));
+    } catch (error) {
+      handleHttpError (error);
+    }
+  },
+);
+
+
+export const fetchTotalMinPrice = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  ApiType.FetchTotal,
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?_sort=price&_order=asc`);
+
+      dispatch(setTotalMinPrice(data[0].price));
+    } catch (error) {
+      handleHttpError (error);
+    }
+  },
+);
+
+
+export const fetchTotalMaxPrice = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  ApiType.FetchTotal,
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?_sort=price&_order=desc`);
+
+      dispatch(setTotalMaxPrice(data[0].price));
     } catch (error) {
       handleHttpError (error);
     }
