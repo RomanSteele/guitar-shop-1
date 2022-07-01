@@ -7,7 +7,7 @@ import { store } from '../../../store';
 import { fetchCurrentGuitarAction } from '../../../store/api-actions';
 import Tabs from '../tabs/tabs';
 import BreadcrumbsContent from '../../breadcrumbs/breadcrumbs';
-import { getRatingStars } from '../../../utils/utils';
+import RatingStars  from '../../rating-stars/rating-stars';
 
 function ProductPageContent(): JSX.Element {
 
@@ -33,7 +33,7 @@ function ProductPageContent(): JSX.Element {
           <div className="product-container__info-wrapper">
             <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
             <div className="rate product-container__rating">
-              {getRatingStars(rating)}
+              <RatingStars rating={rating}/>
               <p className="visually-hidden">Оценка: Хорошо</p>
               <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{comments.length}</p>
             </div>

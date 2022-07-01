@@ -10,7 +10,7 @@ export const handleHttpError  = (error: ErrorType): void => {
   }
 
   const { response } = error;
-
+  console.log(response?.status);
   if (response) {
     switch (response.status) {
       case HttpCode.BadRequest:
@@ -20,7 +20,7 @@ export const handleHttpError  = (error: ErrorType): void => {
         toast.warning(response.data.error);
         break;
       case HttpCode.NotFound:
-        toast.error(response.data.error);
+        toast.error('Not Found!');
         break;
     }
   } else {

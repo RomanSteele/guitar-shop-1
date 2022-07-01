@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { GuitarCards } from '../../../types/guitar';
 import { AppRoute } from '../../../const';
-import { getRatingStars } from '../../../utils/utils';
+import RatingStars from '../../rating-stars/rating-stars';
 
 
 type SingleCatalogueCardProps = {
@@ -18,7 +18,7 @@ function SingleCatalogueCard( {card}: SingleCatalogueCardProps): JSX.Element {
       <img src={`/${previewImg}`} srcSet={`/${previewImg?.slice(0, -4)}@2x.jpg 2x`} width="75" height="190" alt={name}/>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          {getRatingStars(rating)}
+          <RatingStars rating={rating}/>
           <p className="visually-hidden">Рейтинг: Хорошо</p>
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{comments.length}</p>
         </div>

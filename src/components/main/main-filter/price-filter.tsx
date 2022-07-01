@@ -27,8 +27,8 @@ function PriceFilter(): JSX.Element {
       evt.target.value = String(totalMinPrice);
       handleFilterPriceClick(evt.target.value,currentFilterPriceTop);
     }
-    if (evt.target.value && Number(evt.target.value) > Number(currentFilterPriceTop)){
-      toast.error('Максимальная цена не может быть меньше минимальной!');
+    if (evt.target.value && Number(evt.target.value) > Number(currentFilterPriceTop)&& currentFilterPriceTop){
+      toast.error('Минимальная цена не может быть больше максимальной!');
       evt.target.value = String(totalMinPrice);
       handleFilterPriceClick(evt.target.value, currentFilterPriceTop);
     }

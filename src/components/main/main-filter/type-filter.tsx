@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FilterType } from '../../../const';
 import { useAppSelector } from '../../../hooks/hooks-index';
-import { setAcousticFilterType, setElectricFilterType, setUkuleleFilterType } from '../../../store/slices/filter-slice';
+import { setAcousticFilterType, setElectricFilterType, setFilterFourString, setFilterSevenString, setFilterSixString, setFilterTwelveString, setUkuleleFilterType } from '../../../store/slices/filter-slice';
 import { filterNonNull } from '../../../utils/utils';
 
 
@@ -25,18 +25,32 @@ function TypeFilter(): JSX.Element {
       if(currentAcousticFilterType === FilterType.Acoustic){
         return dispatch(setAcousticFilterType(''));
       }
+      if(!currentUkuleleFilterType)
+      {dispatch(setFilterFourString(''));}
+
       dispatch(setAcousticFilterType(filterType));
     }
     if(filterType === FilterType.Electric){
       if(currentElectricFilterType === FilterType.Electric){
         return dispatch(setElectricFilterType(''));
       }
+      if(!currentUkuleleFilterType)
+      {dispatch(setFilterFourString(''));}
+      if(!currentAcousticFilterType)
+      {dispatch(setFilterTwelveString(''));}
       dispatch(setElectricFilterType(filterType));
     }
     if(filterType === FilterType.Ukulele){
       if(currentUkuleleFilterType === FilterType.Ukulele){
         return dispatch(setUkuleleFilterType(''));
       }
+
+      if(!currentAcousticFilterType && !currentElectricFilterType)
+      {dispatch(setFilterSixString(''));
+        dispatch(setFilterSevenString(''));}
+      if(!currentAcousticFilterType)
+      {dispatch(setFilterTwelveString(''));}
+
       dispatch(setUkuleleFilterType(filterType));
     }
   };

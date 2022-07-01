@@ -1,7 +1,7 @@
 import qs from 'qs';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FilterString } from '../../../const';
+import { FilterString,FilterType } from '../../../const';
 import { useAppSelector } from '../../../hooks/hooks-index';
 import { setFilterFourString, setFilterSixString, setFilterSevenString, setFilterTwelveString } from '../../../store/slices/filter-slice';
 import { filterNonNull } from '../../../utils/utils';
@@ -63,19 +63,19 @@ function StringCountFilter(): JSX.Element {
   }));
 
   const disabledChecker=(item:string)=> {
-    if(queryString === ''){
+    if(!queryString.includes(FilterType.Ukulele) && !queryString.includes(FilterType.Acoustic) && !queryString.includes(FilterType.Electric)){
       return false;
     }
     if (item === FilterString.Four){
-      if(!queryString.includes('ukulele')){
+      if(!queryString.includes(FilterType.Ukulele)){
         return true;
       }}
     if (item === FilterString.Six || item === FilterString.Seven){
-      if(!queryString.includes('acoustic') && !queryString.includes('electric')){
+      if(!queryString.includes(FilterType.Acoustic) && !queryString.includes(FilterType.Electric)){
         return true;
       }}
     if (item === FilterString.Twelve){
-      if(!queryString.includes('acoustic')){
+      if(!queryString.includes(FilterType.Acoustic)){
         return true;
       }
     }

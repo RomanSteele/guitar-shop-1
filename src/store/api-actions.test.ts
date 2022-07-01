@@ -104,11 +104,11 @@ describe('Async actions', () => {
     expect(actions).toContain(loadGuitars.toString());
   });
 
-  it('should dispatch min price of Guitars when GET /guitars?_sort=price&_order=asc', async () => {
+  it('should dispatch min price of Guitars when GET /guitars?_limit=1&_sort=price&_order=asc', async () => {
     const mockGuitars = makeFakeGuitars(27);
 
     mockAPI
-      .onGet(`${APIRoute.Guitars}?_sort=price&_order=asc`)
+      .onGet(`${APIRoute.Guitars}?_limit=1&_sort=price&_order=asc`)
       .reply(200, mockGuitars);
 
     const store = mockStore();
@@ -118,11 +118,11 @@ describe('Async actions', () => {
     expect(actions).toContain(setTotalMinPrice.toString());
   });
 
-  it('should dispatch max price of Guitars when GET /guitars?_sort=price&_order=desc', async () => {
+  it('should dispatch max price of Guitars when GET /guitars?_limit=1&_sort=price&_order=desc', async () => {
     const mockGuitars = makeFakeGuitars(27);
 
     mockAPI
-      .onGet(`${APIRoute.Guitars}?_sort=price&_order=desc`)
+      .onGet(`${APIRoute.Guitars}?_limit=1&_sort=price&_order=desc`)
       .reply(200, mockGuitars);
 
     const store = mockStore();
