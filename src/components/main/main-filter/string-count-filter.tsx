@@ -67,7 +67,7 @@ function StringCountFilter(): JSX.Element {
       return false;
     }
     if (item === FilterString.Four){
-      if(!queryString.includes(FilterType.Ukulele)){
+      if(!queryString.includes(FilterType.Ukulele) && !queryString.includes(FilterType.Electric)){
         return true;
       }}
     if (item === FilterString.Six || item === FilterString.Seven){

@@ -21,27 +21,45 @@ function TypeFilter(): JSX.Element {
   const dispatch = useDispatch();
 
   const handleFilterTypeClick = (filterType: string) =>{
+
+
     if(filterType === FilterType.Acoustic){
+
       if(currentAcousticFilterType === FilterType.Acoustic){
+        if(currentUkuleleFilterType || currentElectricFilterType)
+        {dispatch(setFilterTwelveString(''));}
         return dispatch(setAcousticFilterType(''));
       }
-      if(!currentUkuleleFilterType)
-      {dispatch(setFilterFourString(''));}
 
+      if(!currentUkuleleFilterType && !currentElectricFilterType)
+      {dispatch(setFilterFourString(''));}
       dispatch(setAcousticFilterType(filterType));
     }
+
+
     if(filterType === FilterType.Electric){
       if(currentElectricFilterType === FilterType.Electric){
+
+        if(!currentAcousticFilterType)
+        {dispatch(setFilterTwelveString(''));}
+        dispatch(setElectricFilterType(filterType));
         return dispatch(setElectricFilterType(''));
       }
-      if(!currentUkuleleFilterType)
-      {dispatch(setFilterFourString(''));}
+
       if(!currentAcousticFilterType)
       {dispatch(setFilterTwelveString(''));}
       dispatch(setElectricFilterType(filterType));
     }
+
+
     if(filterType === FilterType.Ukulele){
+
       if(currentUkuleleFilterType === FilterType.Ukulele){
+        if(!currentAcousticFilterType && !currentElectricFilterType)
+        {dispatch(setFilterSixString(''));
+          dispatch(setFilterSevenString(''));}
+        if(!currentAcousticFilterType)
+        {dispatch(setFilterTwelveString(''));}
         return dispatch(setUkuleleFilterType(''));
       }
 
