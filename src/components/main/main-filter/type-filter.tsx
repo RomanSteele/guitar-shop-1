@@ -43,6 +43,9 @@ function TypeFilter(): JSX.Element {
         if(!currentAcousticFilterType)
         {dispatch(setFilterTwelveString(''));}
         dispatch(setElectricFilterType(filterType));
+        if(!currentUkuleleFilterType){
+          dispatch(setFilterFourString(''));
+        }
         return dispatch(setElectricFilterType(''));
       }
 

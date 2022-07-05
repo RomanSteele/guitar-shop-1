@@ -12,6 +12,11 @@ function SearchForm(): JSX.Element {
   const  guitars  =  useAppSelector(({ DATA }) => DATA.guitarsOfSearch );
   const currentLocation = window.location;
 
+  const handleKeyDown = (evt: React.KeyboardEvent<HTMLLIElement>, id: number) => {
+    if (evt.key === 'Enter') {
+      navigate(AppRoute.GuitarCharacteristics.replace(':id', id.toString()));}
+  };
+
 
   useEffect(() => {
     setValue('');
@@ -31,14 +36,14 @@ function SearchForm(): JSX.Element {
 
 
   return (
-    <div className="form-search">
-      <form className="form-search__form" id="form-search">
+    <div className="form-search" onMouseLeave={()=>{setValue('');}}>
+      <form className="form-search__form" id="form-search" >
         <button className="form-search__submit" type="submit">
           <svg className="form-search__icon" width="14" height="15" aria-hidden="true">
             <use xlinkHref="#icon-search"></use>
           </svg><span className="visually-hidden">Начать поиск</span>
         </button>
-        <input onChange={(event)=> setValue(event.target.value)} className="form-search__input" id="search" type="text" autoComplete="off" placeholder="что вы ищите?"/>
+        <input onChange={(event)=> setValue(event.target.value)} value={value} className="form-search__input" id="search" type="text" autoComplete="off" placeholder="что вы ищите?"/>
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>
       {value === ''
@@ -52,7 +57,7 @@ function SearchForm(): JSX.Element {
             <li className="form-search__select-item" tabIndex={0} >Ничего не нашлось</li>
             :
             guitars.map((guitar) => (
-              <li key = {guitar.id} onClick={() => navigate(AppRoute.GuitarCharacteristics.replace(':id', guitar.id.toString()))} className="form-search__select-item" tabIndex={0} >{guitar.name}</li>
+              <li key = {guitar.id} onKeyDown={(evt) => handleKeyDown(evt, guitar.id)} onClick={() => navigate(AppRoute.GuitarCharacteristics.replace(':id', guitar.id.toString()))} className="form-search__select-item" tabIndex={0} >{guitar.name}</li>
             ))}
         </ul>}
       <button onClick={()=>{setValue('');}}className="form-search__reset" type="reset" form="form-search">

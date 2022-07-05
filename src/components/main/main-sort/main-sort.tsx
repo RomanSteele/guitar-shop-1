@@ -13,7 +13,7 @@ function MainSort(): JSX.Element {
 
 
   const handleOrderClick = (orderType: string) =>{
-    if(currentSortType === '') {
+    if(!currentSortType) {
       dispatch(setGuitarsType(SortType.Price));
     }
     dispatch(setGuitarsOrder(orderType));
@@ -21,9 +21,11 @@ function MainSort(): JSX.Element {
 
 
   const handleSortTypeClick = (sortType: string) =>{
-    if(currentOrderType === '') {
+    if(!currentOrderType) {
+      console.log(currentOrderType);
       dispatch(setGuitarsOrder(OrderType.Ascending));
     }
+    console.log(currentOrderType);
     dispatch(setGuitarsType(sortType));
   };
 
