@@ -8,3 +8,20 @@ export function filterNonNull(obj:object) {
   return Object.fromEntries(Object.entries(obj).filter(([k, v]) => v));
 }
 
+
+export const guitarStyle = (item: string) => {
+  switch (item) {
+    case 'acoustic':
+      item = 'Акустическая гитара';
+      break;
+    case 'electric':
+      item = 'Электрогитара';
+      break;
+    case 'ukulele':
+      item = 'Укулеле';
+      break;
+    default:
+      item = '';
+  }
+  return item;
+};

@@ -9,6 +9,8 @@ const initialState: DataSliceTypes = {
   activeGuitar: InitialGuitar,
   guitarsOfSearch: [],
   isLoading: true,
+  cartGuitars:[],
+  coupon:'',
 };
 
 
@@ -34,8 +36,26 @@ export const dataSlice = createSlice ({
     setIsLoading(state, action){
       state.isLoading = action.payload;
     },
+    addToCart(state, action){
+      if (state.cartGuitars.find((item) => item.id === action.payload.id)) {
+        const guitarIndex = state.cartGuitars.findIndex((item) => item.id === action.payload.id);
+        state.cartGuitars = [...state.cartGuitars.slice(0, guitarIndex), action.payload, ...state.cartGuitars.slice(guitarIndex)];
+      } else {
+        state.cartGuitars = [action.payload, ...state.cartGuitars];
+      }
+    },
+    deleteFromCart(state, action){
+      const guitarIndex = state.cartGuitars.findIndex((item) => item.id === action.payload.id);
+      state.cartGuitars = [...state.cartGuitars.slice(0, guitarIndex), ...state.cartGuitars.slice(guitarIndex + 1)];
+    },
+    eraseFromCart: (state, action) => {
+      state.cartGuitars = state.cartGuitars.slice().filter((item) => item.vendorCode !== action.payload.vendorCode);
+    },
+    setCoupon: (state, action) => {
+      state.coupon = action.payload;
+    },
   },
 });
 
-export const { loadGuitars,changeLoadingStatus,loadGuitar,addComment,loadSearchGuitars, setIsLoading } = dataSlice.actions;
+export const { loadGuitars,changeLoadingStatus,loadGuitar,addComment,loadSearchGuitars, setIsLoading,addToCart,deleteFromCart, eraseFromCart,setCoupon } = dataSlice.actions;
 

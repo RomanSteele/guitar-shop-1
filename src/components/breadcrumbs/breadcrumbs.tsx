@@ -15,6 +15,7 @@ function BreadcrumbsContent(): JSX.Element {
 
   const dispatch = useDispatch();
   const currentGuitar = useAppSelector(({ DATA }) => DATA.activeGuitar);
+  const  cart  = window.location.pathname.includes('cart');
   const { id } = useParams<{id: string}>();
 
   const BREADCRUMBS: Breadcrumbs[] = [
@@ -30,12 +31,21 @@ function BreadcrumbsContent(): JSX.Element {
     },
   ];
 
+  if(cart) {
+    BREADCRUMBS.push(
+      {
+        id: 3,
+        name: 'Корзина',
+        route: AppRoute.CartPage,
+      },
+    );
+  }
 
   if(id) {
     const CrumbsName = currentGuitar.name;
     BREADCRUMBS.push(
       {
-        id: 3,
+        id: 4,
         name: CrumbsName,
         route: AppRoute.Guitar,
       },

@@ -1,4 +1,5 @@
 import { GuitarCard } from '../../../types/guitar';
+import { guitarStyle } from '../../../utils/utils';
 
 
 type CharacteristicsTabProps = {
@@ -9,22 +10,6 @@ function CharacteristicsTab({ guitar }: CharacteristicsTabProps): JSX.Element {
 
   const { stringCount, description, vendorCode, type } = guitar;
 
-  const guitarStyle = (item: string) => {
-    switch (item) {
-      case 'acoustic':
-        item = 'Акустическая гитара';
-        break;
-      case 'electric':
-        item = 'Электрогитара';
-        break;
-      case 'ukulele':
-        item = 'Укулеле';
-        break;
-      default:
-        item = '';
-    }
-    return item;
-  };
 
   return (
     <div className="tabs__content" id="characteristics">

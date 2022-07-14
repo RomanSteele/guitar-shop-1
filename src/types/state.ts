@@ -11,7 +11,9 @@ export type DataSliceTypes = {
     guitarsOnPage: GuitarCard[],
     activeGuitar: GuitarCards,
     guitarsOfSearch:GuitarCards[],
-    isLoading:boolean
+    isLoading:boolean,
+    cartGuitars:GuitarCards[],
+    coupon: string,
   };
 
 export type FilterSliceTypes = {

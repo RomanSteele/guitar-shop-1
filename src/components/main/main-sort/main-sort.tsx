@@ -22,10 +22,8 @@ function MainSort(): JSX.Element {
 
   const handleSortTypeClick = (sortType: string) =>{
     if(!currentOrderType) {
-      console.log(currentOrderType);
       dispatch(setGuitarsOrder(OrderType.Ascending));
     }
-    console.log(currentOrderType);
     dispatch(setGuitarsType(sortType));
   };
 

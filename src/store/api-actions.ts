@@ -4,9 +4,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {  State, AppDispatch } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { ApiType, APIRoute } from '../const';
-import { loadGuitars, loadGuitar, changeLoadingStatus, addComment, loadSearchGuitars,setIsLoading } from './slices/data-slice';
+import { loadGuitars, loadGuitar, changeLoadingStatus, addComment, loadSearchGuitars,setIsLoading, setCoupon } from './slices/data-slice';
 import { handleHttpError } from '../services/handle-http-error';
 import { setTotalMaxPrice, setTotalMinPrice } from './slices/filter-slice';
+import { CouponPost } from '../types/coupon';
 
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -22,7 +23,6 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
       dispatch(setIsLoading(false));
       dispatch(loadGuitars(data));
     } catch (error) {
-      console.log(error);
       handleHttpError (error);
     }
   },
@@ -132,6 +132,22 @@ export const fetchTotalMaxPrice = createAsyncThunk<void, undefined, {
       const { data } = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?_limit=1&_sort=price&_order=desc`);
 
       dispatch(setTotalMaxPrice(data[0].price));
+    } catch (error) {
+      handleHttpError (error);
+    }
+  },
+);
+
+export const postCoupon = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  ApiType.PostCoupon,
+  async ( coupon , { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post<CouponPost>(APIRoute.Coupon, {coupon: coupon} );
+      dispatch(setCoupon(data));
     } catch (error) {
       handleHttpError (error);
     }

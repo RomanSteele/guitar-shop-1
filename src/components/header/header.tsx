@@ -1,12 +1,15 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { useAppSelector } from '../../hooks/hooks-index';
 import { setFilters } from '../../store/slices/filter-slice';
 import SearchForm from './search-form/search-form';
 
 function Header(): JSX.Element {
 
   const dispatch = useDispatch();
+
+  const items = useAppSelector(({DATA})=> DATA.cartGuitars);
 
   const handleFilterTypeClick = () =>{
     dispatch(setFilters(
@@ -41,10 +44,10 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <SearchForm />
-        <Link className="header__cart-link" to="#" aria-label="Корзина">
+        <Link className="header__cart-link" to={AppRoute.CartPage} aria-label="Корзина">
           <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
-          </svg><span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">2</span>
+          </svg><span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">{items.length}</span>
         </Link>
       </div>
     </header>);

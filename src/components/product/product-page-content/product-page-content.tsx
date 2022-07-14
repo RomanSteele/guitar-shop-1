@@ -8,6 +8,7 @@ import { fetchCurrentGuitarAction } from '../../../store/api-actions';
 import Tabs from '../tabs/tabs';
 import BreadcrumbsContent from '../../breadcrumbs/breadcrumbs';
 import RatingStars  from '../../rating-stars/rating-stars';
+import ProductPageButton from './product-page-button/product-page-button';
 
 function ProductPageContent(): JSX.Element {
 
@@ -42,7 +43,7 @@ function ProductPageContent(): JSX.Element {
           <div className="product-container__price-wrapper">
             <p className="product-container__price-info product-container__price-info--title">Цена:</p>
             <p className="product-container__price-info product-container__price-info--value">{price} ₽</p>
-            <a className="button button--red button--big product-container__button" href=".">Добавить в корзину</a>
+            <ProductPageButton card={currentGuitar}/>
           </div>
         </div>
         <ReviewsList reviews={comments} guitarName={name} id={Number(id)}/>

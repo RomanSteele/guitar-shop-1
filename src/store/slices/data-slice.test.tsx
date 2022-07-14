@@ -8,7 +8,7 @@ const guitar = makeFakeGuitar();
 
 
 describe('Reducer', () => {
-  const state = { guitars: [], loadingStatus: false, guitarsOnPage: [], activeGuitar: InitialGuitar, guitarsOfSearch:[], isLoading:true };
+  const state = { guitars: [], loadingStatus: false, guitarsOnPage: [], activeGuitar: InitialGuitar, guitarsOfSearch:[], isLoading:true, cartGuitars:[], coupon:'' };
 
   describe('Function: loadGuitars', () => {
     it('without additional parameters should return initial state', () => {

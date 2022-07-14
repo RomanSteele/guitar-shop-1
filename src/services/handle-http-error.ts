@@ -10,7 +10,7 @@ export const handleHttpError  = (error: ErrorType): void => {
   }
 
   const { response } = error;
-  console.log(response?.status);
+
   if (response) {
     switch (response.status) {
       case HttpCode.BadRequest:
