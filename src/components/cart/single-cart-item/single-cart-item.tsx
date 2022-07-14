@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { QuantityChangeType } from '../../../const';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks-index';
 import {  addToCart, changeLoadingStatus, deleteFromCart } from '../../../store/slices/data-slice';
 import { GuitarCards } from '../../../types/guitar';
@@ -10,7 +11,7 @@ type SingleCartItemProps = {
     item: GuitarCards,
 }
 
-function SingleCatalogueCard( {item}: SingleCartItemProps): JSX.Element {
+function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
 
   const { name, previewImg, price, vendorCode, stringCount, type} = item;
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -26,14 +27,14 @@ function SingleCatalogueCard( {item}: SingleCartItemProps): JSX.Element {
 
   const quantityHandler = (way:string) => {
     if (itemQuantity <= 99) {
-      if(way === 'plus'&& itemQuantity < 99) {
+      if(way === QuantityChangeType.Plus&& itemQuantity < 99) {
         dispatch(addToCart(item));
         return setItemQuantity(itemQuantity + 1);
       }
-      if(way === 'minus' && itemQuantity === 1){
+      if(way === QuantityChangeType.Minus && itemQuantity === 1){
         return toggleModal();
       }
-      if(way === 'minus' && itemQuantity<= 99 && itemQuantity !== 1){
+      if(way === QuantityChangeType.Minus && itemQuantity<= 99 && itemQuantity !== 1){
         dispatch(deleteFromCart(item));
         setItemQuantity(itemQuantity - 1);
       }
@@ -77,13 +78,13 @@ function SingleCatalogueCard( {item}: SingleCartItemProps): JSX.Element {
       </div>
       <div className="cart-item__price">{price} ₽</div>
       <div className="quantity cart-item__quantity">
-        <button onClick={()=>quantityHandler('minus')} className="quantity__button" aria-label="Уменьшить количество">
+        <button onClick={()=>quantityHandler(QuantityChangeType.Minus)} className="quantity__button" aria-label="Уменьшить количество">
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-minus"></use>
           </svg>
         </button>
         <input onChange={handlePriceChange} ref={quantityRef} value={itemQuantity} className="quantity__input" type="number" placeholder="1" id="4-count" name="4-count" max="99"/>
-        <button onClick={()=>quantityHandler('plus')} className="quantity__button" aria-label="Увеличить количество">
+        <button onClick={()=>quantityHandler(QuantityChangeType.Plus)} className="quantity__button" aria-label="Увеличить количество">
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus"></use>
           </svg>
@@ -93,6 +94,6 @@ function SingleCatalogueCard( {item}: SingleCartItemProps): JSX.Element {
       <CartModalWindowWrapper isModalVisible={isModalVisible} onBackdropClick={toggleModal} card={item} />
     </div>);
 }
-export default SingleCatalogueCard;
+export default SingleCartItem;
 
 

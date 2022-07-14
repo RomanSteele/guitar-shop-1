@@ -101,3 +101,8 @@ export enum CouponCodes {
   medium = 'medium-444',
   height = 'height-555',
 }
+
+export enum QuantityChangeType {
+  Plus = 'plus',
+  Minus = 'minus',
+}

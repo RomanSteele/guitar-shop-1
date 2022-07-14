@@ -26,7 +26,7 @@ ThunkDispatch<State, typeof api, Action>
 >(middlewares);
 
 const fakeApp = (
-  <Provider store={mockStore({DATA:{guitars: mockGuitars, guitarsOnPage: mockGuitarsPerPage},FILTER:{sortType:fakeSortString}})}>
+  <Provider store={mockStore({DATA:{guitars: mockGuitars, guitarsOnPage: mockGuitarsPerPage,cartGuitars: mockGuitars},FILTER:{sortType:fakeSortString}})}>
     <HistoryRouter history={history}>
       <App />
     </HistoryRouter>

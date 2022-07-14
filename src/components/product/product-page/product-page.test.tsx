@@ -28,6 +28,7 @@ describe('Component: Product Page', () => {
           DATA:{
             guitars: guitars,
             activeGuitar: makeFakeGuitar(),
+            cartGuitars: guitars,
             guitarsOnPage: guitarsPerPage,
           },
         })}

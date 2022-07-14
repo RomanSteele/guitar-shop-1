@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { fakeSortString, makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks/mocks';
-import MainPage from './main-page';
+import CartPage from './cart-page';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../../../types/state';
 import { Action } from 'redux';
@@ -29,20 +29,20 @@ describe('Component: Main Page', () => {
       <BrowserRouter>
         <Provider store={mockStore({DATA:{
           guitars: mockGuitars,
-          activeGuitar: makeFakeGuitar(),
           cartGuitars:mockGuitars,
+          activeGuitar: makeFakeGuitar(),
           guitarsOnPage: mockGuitarsPerPage,
         },FILTER:{sortType: fakeSortString}},
         )}
         >
-          <MainPage />
+          <CartPage />
         </Provider>
       </BrowserRouter>,
     );
 
-    const mainElement = screen.getByText('Каталог гитар');
-    const footerElement = screen.getByText('г. Санкт-Петербург, м. Невский проспект, ул. Казанская 6.');
-    const headerElement = screen.getByText('О компании');
+    const mainElement = screen.getByText('Всего:');
+    const footerElement = screen.getByText('Скидка:');
+    const headerElement = screen.getByText('К оплате:');
 
     expect(footerElement).toBeInTheDocument();
     expect(headerElement).toBeInTheDocument();
