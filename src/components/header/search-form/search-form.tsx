@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../const';
 import { useAppSelector } from '../../../hooks/hooks-index';
@@ -7,6 +7,7 @@ import { fetchGuitarsSearchAction } from '../../../store/api-actions';
 
 function SearchForm(): JSX.Element {
 
+  const refContainer = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [value,setValue]= useState('');
   const  guitars  =  useAppSelector(({ DATA }) => DATA.guitarsOfSearch );
@@ -17,6 +18,12 @@ function SearchForm(): JSX.Element {
       navigate(AppRoute.GuitarCharacteristics.replace(':id', id.toString()));}
   };
 
+  const handleOutsideClick = (evt: Event) => {
+    const target = evt.target as Node;
+    if (refContainer.current && !refContainer.current.contains(target)) {
+      setValue('');
+    }
+  };
 
   useEffect(() => {
     setValue('');
@@ -34,11 +41,19 @@ function SearchForm(): JSX.Element {
     }
   }, [value]);
 
+  useEffect(() => {
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  });
+
 
   return (
-    <div className="form-search" onMouseLeave={()=>{setValue('');}}>
+    <div ref={refContainer} className="form-search" >
       <form className="form-search__form" id="form-search" >
-        <button className="form-search__submit" type="submit">
+        <button onBlur={()=>{setValue('');}} className="form-search__submit" type="submit">
           <svg className="form-search__icon" width="14" height="15" aria-hidden="true">
             <use xlinkHref="#icon-search"></use>
           </svg><span className="visually-hidden">Начать поиск</span>
@@ -48,11 +63,11 @@ function SearchForm(): JSX.Element {
       </form>
       {value === ''
         ?
-        <ul className="form-search__select-list hidden">
+        <ul  className="form-search__select-list hidden">
           <li className="form-search__select-item " tabIndex={0}  >Ничего не нашлось</li>
         </ul>
         :
-        <ul className="list-opened form-search__select-list">
+        <ul  className="list-opened form-search__select-list">
           {guitars.length === 0 ?
             <li className="form-search__select-item" tabIndex={0} >Ничего не нашлось</li>
             :

@@ -113,7 +113,7 @@ function CartModalDelete({onBackdropClick, isModalVisible, card}:CartModalWindow
               </div>
               <div className="modal__button-container">
                 <button tabIndex={0} onClick={handleCartDelete} className="button button--small modal__button">Удалить товар</button>
-                <button tabIndex={0} onClick={handleCartDeleteEscape} className="button button--red button--big modal__button modal__button--right">Продолжить покупки</button>
+                <button tabIndex={0} onClick={handleCartDeleteEscape} className="button button--black-border button--small modal__button modal__button--right">Продолжить покупки</button>
               </div>
               <button tabIndex={0} onClick={handleCartDeleteEscape} className="modal__close-btn button-cross" type="button" aria-label="Закрыть"><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
               </button>
