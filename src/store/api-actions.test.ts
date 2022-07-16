@@ -7,12 +7,10 @@ import {
   fetchGuitarsAction,
   fetchCurrentGuitarAction,
   postReview,
-  fetchGuitarsSearchAction,
-  fetchTotalMinPrice,
-  fetchTotalMaxPrice} from './api-actions';
+  fetchGuitarsSearchAction
+} from './api-actions';
 
 import { loadGuitars, loadGuitar, addComment, loadSearchGuitars } from './slices/data-slice';
-import {setTotalMinPrice, setTotalMaxPrice} from './slices/filter-slice';
 import { createApi } from '../services/api';
 import { State } from '../types/state';
 import { APIRoute } from '../const';
@@ -104,32 +102,5 @@ describe('Async actions', () => {
     expect(actions).toContain(loadGuitars.toString());
   });
 
-  it('should dispatch min price of Guitars when GET /guitars?_limit=1&_sort=price&_order=asc', async () => {
-    const mockGuitars = makeFakeGuitars(27);
-
-    mockAPI
-      .onGet(`${APIRoute.Guitars}?_limit=1&_sort=price&_order=asc`)
-      .reply(200, mockGuitars);
-
-    const store = mockStore();
-    await store.dispatch(fetchTotalMinPrice());
-    const actions = store.getActions().map(({type}) => type);
-
-    expect(actions).toContain(setTotalMinPrice.toString());
-  });
-
-  it('should dispatch max price of Guitars when GET /guitars?_limit=1&_sort=price&_order=desc', async () => {
-    const mockGuitars = makeFakeGuitars(27);
-
-    mockAPI
-      .onGet(`${APIRoute.Guitars}?_limit=1&_sort=price&_order=desc`)
-      .reply(200, mockGuitars);
-
-    const store = mockStore();
-    await store.dispatch(fetchTotalMaxPrice());
-    const actions = store.getActions().map(({type}) => type);
-
-    expect(actions).toContain(setTotalMaxPrice.toString());
-  });
 },
 );

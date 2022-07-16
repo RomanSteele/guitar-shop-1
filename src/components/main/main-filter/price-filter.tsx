@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useAppSelector } from '../../../hooks/hooks-index';
-import { store } from '../../../store';
-import { fetchTotalMaxPrice, fetchTotalMinPrice } from '../../../store/api-actions';
 import { setFilterPrice } from '../../../store/slices/filter-slice';
 import { EventPropsType } from '../../../types/filter';
 
@@ -57,12 +55,6 @@ function PriceFilter(): JSX.Element {
       setMaxPlaceholderPrice(guitars.slice().sort((a, b) => b.price - a.price)[0].price);
     }
   },[guitars]);
-
-  useEffect(()=>{
-    store.dispatch(fetchTotalMinPrice());
-    store.dispatch(fetchTotalMaxPrice());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
 
 
   return(

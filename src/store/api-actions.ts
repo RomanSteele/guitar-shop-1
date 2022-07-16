@@ -20,6 +20,12 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
     try {
       dispatch(setIsLoading(true));
       const { data } = await api.get<GuitarCards[]>(APIRoute.GuitarsAndComments);
+      let counter = 0;
+      if(counter === 0){
+        counter = counter +1;
+        dispatch(setTotalMinPrice(data.slice().sort((a, b) => a.price - b.price)[0].price));
+        dispatch(setTotalMaxPrice(data.slice().sort((a, b) => b.price - a.price)[0].price));
+      }
       dispatch(setIsLoading(false));
       dispatch(loadGuitars(data));
     } catch (error) {
@@ -102,41 +108,6 @@ export const fetchGuitarsSearchAction = createAsyncThunk<void, string, {
   },
 );
 
-
-export const fetchTotalMinPrice = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  ApiType.FetchTotal,
-  async (_arg, { dispatch, extra: api }) => {
-    try {
-      const { data } = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?_limit=1&_sort=price&_order=asc`);
-
-      dispatch(setTotalMinPrice(data[0].price));
-    } catch (error) {
-      handleHttpError (error);
-    }
-  },
-);
-
-
-export const fetchTotalMaxPrice = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  ApiType.FetchTotal,
-  async (_arg, { dispatch, extra: api }) => {
-    try {
-      const { data } = await api.get<GuitarCards[]>(`${APIRoute.Guitars}?_limit=1&_sort=price&_order=desc`);
-
-      dispatch(setTotalMaxPrice(data[0].price));
-    } catch (error) {
-      handleHttpError (error);
-    }
-  },
-);
 
 export const postCoupon = createAsyncThunk<void, string, {
   dispatch: AppDispatch,

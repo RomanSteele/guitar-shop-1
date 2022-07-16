@@ -53,8 +53,6 @@ function CartPageContent(): JSX.Element {
     validate();
   });
 
-  console.log(coupon);
-
   return (
     <main className="page-content">
       <div className="container">

@@ -96,12 +96,6 @@ export const RATING_STARS=[
   1,2,3,4,5,
 ];
 
-export enum CouponCodes {
-  light = 'light-333',
-  medium = 'medium-444',
-  height = 'height-555',
-}
-
 export enum QuantityChangeType {
   Plus = 'plus',
   Minus = 'minus',
