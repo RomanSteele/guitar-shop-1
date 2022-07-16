@@ -149,6 +149,7 @@ export const postCoupon = createAsyncThunk<void, string, {
       const { data } = await api.post<CouponPost>(APIRoute.Coupon, {coupon: coupon} );
       dispatch(setCoupon(data));
     } catch (error) {
+      dispatch(setCoupon(''));
       handleHttpError (error);
     }
   },

@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from '../../../hooks/hooks-index';
 import { setCoupon } from '../../../store/slices/data-slice';
 import BreadcrumbsContent from '../../breadcrumbs/breadcrumbs';
 import CardItemsList from '../cart-items-list/cart-items-list';
-import { CouponCodes } from '../../../const';
 import { postCoupon } from '../../../store/api-actions';
 import { useInput } from '../../../hooks/use-validation';
 
@@ -43,18 +42,18 @@ function CartPageContent(): JSX.Element {
   const handleCouponAdd = (evt: SyntheticEvent) => {
     evt.preventDefault();
     if (couponInputRef.current && couponInputRef.current.value !== '') {
-      if(couponInputRef.current.value === CouponCodes.light || couponInputRef.current.value === CouponCodes.medium || couponInputRef.current.value === CouponCodes.height){
-        setIsSubmit(true);
-        return  validateAndDispatch(couponInputRef.current.value);
-      }
       setIsSubmit(true);
-      dispatch(setCoupon(''));
+      return  validateAndDispatch(couponInputRef.current.value);
     }
+    setIsSubmit(true);
+    dispatch(setCoupon(''));
   };
 
   useEffect(()=>{
     validate();
   });
+
+  console.log(coupon);
 
   return (
     <main className="page-content">
