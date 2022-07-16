@@ -11,6 +11,8 @@ type SingleCartItemProps = {
     item: GuitarCards,
 }
 
+const MAX_QUANTITY = 99;
+
 function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
 
   const { name, previewImg, price, vendorCode, stringCount, type} = item;
@@ -26,15 +28,15 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const quantityHandler = (way:string) => {
-    if (itemQuantity <= 99) {
-      if(way === QuantityChangeType.Plus&& itemQuantity < 99) {
+    if (itemQuantity <= MAX_QUANTITY) {
+      if(way === QuantityChangeType.Plus&& itemQuantity < MAX_QUANTITY) {
         dispatch(addToCart(item));
         return setItemQuantity(itemQuantity + 1);
       }
       if(way === QuantityChangeType.Minus && itemQuantity === 1){
         return toggleModal();
       }
-      if(way === QuantityChangeType.Minus && itemQuantity<= 99 && itemQuantity !== 1){
+      if(way === QuantityChangeType.Minus && itemQuantity<= MAX_QUANTITY && itemQuantity !== 1){
         dispatch(deleteFromCart(item));
         setItemQuantity(itemQuantity - 1);
       }
@@ -42,7 +44,7 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
   };
 
   const handlePriceChange = (): void => {
-    if(quantityRef.current && Number(quantityRef.current.value) <= 99){
+    if(quantityRef.current && Number(quantityRef.current.value) <= MAX_QUANTITY){
       quantityRef.current && setItemQuantity(Number(quantityRef.current.value));
       if(quantityRef.current && getQuantity() < Number(quantityRef.current.value)){
         const difference = Number(quantityRef.current.value)- getQuantity();
