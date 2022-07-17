@@ -20,12 +20,11 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
     try {
       dispatch(setIsLoading(true));
       const { data } = await api.get<GuitarCards[]>(APIRoute.GuitarsAndComments);
-      let counter = 0;
-      if(counter === 0){
-        counter = counter +1;
-        dispatch(setTotalMinPrice(data.slice().sort((a, b) => a.price - b.price)[0].price));
-        dispatch(setTotalMaxPrice(data.slice().sort((a, b) => b.price - a.price)[0].price));
-      }
+
+      const sortedGuitarsArray = data.slice().sort((a, b) => a.price - b.price);
+      dispatch(setTotalMinPrice(sortedGuitarsArray[0].price));
+      dispatch(setTotalMaxPrice(sortedGuitarsArray[sortedGuitarsArray.length - 1].price));
+
       dispatch(setIsLoading(false));
       dispatch(loadGuitars(data));
     } catch (error) {
