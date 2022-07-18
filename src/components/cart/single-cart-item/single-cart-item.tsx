@@ -44,6 +44,9 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
   };
 
   const handlePriceChange = (): void => {
+    if(quantityRef.current && Number(quantityRef.current.value)<1){
+      return;
+    }
     if(quantityRef.current && Number(quantityRef.current.value) <= MAX_QUANTITY){
       quantityRef.current && setItemQuantity(Number(quantityRef.current.value));
       if(quantityRef.current && getQuantity() < Number(quantityRef.current.value)){
