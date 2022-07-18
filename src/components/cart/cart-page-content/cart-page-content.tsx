@@ -67,17 +67,17 @@ function CartPageContent(): JSX.Element {
               <form className="coupon__form" id="coupon-form" method="post" action="/">
                 <div className="form-input coupon__input">
                   <label className="visually-hidden">Промокод</label>
-                  {isSubmit ? '' : <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value} ref={couponInputRef} type="text" placeholder="Введите промокод" id="couponWithoutText" name="coupon"></input>}
+                  {isSubmit ? '' : <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder="Введите промокод" id="couponWithoutText" name="coupon"></input>}
                   {coupon && isFormValid ?
                     <>
-                      <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value} ref={couponInputRef} type="text" placeholder="Введите промокод" id="coupon" name="coupon"/>
+                      <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder="Введите промокод" id="coupon" name="coupon"/>
                       <p className="form-input__message form-input__message--success">Промокод принят</p>
                     </>
                     :
                     ''}
                   {!coupon && isSubmit  ?
                     <>
-                      <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value} ref={couponInputRef} type="text" placeholder="Введите промокод" id="couponError" name="coupon"/>
+                      <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder="Введите промокод" id="couponError" name="coupon"/>
                       <p className="form-input__message form-input__message--error">Неверный промокод</p>
                     </>
                     :
@@ -87,9 +87,9 @@ function CartPageContent(): JSX.Element {
               </form>
             </div>
             <div className="cart__total-info">
-              <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{totalPrice} ₽</span></p>
-              <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className={`cart__total-value ${coupon ? 'cart__total-value--bonus': ''}`}>{coupon? discount: 0} ₽</span></p>
-              <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">{totalPrice - discount} ₽</span></p>
+              <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{totalPrice.toLocaleString()} ₽</span></p>
+              <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className={`cart__total-value ${coupon ? 'cart__total-value--bonus': ''}`}>{coupon? discount.toLocaleString(): 0} ₽</span></p>
+              <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">{(totalPrice - discount).toLocaleString()} ₽</span></p>
               <button className="button button--red button--big cart__order-button">Оформить заказ</button>
             </div>
           </div>

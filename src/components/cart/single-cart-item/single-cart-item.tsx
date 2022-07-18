@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, FocusEvent } from 'react';
 import { QuantityChangeType } from '../../../const';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks-index';
 import {  addToCart, changeLoadingStatus, deleteFromCart } from '../../../store/slices/data-slice';
@@ -44,6 +44,9 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
   };
 
   const handlePriceChange = (): void => {
+    if(quantityRef.current && Number(quantityRef.current.value)<1){
+      return;
+    }
     if(quantityRef.current && Number(quantityRef.current.value) <= MAX_QUANTITY){
       quantityRef.current && setItemQuantity(Number(quantityRef.current.value));
       if(quantityRef.current && getQuantity() < Number(quantityRef.current.value)){
@@ -54,13 +57,15 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
         return;
       }
       if(quantityRef.current && getQuantity() > Number(quantityRef.current.value)){
-        const difference = getQuantity() -Number(quantityRef.current.value);
+        const difference = getQuantity() - Number(quantityRef.current.value);
         for(let i=0; i<difference; i++){
           dispatch(deleteFromCart(item));
         }
       }
     }
   };
+
+  const handleFocus = (event: FocusEvent<HTMLInputElement> ) => event.target.select();
 
   const toggleModal = () => {
     setIsModalVisible((wasModalVisible) => !wasModalVisible);
@@ -78,21 +83,21 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
         <p className="product-info__info">Артикул: {vendorCode}</p>
         <p className="product-info__info">{guitarStyle(type)}, {stringCount} струнная</p>
       </div>
-      <div className="cart-item__price">{price} ₽</div>
+      <div className="cart-item__price">{price.toLocaleString()} ₽</div>
       <div className="quantity cart-item__quantity">
         <button onClick={()=>quantityHandler(QuantityChangeType.Minus)} className="quantity__button" aria-label="Уменьшить количество">
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-minus"></use>
           </svg>
         </button>
-        <input onChange={handlePriceChange} ref={quantityRef} value={itemQuantity} className="quantity__input" type="number" placeholder="1" id="4-count" name="4-count" max="99"/>
+        <input onFocus={handleFocus} onChange={handlePriceChange} ref={quantityRef} value={itemQuantity} className="quantity__input" type="number"placeholder={String(itemQuantity)} id="4-count" name="4-count" max="99"/>
         <button onClick={()=>quantityHandler(QuantityChangeType.Plus)} className="quantity__button" aria-label="Увеличить количество">
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus"></use>
           </svg>
         </button>
       </div>
-      <div className="cart-item__price-total">{price * itemQuantity} ₽</div>
+      <div className="cart-item__price-total">{(price * itemQuantity).toLocaleString()} ₽</div>
       <CartModalWindowWrapper isModalVisible={isModalVisible} onBackdropClick={toggleModal} card={item} />
     </div>);
 }
