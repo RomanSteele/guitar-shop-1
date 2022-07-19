@@ -1,4 +1,4 @@
-import { useRef, useState, FocusEvent } from 'react';
+import { useRef, useState } from 'react';
 import { QuantityChangeType } from '../../../const';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks-index';
 import {  addToCart, changeLoadingStatus, deleteFromCart } from '../../../store/slices/data-slice';
@@ -65,11 +65,15 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
     }
   };
 
-  const handleFocus = (event: FocusEvent<HTMLInputElement> ) => event.target.select();
-
   const toggleModal = () => {
     setIsModalVisible((wasModalVisible) => !wasModalVisible);
     dispatch(changeLoadingStatus(false));
+  };
+
+  const onButtonClick = () => {
+    if(quantityRef.current){
+      quantityRef.current.value = '';
+    }
   };
 
   return(
@@ -90,7 +94,7 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
             <use xlinkHref="#icon-minus"></use>
           </svg>
         </button>
-        <input onFocus={handleFocus} onChange={handlePriceChange} ref={quantityRef} value={itemQuantity} className="quantity__input" type="number"placeholder={String(itemQuantity)} id="4-count" name="4-count" max="99"/>
+        <input onClick={onButtonClick} onChange={handlePriceChange} ref={quantityRef} value={itemQuantity} className="quantity__input" type="number"placeholder={String(itemQuantity)} id="4-count" name="4-count" max="99"/>
         <button onClick={()=>quantityHandler(QuantityChangeType.Plus)} className="quantity__button" aria-label="Увеличить количество">
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus"></use>
