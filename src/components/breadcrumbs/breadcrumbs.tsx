@@ -15,18 +15,20 @@ function BreadcrumbsContent(): JSX.Element {
 
   const dispatch = useDispatch();
   const currentGuitar = useAppSelector(({ DATA }) => DATA.activeGuitar);
+  const language = useAppSelector(({DATA}) => DATA.language);
+
   const  cart  = window.location.pathname.includes('cart');
   const { id } = useParams<{id: string}>();
 
   const BREADCRUMBS: Breadcrumbs[] = [
     {
       id: 1,
-      name: 'Главная',
+      name: language === 'russian' ?  'Главная' : 'Main',
       route: AppRoute.MainFirstPage,
     },
     {
       id: 2,
-      name: 'Каталог',
+      name: language === 'russian' ?  'Каталог' : 'Catalog',
       route: AppRoute.MainFirstPage,
     },
   ];
@@ -35,7 +37,7 @@ function BreadcrumbsContent(): JSX.Element {
     BREADCRUMBS.push(
       {
         id: 3,
-        name: 'Корзина',
+        name: language === 'russian' ?  'Корзина' : 'Your cart',
         route: AppRoute.CartPage,
       },
     );

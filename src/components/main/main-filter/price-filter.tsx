@@ -9,8 +9,8 @@ import { EventPropsType } from '../../../types/filter';
 function PriceFilter(): JSX.Element {
 
   const dispatch = useDispatch();
-  const  guitars  = useAppSelector(({ DATA }) => DATA.guitars );
-
+  const guitars  = useAppSelector(({ DATA }) => DATA.guitars );
+  const language = useAppSelector(({DATA}) => DATA.language);
 
   const  totalMinPrice  = useAppSelector(({ FILTER }) => FILTER.minPrice );
   const  totalMaxPrice  = useAppSelector(({ FILTER }) => FILTER.maxPrice );
@@ -56,17 +56,25 @@ function PriceFilter(): JSX.Element {
     }
   },[guitars]);
 
+  useEffect(()=> {
+
+    const lowPriceUSD = '';
+    const topPriceUSD = '';
+    dispatch(setFilterPrice({lowPriceUSD, topPriceUSD}));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language]);
+
 
   return(
     <fieldset className="catalog-filter__block">
-      <legend className="catalog-filter__block-title">Цена, ₽</legend>
+      <legend className="catalog-filter__block-title">{language === 'russian' ?  'Цена' : 'Price'}, ₽</legend>
       <div className="catalog-filter__price-range">
         <div className="form-input">
-          <label className="visually-hidden">Минимальная цена</label>
+          <label className="visually-hidden">{language === 'russian' ?  'Минимальная цена' : 'Min price'}</label>
           <input onChange={(event)=>handleFilterPriceClick(event.target.value,currentFilterPriceTop)} onBlur={handleFilterLowPriceBlur} type="number" value={currentFilterPriceLow ? currentFilterPriceLow : ''} min={0} placeholder={minPlaceholderPrice?.toString()} id="priceMin" name="от"/>
         </div>
         <div className="form-input">
-          <label className="visually-hidden">Максимальная цена</label>
+          <label className="visually-hidden">{language === 'russian' ?  'Максимальная цена' : 'Max price'}</label>
           <input onChange={(event)=>handleFilterPriceClick(currentFilterPriceLow, event.target.value)} onBlur={handleFilterHighPriceBlur} type="number" value={currentFilterPriceTop ? currentFilterPriceTop : ''} min={0} placeholder={maxPlaceholderPrice?.toString()} id="priceMax" name="до"/>
         </div>
       </div>

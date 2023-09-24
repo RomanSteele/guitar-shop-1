@@ -13,6 +13,7 @@ function TypeFilter(): JSX.Element {
   const currentAcousticFilterType = useAppSelector(({ FILTER }) => FILTER.filterAcousticType);
   const currentElectricFilterType = useAppSelector(({ FILTER }) => FILTER.filterElectricType);
   const currentUkuleleFilterType = useAppSelector(({ FILTER }) => FILTER.filterUkuleleType);
+  const language = useAppSelector(({DATA}) => DATA.language);
 
   const acousticRef = useRef<HTMLInputElement | null>(null);
   const electricRef = useRef<HTMLInputElement | null>(null);
@@ -93,20 +94,20 @@ function TypeFilter(): JSX.Element {
 
   return(
     <fieldset className="catalog-filter__block">
-      <legend className="catalog-filter__block-title">Тип гитар</legend>
+      <legend className="catalog-filter__block-title">{language === 'russian' ?  'Тип гитар' : 'Guitar type'}</legend>
       <div className="form-checkbox catalog-filter__block-item">
         <input onClick={()=>handleFilterTypeClick(FilterType.Acoustic)}  className="visually-hidden" type="checkbox" id="acoustic" name="acoustic"  ref={acousticRef}/>
-        <label htmlFor="acoustic">Акустические гитары</label>
+        <label htmlFor="acoustic">{language === 'russian' ?  'Акустические гитары' : 'Acoustic guitars'}</label>
       </div>
 
       <div className="form-checkbox catalog-filter__block-item">
         <input onClick={()=>handleFilterTypeClick(FilterType.Electric)}  className="visually-hidden" type="checkbox" id="electric" name="electric" ref={electricRef}/>
-        <label htmlFor="electric">Электрогитары</label>
+        <label htmlFor="electric">{language === 'russian' ?  'Электрогитары' : 'Electroguitar'}</label>
       </div>
 
       <div className="form-checkbox catalog-filter__block-item">
         <input onClick={()=>handleFilterTypeClick(FilterType.Ukulele)}  className="visually-hidden" type="checkbox" id="ukulele" name="ukulele" ref={ukuleleRef}/>
-        <label htmlFor="ukulele">Укулеле</label>
+        <label htmlFor="ukulele">{language === 'russian' ?  'Укулеле' : 'Ukulele'}</label>
       </div>
     </fieldset>
   );

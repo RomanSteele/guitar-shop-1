@@ -3,6 +3,7 @@ import CharacteristicsTab from './characteristics-tab';
 import DescriptionTab from './description-tab';
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { useAppSelector } from '../../../hooks/hooks-index';
 
 
 type TabsProps = {
@@ -15,20 +16,23 @@ type ShopTab = {
     address: string,
   }
 
-const SHOP_TABS: ShopTab[] = [
-  {
-    id: 1,
-    title: 'Характеристики',
-    address: 'characteristics',
-  },
-  {
-    id: 2,
-    title: 'Описание',
-    address: 'description',
-  },
-];
 
 function Tabs({ guitar }: TabsProps): JSX.Element {
+
+  const language = useAppSelector(({DATA}) => DATA.language);
+
+  const SHOP_TABS: ShopTab[] = [
+    {
+      id: 1,
+      title: language === 'russian' ?  'Характеристики' : 'Charachteristics',
+      address: 'characteristics',
+    },
+    {
+      id: 2,
+      title: language === 'russian' ?  'Описание' : 'Description',
+      address: 'description',
+    },
+  ];
 
   const [isActive, setIsActive] = useState<number>(1);
 

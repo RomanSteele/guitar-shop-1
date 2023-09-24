@@ -9,7 +9,6 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { createApi } from '../../../services/api';
 import { fetchGuitarsAction } from '../../../store/api-actions';
-import { loadGuitars } from '../../../store/slices/data-slice';
 import { fakeSortString, makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks/mocks';
 import { APIRoute } from '../../../const';
 import { State } from '../../../types/state';
@@ -40,7 +39,7 @@ describe('Component: Main Page Content', () => {
     await store.dispatch(fetchGuitarsAction());
     const actions = store.getActions().map(({type}) => type);
 
-    expect(actions).toContain(loadGuitars.toString());
+    expect(actions).toContain(fetchGuitarsAction.pending.toString());
   });
 
   it('should render correctly', () => {
@@ -51,6 +50,7 @@ describe('Component: Main Page Content', () => {
           cartGuitars:mockGuitars,
           activeGuitar: makeFakeGuitar(),
           guitarsOnPage: mockGuitarsPerPage,
+          language: 'russian',
         },FILTER:{sortType:fakeSortString},
         },
         )}

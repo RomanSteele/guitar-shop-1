@@ -1,6 +1,7 @@
 import CSS from 'csstype';
 import React, { useEffect, useCallback } from 'react';
 import ReactDom from 'react-dom';
+import { useAppSelector } from '../../../hooks/hooks-index';
 
 
 type ModalSuccessProps = {
@@ -17,6 +18,8 @@ const MODAL_STYLES: CSS.Properties = {
 
 
 function ModalWindowSuccess({onBackdropClick}:ModalSuccessProps):JSX.Element {
+
+  const language = useAppSelector(({DATA}) => DATA.language);
 
   const refOuter = React.useRef<HTMLDivElement | null>(null);
   const refFirstFocusable = React.useRef<HTMLElement | null>(null);
@@ -61,9 +64,9 @@ function ModalWindowSuccess({onBackdropClick}:ModalSuccessProps):JSX.Element {
             <svg className="modal__icon" width="26" height="20" aria-hidden="true">
               <use xlinkHref="#icon-success"></use>
             </svg>
-            <p className="modal__message">Спасибо за ваш отзыв!</p>
+            <p className="modal__message">{language === 'russian' ?  'Спасибо за ваш отзыв!' : 'Thanks for your feedback!'}</p>
             <div className="modal__button-container modal__button-container--review">
-              <button tabIndex={0} onClick={onBackdropClick} className="button button--small modal__button modal__button--review">К покупкам!</button>
+              <button tabIndex={0} onClick={onBackdropClick} className="button button--small modal__button modal__button--review">{language === 'russian' ?  'К покупкам!' : 'Go shopping!'}</button>
             </div>
             <button tabIndex={0} onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть"><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
             </button>

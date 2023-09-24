@@ -16,6 +16,7 @@ function SingleCatalogueCardButton( {card}: SingleCatalogueCardProps): JSX.Eleme
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const items = useAppSelector(({DATA}) => DATA.cartGuitars);
+  const language = useAppSelector(({DATA}) => DATA.language);
 
   const dispatch = useDispatch();
 
@@ -30,9 +31,9 @@ function SingleCatalogueCardButton( {card}: SingleCatalogueCardProps): JSX.Eleme
     <>
       <CartModalWindowWrapper isModalVisible={isModalVisible} onBackdropClick={toggleModal} card={card} />
       {itemsVendorCodes.includes(card.vendorCode) ?
-        <Link className="button button--red-border button--mini button--in-cart" to={AppRoute.CartPage}>В Корзине</Link>
+        <Link className="button button--red-border button--mini button--in-cart" to={AppRoute.CartPage}>{language === 'russian' ?  'В Корзине' : 'In cart'}</Link>
         :
-        <Link className="button button--red button--mini button--add-to-cart" to="#" onClick={toggleModal} >Купить</Link>}
+        <Link className="button button--red button--mini button--add-to-cart" to="#" onClick={toggleModal} >{language === 'russian' ?  'Купить' : 'Purchase'}</Link>}
     </>
   );
 }

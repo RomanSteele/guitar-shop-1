@@ -34,6 +34,7 @@ export enum ApiType {
 
 export const GUITARS_PER_PAGE = 9;
 
+
 export const fakeEmptyReviewPost = {
   guitarId: 0,
   userName: '',
@@ -100,3 +101,5 @@ export enum QuantityChangeType {
   Plus = 'plus',
   Minus = 'minus',
 }
+
+export const currentLanguage = ['english', 'russian'];

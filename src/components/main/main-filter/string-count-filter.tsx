@@ -18,6 +18,8 @@ function StringCountFilter(): JSX.Element {
   const currentElectricFilterType = useAppSelector(({ FILTER }) => FILTER.filterElectricType);
   const currentUkuleleFilterType = useAppSelector(({ FILTER }) => FILTER.filterUkuleleType);
 
+  const language = useAppSelector(({DATA}) => DATA.language);
+
   const fourStringRef = useRef<HTMLInputElement | null>(null);
   const sixStringRef = useRef<HTMLInputElement | null>(null);
   const sevenStringRef = useRef<HTMLInputElement | null>(null);
@@ -95,7 +97,7 @@ function StringCountFilter(): JSX.Element {
 
   return(
     <fieldset className="catalog-filter__block">
-      <legend className="catalog-filter__block-title">Количество струн</legend>
+      <legend className="catalog-filter__block-title">{language === 'russian' ?  'Количество струн' : 'String number'}</legend>
       <div className="form-checkbox catalog-filter__block-item">
         <input onChange={()=>handleFilterStringClick(FilterString.Four)}  className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" ref={fourStringRef} disabled={disabledChecker(FilterString.Four)} />
         <label htmlFor="4-strings">4</label>

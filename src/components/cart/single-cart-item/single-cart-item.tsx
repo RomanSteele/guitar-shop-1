@@ -18,6 +18,7 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
   const { name, previewImg, price, vendorCode, stringCount, type} = item;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const items = useAppSelector(({DATA})=> DATA.cartGuitars);
+  const language = useAppSelector(({DATA}) => DATA.language);
 
   const getQuantity = (): number => items.slice().filter(({id}) => id === item.id).length;
 
@@ -83,9 +84,9 @@ function SingleCartItem( {item}: SingleCartItemProps): JSX.Element {
       <div className="cart-item__image"><img src={`/${previewImg}`} srcSet={`/${previewImg?.slice(0, -4)}@2x.jpg 2x`} width="55" height="130" alt={name}/>
       </div>
       <div className="product-info cart-item__info">
-        <p className="product-info__title">{guitarStyle(type)} {name}</p>
-        <p className="product-info__info">Артикул: {vendorCode}</p>
-        <p className="product-info__info">{guitarStyle(type)}, {stringCount} струнная</p>
+        <p className="product-info__title">{language === 'russian' ?  guitarStyle(type) : type} {name}</p>
+        <p className="product-info__info">{language === 'russian' ?  'Артикул:' : 'Art.'} {vendorCode}</p>
+        <p className="product-info__info">{language === 'russian' ?  guitarStyle(type) : type.charAt(0).toUpperCase()+type.slice(1)}, {stringCount} {language === 'russian' ?  'струнная:' : 'strings'}</p>
       </div>
       <div className="cart-item__price">{price.toLocaleString()} ₽</div>
       <div className="quantity cart-item__quantity">

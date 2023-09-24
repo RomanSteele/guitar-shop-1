@@ -14,6 +14,7 @@ export type DataSliceTypes = {
     isLoading:boolean,
     cartGuitars:GuitarCards[],
     coupon: string,
+    language: string,
   };
 
 export type FilterSliceTypes = {

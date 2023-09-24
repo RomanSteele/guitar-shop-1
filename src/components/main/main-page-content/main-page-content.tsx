@@ -1,7 +1,7 @@
 import CardsList from '../cards-list/cards-list';
 import { useAppSelector } from '../../../hooks/hooks-index';
 import { useEffect } from 'react';
-import { fetchGuitarsAction, fetchSortedGuitarsAction } from '../../../store/api-actions';
+import { fetchEnglishGuitarsAction, fetchGuitarsAction, fetchSortedEnglishGuitarsAction, fetchSortedGuitarsAction } from '../../../store/api-actions';
 import Pagination from '../pagination/pagination';
 import Breadcrumbs from '../../breadcrumbs/breadcrumbs';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { setFilters } from '../../../store/slices/filter-slice';
 import qs from 'qs';
 import MainFilter from '../main-filter/main-filter';
-import { filterNonNull } from '../../../utils/utils';
+import { currencyReverseChange, filterNonNull } from '../../../utils/utils';
 
 
 function MainPageContent(): JSX.Element {
@@ -21,6 +21,7 @@ function MainPageContent(): JSX.Element {
   let { currentPage } = useParams<{currentPage: string}>();
 
   const  guitars  = useAppSelector(({ DATA }) => DATA.guitars );
+  const language = useAppSelector(({DATA}) => DATA.language);
   const totalGuitarsLength = useAppSelector(({ DATA }) => DATA.guitars.length);
 
   const lastGuitarIndex = Number(currentPage) * GUITARS_PER_PAGE;
@@ -69,15 +70,15 @@ function MainPageContent(): JSX.Element {
       !currentFilterSixString &&
       !currentFilterSevenString &&
       !currentFilterTwelveString){
-      dispatch(fetchGuitarsAction());
+      language === 'russian' ? dispatch(fetchGuitarsAction()) : dispatch(fetchEnglishGuitarsAction());
     }else {
-      dispatch(fetchSortedGuitarsAction(`?${currentSortType ? `_sort=${currentSortType}` : ''}
+      dispatch((language === 'russian' ? fetchSortedGuitarsAction : fetchSortedEnglishGuitarsAction)(`?${currentSortType ? `_sort=${currentSortType}` : ''}
 ${currentOrderType ? `&_order=${currentOrderType}` : ''}
 ${currentAcousticFilterType ? `&type=${currentAcousticFilterType}` : ''}
 ${currentElectricFilterType ? `&type=${currentElectricFilterType}` : ''}
 ${currentUkuleleFilterType ? `&type=${currentUkuleleFilterType}` : ''}
-${currentFilterPriceLow ? `&price_gte=${currentFilterPriceLow}` : ''}
-${currentFilterPriceTop ? `&price_lte=${currentFilterPriceTop}` : ''}
+${currentFilterPriceLow ? `&price_gte=${language === 'russian' ? currentFilterPriceLow : currencyReverseChange(currentFilterPriceLow)}` : ''}
+${currentFilterPriceTop ? `&price_lte=${language === 'russian' ? currentFilterPriceTop : currencyReverseChange(currentFilterPriceTop)}` : ''}
 ${currentFilterFourString ? `&stringCount=${currentFilterFourString}` : ''}
 ${currentFilterSixString ? `&stringCount=${currentFilterSixString}` : ''}
 ${currentFilterSevenString ? `&stringCount=${currentFilterSevenString}` : ''}
@@ -94,7 +95,8 @@ ${currentFilterTwelveString ? `&stringCount=${currentFilterTwelveString}` : ''}`
     currentFilterSixString,
     currentFilterSevenString,
     currentFilterTwelveString,
-    dispatch]);
+    dispatch, language,
+  ]);
 
 
   useEffect(() =>{
@@ -127,11 +129,10 @@ ${currentFilterTwelveString ? `&stringCount=${currentFilterTwelveString}` : ''}`
     currentFilterSevenString,
     currentFilterTwelveString]);
 
-
   return (
     <main className="page-content">
       <div className="container">
-        <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
+        <h1 className="page-content__title title title--bigger">{language === 'russian' ?  'Каталог гитар' : 'Guitar catalog'}</h1>
         <Breadcrumbs />
         <div className="catalog">
           <MainFilter />

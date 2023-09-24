@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { InitialGuitar, NameSpace } from '../../const';
+import { currentLanguage, InitialGuitar, NameSpace } from '../../const';
 import { DataSliceTypes } from '../../types/state';
 
 const initialState: DataSliceTypes = {
@@ -8,9 +8,10 @@ const initialState: DataSliceTypes = {
   guitarsOnPage: [],
   activeGuitar: InitialGuitar,
   guitarsOfSearch: [],
-  isLoading: true,
+  isLoading: false,
   cartGuitars:[],
   coupon:'',
+  language: currentLanguage[1],
 };
 
 
@@ -36,6 +37,9 @@ export const dataSlice = createSlice ({
     setIsLoading(state, action){
       state.isLoading = action.payload;
     },
+    changeLanguage(state, action){
+      state.language = action.payload;
+    },
     addToCart(state, action){
       if (state.cartGuitars.find((item) => item.id === action.payload.id)) {
         const guitarIndex = state.cartGuitars.findIndex((item) => item.id === action.payload.id);
@@ -57,5 +61,5 @@ export const dataSlice = createSlice ({
   },
 });
 
-export const { loadGuitars,changeLoadingStatus,loadGuitar,addComment,loadSearchGuitars, setIsLoading,addToCart,deleteFromCart, eraseFromCart,setCoupon } = dataSlice.actions;
+export const { loadGuitars,changeLoadingStatus, changeLanguage, loadGuitar,addComment,loadSearchGuitars, setIsLoading,addToCart,deleteFromCart, eraseFromCart,setCoupon } = dataSlice.actions;
 

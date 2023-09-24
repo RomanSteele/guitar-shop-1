@@ -27,6 +27,8 @@ function CartModalWindow({onBackdropClick, isModalVisible, card}:CartModalWindow
   const { name, previewImg, price, vendorCode, stringCount, type} = card;
 
   const  loadingStatus  = useAppSelector(({ DATA }) => DATA.loadingStatus );
+  const language = useAppSelector(({DATA}) => DATA.language);
+
   const dispatch = useAppDispatch();
 
   const refOuter = React.useRef<HTMLDivElement | null>(null);
@@ -99,17 +101,17 @@ function CartModalWindow({onBackdropClick, isModalVisible, card}:CartModalWindow
           <div className="modal__wrapper">
             <div onClick={onBackdropClick} className="modal__overlay" data-close-modal></div>
             <div className="modal__content">
-              <h2 className="modal__header title title--medium">Добавить товар в корзину</h2>
+              <h2 className="modal__header title title--medium">{language === 'russian' ?  'Добавить товар в корзину' : 'Add product to cart'}</h2>
               <div className="modal__info"><img className="modal__img" src={`/${previewImg}`} srcSet={`/${previewImg?.slice(0, -4)}@2x.jpg 2x`} width="67" height="137" alt={name}/>
                 <div className="modal__info-wrapper">
-                  <h3 className="modal__product-name title title--little title--uppercase">{guitarStyle(type)} {name}</h3>
-                  <p className="modal__product-params modal__product-params--margin-11">Артикул: {vendorCode}</p>
-                  <p className="modal__product-params">{guitarStyle(type)}, {stringCount} струнная</p>
-                  <p className="modal__price-wrapper"><span className="modal__price">Цена:</span><span className="modal__price">{price} ₽</span></p>
+                  <h3 className="modal__product-name title title--little title--uppercase">{language === 'russian' ?  guitarStyle(type) : type} {name}</h3>
+                  <p className="modal__product-params modal__product-params--margin-11">{language === 'russian' ?  'Артикул:' : 'Art.'} {vendorCode}</p>
+                  <p className="modal__product-params">{language === 'russian' ?  guitarStyle(type) : type.charAt(0).toUpperCase()+type.slice(1)}, {stringCount} {language === 'russian' ?  'струнная:' : 'strings'}</p>
+                  <p className="modal__price-wrapper"><span className="modal__price">{language === 'russian' ?  'Цена:' : 'Price:'}</span><span className="modal__price">{price} ₽</span></p>
                 </div>
               </div>
               <div className="modal__button-container">
-                <button tabIndex={0} onClick={handleCartAdd} className="button button--red button--big modal__button modal__button--add">Добавить в корзину</button>
+                <button tabIndex={0} onClick={handleCartAdd} className="button button--red button--big modal__button modal__button--add">{language === 'russian' ?  'Добавить в корзину' : 'Add to cart'}</button>
               </div>
               <button tabIndex={0} onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть"><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
               </button>

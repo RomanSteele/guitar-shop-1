@@ -1,10 +1,12 @@
 
 import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/hooks-index';
 import { setFilters } from '../../../store/slices/filter-slice';
 
 function FilterClearButton(): JSX.Element {
 
   const dispatch = useDispatch();
+  const language = useAppSelector(({DATA}) => DATA.language);
 
   const handleFilterTypeClick = () =>{
     dispatch(setFilters(
@@ -26,7 +28,7 @@ function FilterClearButton(): JSX.Element {
 
   return(
 
-    <button onClick={()=> handleFilterTypeClick()} className="catalog-filter__reset-btn button button--black-border button--medium" type="reset">Очистить</button>
+    <button onClick={()=> handleFilterTypeClick()} className="catalog-filter__reset-btn button button--black-border button--medium" type="reset">{language === 'russian' ?  'Очистить' : 'Clear'}</button>
 
   );
 }

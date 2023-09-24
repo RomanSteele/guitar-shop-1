@@ -1,6 +1,6 @@
 import {  makeFakeGuitar  } from '../../utils/mocks/mocks';
 import { loadGuitars, loadGuitar, dataSlice, setIsLoading, loadSearchGuitars } from './data-slice';
-import { InitialGuitar } from '../../const';
+import { currentLanguage, InitialGuitar } from '../../const';
 import {makeFakeGuitars } from '../../utils/mocks/mocks';
 
 const guitars = makeFakeGuitars(27);
@@ -8,7 +8,7 @@ const guitar = makeFakeGuitar();
 
 
 describe('Reducer', () => {
-  const state = { guitars: [], loadingStatus: false, guitarsOnPage: [], activeGuitar: InitialGuitar, guitarsOfSearch:[], isLoading:true, cartGuitars:[], coupon:'' };
+  const state = { guitars: [], loadingStatus: false, guitarsOnPage: [], activeGuitar: InitialGuitar, guitarsOfSearch:[], isLoading:true, cartGuitars:[], coupon:'', language: currentLanguage[1] };
 
   describe('Function: loadGuitars', () => {
     it('without additional parameters should return initial state', () => {

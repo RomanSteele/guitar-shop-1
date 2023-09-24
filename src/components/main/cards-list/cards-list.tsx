@@ -11,7 +11,7 @@ function CardsList({ cards }: CardsListProps) {
 
   const isLoading = useAppSelector(({DATA}) => DATA.isLoading);
 
-  const skeletonLength = 9;
+  const skeletonLength = 6;
 
   return (
     <div className="cards catalog__cards">

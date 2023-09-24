@@ -20,6 +20,8 @@ function CartPageContent(): JSX.Element {
   const dispatch = useAppDispatch();
   const items  = useAppSelector(({ DATA }) => DATA.cartGuitars);
   const coupon = useAppSelector(({ DATA }) => DATA.coupon);
+  const language = useAppSelector(({DATA}) => DATA.language);
+
   const totalPrice = items.reduce((previousValue, guitar) => previousValue + guitar.price, 0);
 
   const discount = totalPrice * Number(coupon)/100;
@@ -56,41 +58,41 @@ function CartPageContent(): JSX.Element {
   return (
     <main className="page-content">
       <div className="container">
-        <h1 className="title title--bigger page-content__title">Корзина</h1>
+        <h1 className="title title--bigger page-content__title">{language === 'russian' ?  'Корзина' : 'Cart'}</h1>
         <BreadcrumbsContent />
         <div className="cart">
           <CardItemsList />
           <div className="cart__footer">
             <div className="cart__coupon coupon">
-              <h2 className="title title--little coupon__title">Промокод на скидку</h2>
-              <p className="coupon__info">Введите свой промокод, если он у вас есть.</p>
+              <h2 className="title title--little coupon__title">{language === 'russian' ?  'Промокод на скидку' : 'Promocode'}</h2>
+              <p className="coupon__info">{language === 'russian' ?  'Введите свой промокод, если он у вас есть.' : 'Enter your promo code if you have one.'}</p>
               <form className="coupon__form" id="coupon-form" method="post" action="/">
                 <div className="form-input coupon__input">
-                  <label className="visually-hidden">Промокод</label>
-                  {isSubmit ? '' : <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder="Введите промокод" id="couponWithoutText" name="coupon"></input>}
+                  <label className="visually-hidden">{language === 'russian' ?  'Промокод' : 'Promocode'}</label>
+                  {isSubmit ? '' : <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder={language === 'russian' ?  'Введите промокод' : 'Enter promocode'} id="couponWithoutText" name="coupon"></input>}
                   {coupon && isFormValid ?
                     <>
-                      <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder="Введите промокод" id="coupon" name="coupon"/>
-                      <p className="form-input__message form-input__message--success">Промокод принят</p>
+                      <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder={language === 'russian' ?  'Введите промокод' : 'Enter promocode'} id="coupon" name="coupon"/>
+                      <p className="form-input__message form-input__message--success">{language === 'russian' ?  'Промокод принят' : 'Promocode accepted'}</p>
                     </>
                     :
                     ''}
                   {!coupon && isSubmit  ?
                     <>
-                      <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder="Введите промокод" id="couponError" name="coupon"/>
-                      <p className="form-input__message form-input__message--error">Неверный промокод</p>
+                      <input onChange={(e) => couponValue.onChange(e)} value={couponValue.value.replace(/\s/g, '')} ref={couponInputRef} type="text" placeholder={language === 'russian' ?  'Введите промокод' : 'Enter promocode'} id="couponError" name="coupon"/>
+                      <p className="form-input__message form-input__message--error">{language === 'russian' ?  'Неверный промокод' : 'Invalid promocode'}Неверный промокод</p>
                     </>
                     :
                     ''}
                 </div>
-                <button onClick={handleCouponAdd} className="button button--big coupon__button" type={isValid ? 'submit' : 'button'}>Применить</button>
+                <button onClick={handleCouponAdd} className="button button--big coupon__button" type={isValid ? 'submit' : 'button'}>{language === 'russian' ?  'Применить' : 'Apply'}</button>
               </form>
             </div>
             <div className="cart__total-info">
-              <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{totalPrice.toLocaleString()} ₽</span></p>
-              <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className={`cart__total-value ${coupon ? 'cart__total-value--bonus': ''}`}>{coupon? discount.toLocaleString(): 0} ₽</span></p>
-              <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">{(totalPrice - discount).toLocaleString()} ₽</span></p>
-              <button className="button button--red button--big cart__order-button">Оформить заказ</button>
+              <p className="cart__total-item"><span className="cart__total-value-name">{language === 'russian' ?  'Всего:' : 'Total:'}</span><span className="cart__total-value">{totalPrice.toLocaleString()} ₽</span></p>
+              <p className="cart__total-item"><span className="cart__total-value-name">{language === 'russian' ?  'Скидка:' : 'Discount:'}</span><span className={`cart__total-value ${coupon ? 'cart__total-value--bonus': ''}`}>{coupon? discount.toLocaleString(): 0} ₽</span></p>
+              <p className="cart__total-item"><span className="cart__total-value-name">{language === 'russian' ?  'К оплате:' : 'To pay:'}</span><span className="cart__total-value cart__total-value--payment">{(totalPrice - discount).toLocaleString()} ₽</span></p>
+              <button className="button button--red button--big cart__order-button">{language === 'russian' ?  'Оформить заказ' : 'Checkout'}</button>
             </div>
           </div>
         </div>

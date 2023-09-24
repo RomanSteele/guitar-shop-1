@@ -1,3 +1,4 @@
+import { useAppSelector } from '../../../hooks/hooks-index';
 import { GuitarCard } from '../../../types/guitar';
 import { guitarStyle } from '../../../utils/utils';
 
@@ -8,6 +9,8 @@ type CharacteristicsTabProps = {
 
 function CharacteristicsTab({ guitar }: CharacteristicsTabProps): JSX.Element {
 
+  const language = useAppSelector(({DATA}) => DATA.language);
+
   const { stringCount, description, vendorCode, type } = guitar;
 
 
@@ -16,16 +19,16 @@ function CharacteristicsTab({ guitar }: CharacteristicsTabProps): JSX.Element {
       <table className="tabs__table">
         <tbody>
           <tr className="tabs__table-row">
-            <td className="tabs__title">Артикул:</td>
+            <td className="tabs__title">{language === 'russian' ?  'Артикул:' : 'Art.'}</td>
             <td className="tabs__value">{vendorCode}</td>
           </tr>
           <tr className="tabs__table-row">
-            <td className="tabs__title">Тип:</td>
-            <td className="tabs__value">{guitarStyle(type)}</td>
+            <td className="tabs__title">{language === 'russian' ?  'Тип:' : 'Type:'}</td>
+            <td className="tabs__value">{language === 'russian' ?  guitarStyle(type) : type.charAt(0).toUpperCase()+type.slice(1)}</td>
           </tr>
           <tr className="tabs__table-row">
-            <td className="tabs__title">Количество струн:</td>
-            <td className="tabs__value">{stringCount} струнная</td>
+            <td className="tabs__title">{language === 'russian' ?  'Количество струн:' : 'String count:'}</td>
+            <td className="tabs__value">{stringCount} {language === 'russian' ?  'струнная' : 'strings'}</td>
           </tr>
         </tbody>
       </table>

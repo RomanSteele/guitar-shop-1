@@ -35,6 +35,7 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
   const dispatch = useAppDispatch();
 
   const  loadingStatus  = useAppSelector(({ DATA }) => DATA.loadingStatus );
+  const language = useAppSelector(({DATA}) => DATA.language);
 
   const nameData = useInput('',{isEmpty: true, minLength: 1});
   const advantageData = useInput('',{isEmpty: true, minLength: 1});
@@ -153,23 +154,23 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
   });
 
 
-  if (loadingStatus === false) {
+  if (loadingStatus === true) {
     return ReactDom.createPortal(
       <div ref={refOuter} onKeyDown={onKeyDown} style={MODAL_STYLES} onClick={ (e) => e.stopPropagation()} >
         <div className="modal is-active modal--review modal-for-ui-kit">
           <div className="modal__wrapper">
             <div onClick={onBackdropClick} className="modal__overlay" data-close-modal></div>
             <div className="modal__content">
-              <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
+              <h2 className="modal__header modal__header--review title title--medium">{language === 'russian' ?  'Оставить отзыв' : 'Leave feedback'}</h2>
               <h3 className="modal__product-name title title--medium-20 title--uppercase">{guitarName}</h3>
               <form onSubmit={handleSubmit} className="form-review">
                 <div className="form-review__wrapper">
                   <div className="form-review__name-wrapper">
-                    <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
+                    <label className="form-review__label form-review__label--required" htmlFor="user-name">{language === 'russian' ?  'Ваше Имя' : 'Your name'}</label>
                     <input tabIndex={0} onChange={(e) => nameData.onChange(e)} value={nameData.value} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete='off'/>
-                    {checker(isFormValid, (nameData.isEmpty || nameData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : <p style={EMPTY_P_STYLES}></p>) }
+                    {checker(isFormValid, (nameData.isEmpty || nameData.minLengthError) ?  <p className="form-review__warning">{language === 'russian' ?  'Заполните поле' : 'Fill this field'}</p> : <p style={EMPTY_P_STYLES}></p>) }
                   </div>
-                  <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
+                  <div><span className="form-review__label form-review__label--required">{language === 'russian' ?  'Ваша Оценка' : 'Your rating'}</span>
                     <div className="rate rate--reverse" >
                       <input tabIndex={0} onChange={(e) => ratingData.onChange(e)} value={5} className="visually-hidden" id="star-5" name="rate" type="radio" />
                       <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
@@ -181,20 +182,20 @@ function ModalWindow({onBackdropClick, isModalVisible, guitarName, currentId}:Mo
                       <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
                       <input onChange={(e) => ratingData.onChange(e)} value={1}className="visually-hidden" id="star-1" name="rate" type="radio" />
                       <label className="rate__label" htmlFor="star-1" title="Ужасно"></label>
-                      {checker(isFormValid, (ratingData.isEmpty || ratingData.minLengthError) ?  <p className="rate__message">Поставьте оценку</p> : <p style={EMPTY_P_STYLES}></p>)}
+                      {checker(isFormValid, (ratingData.isEmpty || ratingData.minLengthError) ?  <p className="rate__message">{language === 'russian' ?  'Поставьте оценку' : 'Rate'}</p> : <p style={EMPTY_P_STYLES}></p>)}
                     </div>
                   </div>
                 </div>
-                <label className="form-review__label form-review__label--required" htmlFor="adv">Достоинства</label>
+                <label className="form-review__label form-review__label--required" htmlFor="adv">{language === 'russian' ?  'Достоинства' : 'Advantages'}</label>
                 <input tabIndex={0} onChange={(e) => advantageData.onChange(e)} value = {advantageData.value} className="form-review__input" id="adv" type="text" autoComplete="off"/>
                 {checker(isFormValid, (advantageData.isEmpty || advantageData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : <p style={EMPTY_P_STYLES}></p> )}
-                <label className="form-review__label form-review__label--required" htmlFor="disadv">Недостатки</label>
+                <label className="form-review__label form-review__label--required" htmlFor="disadv">{language === 'russian' ?  'Недостатки' : 'Disadvantages'}</label>
                 <input tabIndex={0} onChange={(e) => disadvantageData.onChange(e)} value = {disadvantageData.value} className="form-review__input" id="disadv" type="text" autoComplete="off"/>
-                {checker(isFormValid, (disadvantageData.isEmpty || disadvantageData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : <p style={EMPTY_P_STYLES}></p> )}
-                <label className="form-review__label form-review__label--required" htmlFor="comment">Комментарий</label>
+                {checker(isFormValid, (disadvantageData.isEmpty || disadvantageData.minLengthError) ?  <p className="form-review__warning">{language === 'russian' ?  'Заполните поле' : 'Fill this field'}</p> : <p style={EMPTY_P_STYLES}></p> )}
+                <label className="form-review__label form-review__label--required" htmlFor="comment">{language === 'russian' ?  'Комментарий' : 'Comment'}</label>
                 <textarea tabIndex={0} onChange={(e) => reviewData.onChange(e)} value = {reviewData.value} className="form-review__input form-review__input--textarea" id="comment" autoComplete="off"></textarea>
-                {checker(isFormValid, (reviewData.isEmpty || reviewData.minLengthError) ?  <p className="form-review__warning">Заполните поле</p> : <p style={EMPTY_P_STYLES}></p> )}
-                <button onClick={()=>setIsFormValid(true)} tabIndex={0} className="button button--medium-20 form-review__button" type={isValid ? 'submit' : 'button'}>Отправить отзыв</button>
+                {checker(isFormValid, (reviewData.isEmpty || reviewData.minLengthError) ?  <p className="form-review__warning">{language === 'russian' ?  'Заполните поле' : 'Fill this field'}</p> : <p style={EMPTY_P_STYLES}></p> )}
+                <button onClick={()=>setIsFormValid(true)} tabIndex={0} className="button button--medium-20 form-review__button" type={isValid ? 'submit' : 'button'}>{language === 'russian' ?  'Отправить отзыв' : 'Post a review'}</button>
               </form>
               <button tabIndex={0} onClick={onBackdropClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
                 <span className="button-cross__icon"></span>
