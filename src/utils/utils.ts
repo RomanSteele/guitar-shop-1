@@ -26,12 +26,3 @@ export const guitarStyle = (item: string) => {
   return item;
 };
 
-export const currencyChange = (sum:number) => {
-  const result = Number(sum)/100;
-  return result ;
-};
-
-export const currencyReverseChange = (sum:string) => {
-  const result = (Number(sum)*100).toString();
-  return result ;
-};

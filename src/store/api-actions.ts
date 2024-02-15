@@ -12,7 +12,6 @@ import { currentGuitarAdapterAndDispatch } from '../adapters/current-guitar-adap
 import { guitarsAdapterAndDispatch } from '../adapters/guitars-adapter';
 import { postReviewAdapterAndDispatch } from '../adapters/comment-adapter';
 import { searchGuitarsAdapterAndDispatch } from '../adapters/search-adapter';
-import { currencyChange } from '../utils/utils';
 
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -48,8 +47,8 @@ export const fetchEnglishGuitarsAction = createAsyncThunk<void, undefined, {
       dispatch(setIsLoading(true));
       const { data } = await api.get<GuitarCards[]>(APIRoute.GuitarsAndComments);
       const sortedGuitarsArray = data.slice().sort((a, b) => a.price - b.price);
-      dispatch(setTotalMinPrice(currencyChange(sortedGuitarsArray[0].price)));
-      dispatch(setTotalMaxPrice(currencyChange(sortedGuitarsArray[sortedGuitarsArray.length - 1].price)));
+      dispatch(setTotalMinPrice(sortedGuitarsArray[0].price));
+      dispatch(setTotalMaxPrice(sortedGuitarsArray[sortedGuitarsArray.length - 1].price));
       guitarsAdapterAndDispatch(dispatch, data);
       dispatch(changeLoadingStatus(false));
     } catch (error) {

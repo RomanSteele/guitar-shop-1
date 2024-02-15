@@ -29,6 +29,7 @@ function CartModalDelete({onBackdropClick, isModalVisible, card}:CartModalWindow
   const language = useAppSelector(({DATA}) => DATA.language);
   const dispatch = useAppDispatch();
 
+
   const refOuter = React.useRef<HTMLDivElement | null>(null);
   const refFirstFocusable = React.useRef<HTMLElement | null>(null);
   const refLastFocusable = React.useRef<HTMLElement | null>(null);

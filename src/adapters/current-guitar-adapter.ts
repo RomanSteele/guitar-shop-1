@@ -4,7 +4,6 @@ import { loadGuitar, setIsLoading } from '../store/slices/data-slice';
 import { AppDispatch } from '../types/state';
 import { Review } from '../types/review';
 import { translateText } from './newtranslator';
-import { currencyChange } from '../utils/utils';
 
 async function translateReview(review: Review): Promise<Review> {
   try {
@@ -30,8 +29,6 @@ async function translateToEnglish(input: GuitarCards): Promise<GuitarCards> {
   try {
     const nameTranslation = await translateText(input.name);
     const descriptionTranslation = await translateText(input.description);
-    const priceCurrencyChange = currencyChange(input.price);
-
     const translatedReviews = await Promise.all(
       input.comments.map(async (review) => await translateReview(review)),
     );
@@ -41,7 +38,6 @@ async function translateToEnglish(input: GuitarCards): Promise<GuitarCards> {
       name: nameTranslation,
       description: descriptionTranslation,
       comments:translatedReviews,
-      price: priceCurrencyChange,
     };
   } catch (error) {
     console.error('Translation error:', error);

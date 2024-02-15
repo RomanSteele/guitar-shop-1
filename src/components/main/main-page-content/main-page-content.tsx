@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { setFilters } from '../../../store/slices/filter-slice';
 import qs from 'qs';
 import MainFilter from '../main-filter/main-filter';
-import { currencyReverseChange, filterNonNull } from '../../../utils/utils';
+import { filterNonNull } from '../../../utils/utils';
 
 
 function MainPageContent(): JSX.Element {
@@ -77,8 +77,8 @@ ${currentOrderType ? `&_order=${currentOrderType}` : ''}
 ${currentAcousticFilterType ? `&type=${currentAcousticFilterType}` : ''}
 ${currentElectricFilterType ? `&type=${currentElectricFilterType}` : ''}
 ${currentUkuleleFilterType ? `&type=${currentUkuleleFilterType}` : ''}
-${currentFilterPriceLow ? `&price_gte=${language === 'russian' ? currentFilterPriceLow : currencyReverseChange(currentFilterPriceLow)}` : ''}
-${currentFilterPriceTop ? `&price_lte=${language === 'russian' ? currentFilterPriceTop : currencyReverseChange(currentFilterPriceTop)}` : ''}
+${currentFilterPriceLow ? `&price_gte=${currentFilterPriceLow}` : ''}
+${currentFilterPriceTop ? `&price_lte=${currentFilterPriceTop}` : ''}
 ${currentFilterFourString ? `&stringCount=${currentFilterFourString}` : ''}
 ${currentFilterSixString ? `&stringCount=${currentFilterSixString}` : ''}
 ${currentFilterSevenString ? `&stringCount=${currentFilterSevenString}` : ''}

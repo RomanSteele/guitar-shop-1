@@ -61,5 +61,5 @@ export const dataSlice = createSlice ({
   },
 });
 
-export const { loadGuitars,changeLoadingStatus, changeLanguage, loadGuitar,addComment,loadSearchGuitars, setIsLoading,addToCart,deleteFromCart, eraseFromCart,setCoupon } = dataSlice.actions;
+export const { loadGuitars,changeLoadingStatus, changeLanguage, loadGuitar,addComment,loadSearchGuitars, setIsLoading,addToCart,deleteFromCart, eraseFromCart, setCoupon } = dataSlice.actions;
 

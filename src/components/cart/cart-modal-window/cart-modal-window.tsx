@@ -26,7 +26,7 @@ function CartModalWindow({onBackdropClick, isModalVisible, card}:CartModalWindow
 
   const { name, previewImg, price, vendorCode, stringCount, type} = card;
 
-  const  loadingStatus  = useAppSelector(({ DATA }) => DATA.loadingStatus );
+  const loadingStatus  = useAppSelector(({ DATA }) => DATA.loadingStatus );
   const language = useAppSelector(({DATA}) => DATA.language);
 
   const dispatch = useAppDispatch();

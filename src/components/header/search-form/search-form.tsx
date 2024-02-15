@@ -59,7 +59,7 @@ function SearchForm(): JSX.Element {
             <use xlinkHref="#icon-search"></use>
           </svg><span className="visually-hidden">{language === 'russian' ?  'Начать поиск' : 'Start'}</span>
         </button>
-        <input onChange={(event)=> setValue(event.target.value)} value={value} className="form-search__input" id="search" type="text" autoComplete="off" placeholder={language === 'russian' ?  'что вы ищите?' : 'What are you looking for?'}/>
+        <input onChange={(event)=> setValue(event.target.value)} value={value} className="form-search__input" id="search" type="text" autoComplete="off" placeholder={language === 'russian' ?  'что вы ищете?' : 'What are you looking for?'}/>
         <label className="visually-hidden" htmlFor="search">{language === 'russian' ?  'Поиск' : 'Search'}</label>
       </form>
       {value === ''
